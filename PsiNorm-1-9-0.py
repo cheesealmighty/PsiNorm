@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python3
 """
-PsiNorm Persentil Hesaplayıcı - Versiyon 1.8.4
+PsiNorm Persentil Hesaplayıcı - Versiyon 1.9.0
 Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
 
 Bu program özgür yazılımdır: Özgür Yazılım Vakfı tarafından yayımlanan
@@ -20,7 +20,7 @@ Eğer elinize ulaşmadıysa <http://www.gnu.org/licenses/> adresine bakınız.
 Dr. Bilal Bahadır Akbulut
 İletişim adresi: b.bahadirakbulut@gmail.com
 ------------------------------------
-PsiNorm Percentile Calculator - Version 1.8.4
+PsiNorm Percentile Calculator - Version 1.9.0
 Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
 
 This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ contact adress: b.bahadirakbulut@gmail.com
 
 def guiSettings():
     import tkinter as tk
-    titleText = "PsiNorm Persentil Hesaplayıcı - 1.8.4 - Seçenekler "
+    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Seçenekler "
 
     class MyFirstGUI:
         def __init__(self, master):
@@ -229,7 +229,7 @@ def guiSettings():
 
 def guiPatientInfo():
     import tkinter as tk
-    titleText = "PsiNorm Persentil Hesaplayıcı - 1.8.4 - Hasta Bilgileri" 
+    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Hasta Bilgileri" 
     patient_sex = None
 
     class patientInfo:
@@ -581,7 +581,7 @@ def guiStartupMenu():
     import tkinter as tk
     from tkinter import messagebox
     import sys
-    titleText = " PsiNorm Persentil Hesaplayıcı - 1.8.4"
+    titleText = " PsiNorm Persentil Hesaplayıcı - 1.9.0"
     
     titleSubText= """
  Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
@@ -884,12 +884,12 @@ def settings(which_setting):
                 return setting_to_return
             
             if (which_setting == "form_data"):
-                setting_to_return = cwd + "/Data/" + setting_to_return
+                setting_to_return = cwd + "/Data/Form/" + setting_to_return
                 x = False
                 return setting_to_return
             
             if (which_setting == "info_data"):
-                setting_to_return = cwd + "/Data/" + setting_to_return
+                setting_to_return = cwd + "/Data/Form/" + setting_to_return
                 x = False
                 return setting_to_return
             
@@ -915,7 +915,7 @@ def settings(which_setting):
                          "testVaNVCDataDict", "testBNTDataDict"]  
             
             if which_setting in menu_list:
-                setting_to_return = cwd + "/Data/" + setting_to_return
+                setting_to_return = cwd + "/Data/Test/" + setting_to_return
                 x = False
                 return setting_to_return
             
@@ -2164,7 +2164,7 @@ def mainMenu():
 def mainStartup(): #the mainStartup function
     print("""
 ================================================
- PsiNorm Persentil Hesaplayıcı - 1.8.4
+ PsiNorm Persentil Hesaplayıcı - 1.9.0
 ================================================
 """)
     timeGlobalization()
@@ -2375,6 +2375,10 @@ def testWechsler():
             0:  [[0], [0, 2], [0], [0], [0, 3], [0, 7], [0, 11], [0], [0, 1], [0, 4], [0, 2]]         
          }
         
+        # On the left are the scaled values, and on the right, are the raw
+        # While inefficient, program goes through every scaled dict entry and checks
+        # if the patient score is equal/between given value(s).
+        
         scaled_dict = {}
         
         for raw_score_index in range(len(printable_list)):
@@ -2518,6 +2522,10 @@ def testWechsler():
                         }
                         ]
             
+        # 1. Check if age is between two values
+        # 2. If true, one by one, check if verb/perf/total is between given values
+        # 3. For each item, find and return where they lie in the population.
+        
         try:
             result_values = ["N/A", "N/A", "N/A"]
             testing_values = [verb_score, perf_score, total_score]
@@ -5355,7 +5363,7 @@ def progStructure():
         os.system("mode con: cols=160 lines=50")
         print("""
 ================================================
- PsiNorm Persentil Hesaplayıcı - 1.8.4
+ PsiNorm Persentil Hesaplayıcı - 1.9.0
 ================================================
  Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
  
@@ -5407,7 +5415,7 @@ except Exception as e:
 Bu dosyayı email ile b.bahadirakbulut@gmail.com adresine gönderiniz.
 
 --------------------------------------------------------------------
-PsiNorm - Versiyon 1.8.4
+PsiNorm - Versiyon 1.9.0
 --------------------------------------------------------------------
 
     """
