@@ -739,6 +739,18 @@ def checkGuiInputInt(userInput):
         return True
     except:
         return False
+    
+def amILooping():
+    if not "crashNum" in globals():
+        global crashNum
+        crashNum = 1
+    else:
+        globals()["crashNum"] = crashNum + 1
+        
+    if crashNum > 10:
+        print("Houston we have a problem here.")
+        raise
+
 
 def hexaInput(questionString):
     import re
@@ -857,6 +869,11 @@ def settings(which_setting):
     
     documentsPath = getUserDocumentsPsiPath()
     
+    if which_setting == "cogsFolder":
+        setting_to_return = cwd + "/Data/Cogs/"
+        return setting_to_return
+    
+    
     if which_setting in ["csv_path", "txt_path", "excel_path"]:
         if (which_setting == "csv_path"):
             setting_to_return =  settings("folder_name") + ("csv/")
@@ -889,7 +906,7 @@ def settings(which_setting):
                 return setting_to_return
             
             if (which_setting == "info_data"):
-                setting_to_return = cwd + "/Data/Form/" + setting_to_return
+                setting_to_return = cwd + "/Data/Cogs/" + setting_to_return
                 x = False
                 return setting_to_return
             
@@ -933,6 +950,7 @@ def settings(which_setting):
             return setting_to_return
                 
         except:
+            amILooping()
             print("Ayarlar dosyası bulunamadı veya hatalı, tekrar oluşturuluyor.")
             with open(configFilePath, 'w', encoding='utf-8-sig') as file:
                 file.write(
@@ -2318,18 +2336,16 @@ def zScoreInterpreter(z_score_list, z_score_legend):
 
 
 def testWechsler():
+    testDataDict = jsonLoader("testWechlerDataDict")
+
     try:
         while True:
-            try:        
-                print("\n===================================\nWechsler zeka testi: ")
-                            
-                result_name = ["\nGenel bilgi: ", "\nYargılama: ", "\nAritmetik: ", "\nBenzerlik: ",
-                                "\nSayı dizisi ", "\nKelime: ", "\nŞifre: ", "\nResim tamamlama: ",
-                                "\nKüplerle desen: ", "\nResim düzenleme: ", "\nParça birleştirme: "]    
-                               
-                result_list = []               
-                for i in range(len(result_name)):   
-                    result_list.append(floInput(result_name[i]))
+            try:
+                result_list = []
+                print("\n===================================\n" + testDataDict["testName"])
+                for i in range(testDataDict["paraNum"]):
+                    result_list.append(floInput(testDataDict[str(i)]))
+                    
                 #gets raw input from the user, these are test results and creates a list from them
                 
             except SystemExit:
@@ -2352,28 +2368,7 @@ def testWechsler():
                     }
                
             #For every scaled score, list of raw scores, min and max values. 
-        raw_to_scaled_dict = {
-            19: [[29], [27,28], [None], [26], [17], [78, 80], [87, 90], [None], [None], [None], [None]],
-            18: [[28], [26], [None], [25], [None], [76, 77], [83, 86], [21], [None], [36], [44]],
-            17: [[27], [25], [18], [24], [None], [74, 75], [79, 82], [None], [48], [35], [43]],
-            16: [[26], [24], [17], [23], [16], [71, 73], [76, 78], [20], [47], [34], [42]],
-            15: [[25], [23], [16], [22], [15], [67, 70], [72, 75], [None], [46], [33], [41]],
-            14: [[23, 24], [22], [15], [21], [14], [63, 66], [69, 71], [19], [44, 45], [32], [40]],
-            13: [[21, 22], [21], [14], [19, 20], [None], [59, 62], [66, 68], [18], [42, 43], [30, 31], [38, 39]],
-            12: [[19, 20], [20], [13], [17, 18], [13], [54, 58], [62, 65], [17], [39, 41], [28, 29], [36, 37]],
-            11: [[17, 18], [19], [12], [15, 16], [12], [47, 53], [58, 61], [15, 16], [35, 38], [26, 27], [34, 35]],
-            10: [[15, 16], [17, 18], [11], [13, 14], [11], [40, 46], [52, 57], [14], [31, 34], [23, 25], [31, 33]],
-            9:  [[13, 14], [15, 16], [10], [11, 12], [10], [32, 39], [47, 51], [12, 13], [28, 30], [20, 22], [28, 30]],
-            8:  [[11, 12], [14], [9], [9, 10], [None], [26, 31], [41, 46], [10, 11], [25, 27], [18, 19], [25, 27]],
-            7:  [[9, 10], [12, 13], [7, 8], [7, 8], [9], [22, 25], [35, 40], [8, 9], [21, 24], [15, 17], [22, 24]],
-            6:  [[7, 8], [10, 11], [6], [5, 6], [8], [18, 21], [29, 34], [6, 7], [17, 20], [12, 14], [19, 21]],
-            5:  [[5, 6], [8, 9], [5], [4], [None], [14, 17], [23, 28], [5], [13, 16], [9, 11], [15, 18]],
-            4:  [[4], [6, 7], [4], [3], [7], [11, 13], [18, 22], [4], [10, 12], [8], [11, 14]],
-            3:  [[3], [5], [3], [2], [None], [10], [15, 17], [3], [6, 9], [7], [8, 10]],
-            2:  [[2], [4], [2], [1], [6], [9], [13, 14], [2], [3, 5], [6], [5, 7]],
-            1:  [[1], [3], [1], [None], [4, 5], [8], [12], [1], [2], [5], [3, 4]],
-            0:  [[0], [0, 2], [0], [0], [0, 3], [0, 7], [0, 11], [0], [0, 1], [0, 4], [0, 2]]         
-         }
+        raw_to_scaled_dict = testDataDict["raw_to_scaled_dict"] 
         
         # On the left are the scaled values, and on the right, are the raw
         # While inefficient, program goes through every scaled dict entry and checks
@@ -2430,97 +2425,7 @@ def testWechsler():
         
         total_score = verb_score + perf_score
         
-        IQ_dict_list = [
-                        {
-                        "age": [16, 17], 
-                        "120": [75, 64, 137], 
-                        "110": [65, 57, 120],
-                        "90": [44, 41, 86],
-                        "80": [34, 34, 69],
-                        "70": [24, 26, 53],
-                        },
-                        
-                        {
-                        "age": [18, 19], 
-                        "120": [78, 65, 141], 
-                        "110": [67, 57, 123],
-                        "90": [47, 42, 90],
-                        "80": [37, 34, 73],
-                        "70": [27, 27, 56],
-                        },
-                                
-                        {
-                        "age": [20, 24], 
-                        "120": [80, 66, 143], 
-                        "110": [70, 58, 127],
-                        "90": [49, 43, 93],
-                        "80": [39, 35, 76],
-                        "70": [29, 28, 59],
-                        },
-                                
-                        {
-                        "age": [25, 34], 
-                        "120": [81, 65, 144], 
-                        "110": [71, 57, 127],
-                        "90": [51, 42, 93],
-                        "80": [41, 34, 76],
-                        "70": [30, 27, 60],
-                        },
-                            
-                        {
-                        "age": [35, 44], 
-                        "120": [81, 61, 140], 
-                        "110": [70, 54, 123],
-                        "90": [50, 39, 89],
-                        "80": [40, 31, 72],
-                        "70": [30, 23, 56],
-                        },
-                                
-                        {
-                        "age": [45, 54], 
-                        "120": [78, 56, 132], 
-                        "110": [68, 49, 116],
-                        "90": [48, 34, 82],
-                        "80": [38, 26, 65],
-                        "70": [28, 18, 48],
-                        },
-                                
-                        {
-                        "age": [55, 64],
-                        "120": [76, 53, 126],
-                        "110": [66, 45, 109],
-                        "90": [46, 30, 76],
-                        "80": [35, 22, 59],
-                        "70": [25, 14, 42],
-                        },
-                                
-                        {
-                        "age": [65, 69],
-                        "120": [74, 50, 121],
-                        "110": [64, 42, 105],
-                        "90": [44, 27, 71],
-                        "80": [33, 19, 54],
-                        "70": [23, 12, 37],
-                        },
-                                
-                        {
-                        "age": [70, 74],
-                        "120": [68, 45, 110],
-                        "110": [58, 37, 94],
-                        "90": [38, 22, 60],
-                        "80": [27, 14, 43],
-                        "70": [17, 7, 26],
-                        },
-                                
-                        {
-                        "age": [75, 150],
-                        "120": [64, 40, 102],
-                        "110": [54, 32, 85],
-                        "90": [34, 17, 52],
-                        "80": [24, 9, 35],
-                        "70": [14, 2, 18],
-                        }
-                        ]
+        IQ_dict_list =  testDataDict["IQ_dict_list"] 
             
         # 1. Check if age is between two values
         # 2. If true, one by one, check if verb/perf/total is between given values
@@ -2571,8 +2476,8 @@ def testWechsler():
         console_results = "==================================\nWechsler zeka testinin sonuçları: "
         
         
-        for i in range(len(result_name)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results[i]))
+        for i in range(testDataDict["paraNum"]):
+            console_results = console_results + (testDataDict[str(i)] + str(outputConsole_results[i]))
             
         console_results = console_results + "\nSözel standart puan: " + str(verb_score) + " - " + str(result_values[0])
         console_results = console_results + "\nPerformans standart puan: " + str(perf_score) + " - " + str(result_values[1])
@@ -5400,6 +5305,7 @@ def progStructure():
     
 import logging
 try:
+    timeGlobalization()
     progStructure()
     
 except SystemExit:
