@@ -662,6 +662,26 @@ def guiStartupMenu():
     root.protocol("WM_DELETE_WINDOW", MyFirstGUI.on_closing)
     root.mainloop() 
 
+def goBackToDefault(fileName):
+    
+    import os
+    cwd = os.getcwd()
+    
+    import shutil
+    
+    """
+    import shutil
+    shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext') # complete target filename given
+    shutil.copy2('/src/file.ext', '/dst/dir') # target filename is /dst/dir/file.ext
+    """
+    missingFile = settings(fileName)
+    missingFileList = missingFile.split("/Data")
+    missingFileR = missingFileList[1]
+    
+    defaultFile = cwd + "/Data/Default" + missingFileR
+    
+    shutil.copy2(defaultFile, missingFile)
+    
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
     try:
@@ -673,8 +693,20 @@ def jsonLoader(jsonFileName):
         return mainDict
     
     except:
-        print("Json file missing.")
-        raise
+        try:           
+            print("JSON file missing. Restoring the default.")
+            goBackToDefault(jsonFileName)
+            import json
+            with open(settings(jsonFileName), 'r', encoding="utf8") as fp:
+                mainDict = json.load(fp)
+            
+            fp.close()
+            return mainDict
+        
+        
+        except:
+            print("Default JSON file missing. User error?")
+            raise
 
 def timeGlobalization():
     from time import strftime
@@ -2336,7 +2368,7 @@ def zScoreInterpreter(z_score_list, z_score_legend):
 
 
 def testWechsler():
-    testDataDict = jsonLoader("testWechlerDataDict")
+    testDataDict = jsonLoader("testWechslerDataDict")
 
     try:
         while True:
@@ -2379,7 +2411,7 @@ def testWechsler():
         for raw_score_index in range(len(printable_list)):
             raw_score = printable_list[raw_score_index]
             for dictKey in range(20):
-                to_check_list = raw_to_scaled_dict[dictKey][raw_score_index] 
+                to_check_list = raw_to_scaled_dict[str(dictKey)][raw_score_index] 
                 if len(to_check_list) == 2:
                     if to_check_list[0] <= raw_score <= to_check_list[1]:
                         scaled_dict[raw_score_index] = dictKey
@@ -2477,7 +2509,7 @@ def testWechsler():
         
         
         for i in range(testDataDict["paraNum"]):
-            console_results = console_results + (testDataDict[str(i)] + str(outputConsole_results[i]))
+            console_results = console_results + ("\n" + testDataDict[str(i)] + str(outputConsole_results[i]))
             
         console_results = console_results + "\nSözel standart puan: " + str(verb_score) + " - " + str(result_values[0])
         console_results = console_results + "\nPerformans standart puan: " + str(perf_score) + " - " + str(result_values[1])
