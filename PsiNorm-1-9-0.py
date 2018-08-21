@@ -1193,7 +1193,7 @@ def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDi
                 try:
                     for sheet_name in excel_sheet_names_list:
                         data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                        active_sheet = data_workbook.get_sheet_by_name(sheet_name)
+                        active_sheet = data_workbook[sheet_name]
                         data_workbook.close()
                     break
                 
@@ -1230,16 +1230,16 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                             
                             for key in testExcelColNameDict.keys():
                                 if key != "masterData":
-                                    active_sheet = data_workbook.get_sheet_by_name(test_name_list[int(key)-1])
+                                    active_sheet = data_workbook[test_name_list[int(key)-1]]
                                 else:
-                                    active_sheet = data_workbook.get_sheet_by_name("Ana Veri")
+                                    active_sheet = data_workbook["Ana Veri"]
                                 test_col_list = ["Hasta Kodu","Hasta isim", "Uygulayıcı", "Tarih", "Zaman", "Yaş", "Cinsiyet","Eğitim Yılı"]
                                 test_col_list = test_col_list + testExcelColNameDict[key]
                                 for col, val in enumerate(test_col_list, start=1):
                                     active_sheet.cell(row=1, column=col).value = val
                                     
                             #for key in mainDict["formNames"].keys():
-                             #    active_sheet = data_workbook.get_sheet_by_name(mainDict["formNames"][key])
+                             #    active_sheet = data_workbook[mainDict["formNames"][key]]
                             
                             data_workbook.save(filename = excel_path + settings("excel_name"))    
                             data_workbook.close()
@@ -1247,7 +1247,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                                 
         #                    wb.save(filename = excel_path + settings("excel_name"))
         #                    data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-        #                    active_sheet = data_workbook.get_sheet_by_name("Sheet")
+        #                    active_sheet = data_workbook["Sheet"]
         #                    data_workbook.remove_sheet(active_sheet)
         #                    data_workbook.save(filename = excel_path + settings("excel_name"))
         #                    data_workbook.close()
@@ -1265,7 +1265,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                     while True:
                         try:
                             data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                            active_sheet = data_workbook.get_sheet_by_name(test_name_list[data_num-1])
+                            active_sheet = data_workbook[test_name_list[data_num-1]]
         
                             active_sheet.append(demographic_data + printable_list)
             
@@ -1286,7 +1286,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                 
                             wb.save(filename = excel_path + settings("excel_name"))
                             data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                            active_sheet = data_workbook.get_sheet_by_name("Sheet")
+                            active_sheet = data_workbook["Sheet"]
                             data_workbook.remove_sheet(active_sheet)
                             data_workbook.save(filename = excel_path + settings("excel_name"))
                             data_workbook.close()
@@ -1300,7 +1300,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                     while True:
                         try:
                             data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                            active_sheet = data_workbook.get_sheet_by_name("Ana Veri")
+                            active_sheet = data_workbook["Ana Veri"]
                             #sets the correct sheet name
                             
                             menu_done_tests_nums = printable_list
@@ -1333,7 +1333,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                 
                             wb.save(filename = excel_path + settings("excel_name"))
                             data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                            active_sheet = data_workbook.get_sheet_by_name("Sheet")
+                            active_sheet = data_workbook["Sheet"]
                             data_workbook.remove_sheet(active_sheet)
                             data_workbook.save(filename = excel_path + settings("excel_name"))
                             data_workbook.close()
@@ -1355,7 +1355,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                 while True:
                     try:
                         data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                        active_sheet = data_workbook.get_sheet_by_name(which_data)
+                        active_sheet = data_workbook[which_data]
                         
                         for col, val in enumerate(colNum_list, start=1):
                             active_sheet.cell(row=1, column=col).value = val
@@ -1374,7 +1374,7 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                         
                         wb.save(filename = excel_path + settings("excel_name"))
                         data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-                        active_sheet = data_workbook.get_sheet_by_name("Sheet")
+                        active_sheet = data_workbook["Sheet"]
                         data_workbook.remove_sheet(active_sheet)
                         data_workbook.save(filename = excel_path + settings("excel_name"))
                         data_workbook.close()
