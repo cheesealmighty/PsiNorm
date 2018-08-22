@@ -989,6 +989,12 @@ def settings(which_setting):
             x = False
             return setting_to_return
                 
+        except configparser.NoOptionError:
+            if ".json" and (cwd + "/Data/Cogs/") in which_setting:
+                setting_to_return = which_setting
+                x = False
+                return setting_to_return
+        
         except:
             amILooping()
             print("Ayarlar dosyası bulunamadı veya hatalı, tekrar oluşturuluyor.")
@@ -1052,7 +1058,7 @@ def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDi
             
             test_name_list = excelWriter_data["test_name_list"]
 
-            masterDataList = excelWriter_data["userNotesHandle"] + test_name_list
+            masterDataList = [excelWriter_data["userNotesHandle"]] + test_name_list
                          
             testExcelColNameDict = { "masterData": masterDataList, **excelWriter_data["testExcelColNameDict"]}
             
@@ -2201,13 +2207,13 @@ def zScoreToVerbal(z_score_list):
         
     for i in range(len(z_score_list)):
         if z_score_list[i] != None:
-            if z_score_list[i] >= cutOffList[0]:
+            if cutOffList[0] <= z_score_list[i]:
                 x = "Normal."
             elif cutOffList[1] <= z_score_list[i] < cutOffList[0]:
                 x = "Hafif derecede bozulma."
             elif cutOffList[2] <= z_score_list[i] < cutOffList[1]:
                 x = "Orta derecede bozulma."
-            elif cutOffList[2] < -3:
+            elif  z_score_list[i] < cutOffList[2]:
                 x = "Ağır derecede bozulma." 
             else:
                 x = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
@@ -4564,81 +4570,81 @@ def testGisd(): #görsel işitsel sayı dizileri testi
         #saves the program from fiery death
 
         
+def test3ms():
+    return funcTestTemplate("test3msDataDict")
 
-
-
-def test3ms(): #3MS testi
-    testDataDict = jsonLoader("test3msDataDict")
-
-    try:
-        while True:
-            try:
-                result_list = []
-                print("\n===================================\n" + testDataDict["testName"])
-                for i in range(testDataDict["paraNum"]):
-                    result_list.append(floInput(testDataDict[str(i)]))
-                #prints user interface
-                #gets raw input from the user, these are test results
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #"Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            
-        norm_exists = False
-        for i in testDataDict["normList"]:
-            if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
-                correctNorm = i
-                norm_exists = True
-                break
-        
-        mean_list = []
-        sd_list = []
-        for i in range(testDataDict["paraNum"]):
-            mean_list.append(correctNorm[str(i)][0])
-            sd_list.append(correctNorm[str(i)][1])
-            
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        
-        z_score_legend = {"all":"more"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
-        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, result_list)
-        #writes the printable_list in a CSV file
-        
-        console_results = "==================================\n" + testDataDict["testName"]
-        for i in range(testDataDict["paraNum"]):
-            console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
-        console_results = console_results + ("\n==================================")
-        #txtWrite(patient_admin, patient_ID, console_results)
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            #creates a patient report for the physician and prints it out for the user
-            return [test_name, printable_list, console_results]
-        else:
-            print("Bu demografik grup için norm değeri bulunmamaktadır.")
-            #txtWrite(patient_admin, patient_ID, ("Saat çizme: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-    
-    except:
-        print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-        #saves the program from fiery death
+#def test3ms(): #3MS testi
+#    testDataDict = jsonLoader("test3msDataDict")
+#    
+#    try:
+#        while True:
+#            try:
+#                result_list = []
+#                print("\n===================================\n" + testDataDict["testName"])
+#                for i in range(testDataDict["paraNum"]):
+#                    result_list.append(floInput(testDataDict[str(i)]))
+#                #prints user interface
+#                #gets raw input from the user, these are test results
+#                
+#            except SystemExit:
+#                raise
+#            except:
+#                print("Lütfen sadece sayı giriniz.")
+#                continue
+#                #"Only enter numbers", and then resets the function
+#            
+#            else:
+#                break
+#            
+#            #tries to get user input, makes sure it's correct input
+#            
+#        norm_exists = False
+#        for i in testDataDict["normList"]:
+#            if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
+#                correctNorm = i
+#                norm_exists = True
+#                break
+#        
+#        mean_list = []
+#        sd_list = []
+#        for i in range(testDataDict["paraNum"]):
+#            mean_list.append(correctNorm[str(i)][0])
+#            sd_list.append(correctNorm[str(i)][1])
+#            
+#        z_score_list = calcZscore(result_list, mean_list, sd_list)
+#        #it calculated the patient's SD interval as a float using the results, means and the SD
+#        
+#        z_score_legend = {"all":"more"}
+#        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
+#
+#        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
+#        #creates a list to be put into a CSV file
+#
+#        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
+#        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, result_list)
+#        #writes the printable_list in a CSV file
+#        
+#        console_results = "==================================\n" + testDataDict["testName"]
+#        for i in range(testDataDict["paraNum"]):
+#            console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
+#        console_results = console_results + ("\n==================================")
+#        #txtWrite(patient_admin, patient_ID, console_results)
+#        
+#        if norm_exists:
+#            #txtWrite(patient_admin, patient_ID, console_results)
+#            print(console_results)
+#            #creates a patient report for the physician and prints it out for the user
+#            return [test_name, printable_list, console_results]
+#        else:
+#            print("Bu demografik grup için norm değeri bulunmamaktadır.")
+#            #txtWrite(patient_admin, patient_ID, ("Saat çizme: Bu grup için norm mevcut değildir.\n"+console_results))
+#            return [test_name, printable_list, console_results]
+#    
+#    except:
+#        print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
+#        raise
+#        return
+#        #saves the program from fiery death
 
 
 def testMonths(): 
@@ -5106,7 +5112,10 @@ def testBNT(): #Boston Naming Test, Boston Adlandırma Testi
         return
         #saves the program from fiery death
 
-def funcResultList(testDataDict):
+def funcTestTemplate(JSONname): #Test Name
+    testDataDict = jsonLoader(JSONname) 
+    #Load test data from JSON file
+
     while True:
         try:
             result_list = []
@@ -5126,17 +5135,10 @@ def funcResultList(testDataDict):
         else:
             break
 
-def funcTestTemplate(JSONname): #Test Name
-    testDataDict = jsonLoader(JSONname) 
-    #Load test data from JSON file
-
     try:
         if testDataDict["testType"] == "zScore":
             #if test type is zScore calculating type
             
-            result_list = funcResultList(testDataDict)
-            #Ask for patient results from the user
-                
             norm_exists = False
             for i in testDataDict["normList"]:
                 if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
@@ -5180,8 +5182,6 @@ def funcTestTemplate(JSONname): #Test Name
             
         if testDataDict["testType"] == "cutOff":
             #if the test is a simple cutoff type
-            result_list = funcResultList(testDataDict)
-            #get patient results from the user
             
             verbal_result_list = []
       
