@@ -4,7 +4,7 @@
     "0": "Toplam puan: ",
     "normList": [
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 0,
@@ -15,7 +15,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 70,
@@ -26,7 +26,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 75,
@@ -37,7 +37,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 80,
@@ -48,7 +48,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 0,
@@ -59,7 +59,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 65,
@@ -70,7 +70,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 70,
@@ -81,7 +81,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 75,
@@ -92,7 +92,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 80,
@@ -103,7 +103,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 0,
@@ -114,7 +114,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 0,
@@ -125,7 +125,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 65,
@@ -136,7 +136,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 65,
@@ -147,7 +147,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 70,
@@ -158,7 +158,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 70,
@@ -169,7 +169,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 75,
@@ -180,7 +180,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 75,
@@ -191,7 +191,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 80,
@@ -202,7 +202,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 5,
             "eduHigh": 5,
             "ageLow": 80,
@@ -213,7 +213,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 0,
@@ -224,7 +224,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 0,
@@ -235,7 +235,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 65,
@@ -246,7 +246,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 65,
@@ -257,7 +257,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 70,
@@ -268,7 +268,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 70,
@@ -279,7 +279,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 75,
@@ -290,7 +290,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 75,
@@ -301,7 +301,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 80,
@@ -312,7 +312,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
             "ageLow": 80,
@@ -323,7 +323,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 0,
@@ -334,7 +334,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 0,
@@ -345,7 +345,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 65,
@@ -356,7 +356,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 65,
@@ -367,7 +367,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 70,
@@ -378,7 +378,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 70,
@@ -389,7 +389,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 75,
@@ -400,7 +400,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 75,
@@ -411,7 +411,7 @@
             ]
         },
         {
-            "sex": "Erkek",
+            "sex": "Male",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 80,
@@ -422,7 +422,7 @@
             ]
         },
         {
-            "sex": "Kadın",
+            "sex": "Female",
             "eduLow": 12,
             "eduHigh": 100,
             "ageLow": 80,

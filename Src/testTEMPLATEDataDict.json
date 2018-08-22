@@ -11,20 +11,20 @@
 	
 	"cutOffList": [
 		{
-			"sex": "Male",
+			"sex": "Erkek",
 			"eduLow": 0,
 			"eduHigh": 4,
 			"ageLow": 0,
 			"ageHigh": 69,
 			"0": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [1, 2, 3],
-				"cutOffGroupNameList": ["Low", "Medium", "High", "Very High"]
+				"cutOffGroupNameList": [1, 2, 3],
+				"cutOffGroupCutoffList": ["Low", "Medium", "High", "Very High"]
 				},
 			"1": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [5, 10, 20, 50],
-				"cutOffGroupNameList": ["Little", "Medium", "Big", "Very Big", "Huge"]
+				"cutOffGroupNameList": [5, 10, 20, 50],
+				"cutOffGroupCutoffList": ["Little", "Medium", "Big", "Very Big", "Huge"]
 				}
 			"2": {
 				"parameterNormExists": false
@@ -34,7 +34,7 @@
 	
     "normList": [
         {
-            "sex": "Male",
+            "sex": "Erkek",
             "eduLow": 0,
             "eduHigh": 4,
             "ageLow": 0,

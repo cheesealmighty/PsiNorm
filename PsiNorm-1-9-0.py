@@ -283,10 +283,10 @@ def guiPatientInfo():
             self.label = tk.Label(master, text="Hastanın cinsiyeti: ", relief=tk.GROOVE)
             self.label.grid(row=5, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
          
-            self.buttonFemale = tk.Button(master, text="Kadın", command=self.buttonFemaleFunc, state = (tk.DISABLED if patient_sex == "Kadın" else tk.NORMAL))
+            self.buttonFemale = tk.Button(master, text="Kadın", command=self.buttonFemaleFunc, state = (tk.DISABLED if patient_sex == "Female" else tk.NORMAL))
             self.buttonFemale.grid(row=5, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
             
-            self.buttonMale = tk.Button(master, text="Erkek", command=self.buttonMaleFunc, state = (tk.DISABLED if patient_sex == "Erkek" else tk.NORMAL))
+            self.buttonMale = tk.Button(master, text="Erkek", command=self.buttonMaleFunc, state = (tk.DISABLED if patient_sex == "Male" else tk.NORMAL))
             self.buttonMale.grid(row=5, column=2, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
                  
             self.label5 = tk.Label(master, text="*", relief=tk.GROOVE)
@@ -365,9 +365,9 @@ def guiPatientInfo():
             if str(self.buttonFemale["state"]) == "disabled" or str(self.buttonMale["state"]) == "disabled":
                 self.label5.config(text = "*")
                 if str(self.buttonFemale["state"]) == "disabled":
-                    patient_sex = "Kadın"
+                    patient_sex = "Female"
                 if str(self.buttonMale["state"]) == "disabled":
-                    patient_sex = "Erkek"       
+                    patient_sex = "Male"       
             else:
                 self.label5.config(text = "Hata! Lütfen bir seçim yapınız.")
                 inputError = True
@@ -394,7 +394,7 @@ def guiPatientInfo():
         def on_saving(self, temppatient_admin, temppatient_ID, temppatient_name, temppatient_age, temppatient_sex, temppatient_edu):            
             text_dump = ("Testi uygulayan kişi: " + temppatient_admin + "\nHastanın kodu: " + temppatient_ID +
             "\nHastanın ismi: " + temppatient_name + "\nHastanın yaşı: " + str(temppatient_age) +
-            "\nHastanın cinsiyeti: " + temppatient_sex + "\nHastanın toplam eğitim yılı: " + str(temppatient_edu)+
+            "\nHastanın cinsiyeti: " + funcLangLocal(temppatient_sex) + "\nHastanın toplam eğitim yılı: " + str(temppatient_edu)+
             "\nBu kaydı onaylıyor musunuz?")
             if tk.messagebox.askokcancel("Çıkış", text_dump):
                 global patient_admin
@@ -681,7 +681,15 @@ def goBackToDefault(fileName):
     defaultFile = cwd + "/Data/Default" + missingFileR
     
     shutil.copy2(defaultFile, missingFile)
-    
+
+def funcLangLocal(item):
+    if item == "Female":
+        localItem = "Kadın"
+    elif item == "Male":
+        localItem = "Erkek"
+        
+    return localItem
+
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
     try:
@@ -1035,142 +1043,18 @@ def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDi
         try:
             patient_name_local = patient_name      
                 
-            demographic_data = [patient_ID, patient_name_local, patient_admin, date, time, patient_age, patient_sex, patient_edu]
+            demographic_data = [patient_ID, patient_name_local, patient_admin, date, time, patient_age, funcLangLocal(patient_sex), patient_edu]
             
-            test_name_list = [
-                                "(1)MMT", "(2)MOCA", "(3)3MS", "(4)GISD", "(5)ECR",
-                                "(6)Öktem Sözel Bellek Süreçleri", "(7)Rey Karmaşık Figür", "(8)İz Sürme", "(9)Stroop",
-                                "(10)Wisconsin", "(11)Görsel Sözel Test", "(12)Renkli İz Sürme",
-                                "(13)Wechsler", "(14)Wechsler-Sayı Dizisi", "(15)Sözel Akıcılık", 
-                                "(16)Semantik Akıcılık", "(17)Saat Çizme", "(18)SDOT", "(19)Ayları İleri-Geri Sayma",
-                                "(20)İşaretleme", "(21)Boston Adlandırma Testi"
-                                ]
-            masterDataList = ["Uygulayıcı notları"] + test_name_list
-            testExcelColNameDict = {
-                    
-        "masterData": masterDataList,
-        "1": ["Puan", "Sözel sonuç"],
-        "2": ["Puan", "Sözel sonuç"],
-        "3": ["Puan", "Z Skoru", "Persentil", "Sözel sonuç"],
-        "4": ["Puan", "Z Skoru", "Persentil", "Sözel sonuç"],
-        "5": ["Puan", "Sözel sonuç"],
-        "6": ["Kendiliğinden geciktirilmiş hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Tanıma boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Toplam geciktirilmiş hatırlama boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Geciktirilmiş hatırlama yanlışı boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Yanlış tanıma boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
-        "A listesi anlık bellek boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
-        "A listesi toplam öğrenme boyutu", "Z Skoru", "Persentil", "Sözel sonuç"],
-              
-        "7": ["Kopyalama", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Anlık hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Gecikmeli hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Tanıma doğru pozitif", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Tanıma yanlış pozitif", "Z Skoru", "Persentil", "Sözel sonuç"],
-              
-        "8": ["A skoru", "Z Skoru", "Persentil", "Sözel sonuç",
-        "A formu düzeltme sayısı", "Z Skoru", "Persentil", "Sözel sonuç",
-        "B skoru", "Z Skoru", "Persentil", "Sözel sonuç",
-        "B formu düzeltme sayısı", "Z Skoru", "Persentil", "Sözel sonuç",
-        "B+A skoru", "Z Skoru", "Persentil", "Sözel sonuç",
-        "B-A skoru", "Z Skoru", "Persentil", "Sözel sonuç"],
-        
-        "9": ["Bölüm 1", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Hata-1", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Düzeltme-1", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Bölüm 2", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Hata-2", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Düzeltme-2", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Bölüm 3", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Hata-3", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Düzeltme-3", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Bölüm 4", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Hata-4", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Düzeltme-4", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Bölüm 5", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Hata-5", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Düzeltme-5", "Z Skoru", "Persentil", "Sözel sonuç"],
-          
-        "10": ["Toplam tepki sayısı puanı",  "Z Skoru", "Persentil", "Sözel sonuç",
-        "Tamamlanan kategori sayısı puanı", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Toplam perseveretif hata sayısı puanı", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Perseveratif hata yüzdesi puanı", "Z Skoru", "Persentil", "Sözel sonuç"],
-               
-        "11": ["Toplam 'sort' sayısı",  "Z Skoru", "Persentil", "Sözel sonuç",
-         "Toplam 'shift' sayısı",  "Z Skoru", "Persentil", "Sözel sonuç"],
-         
-        "12": ["Time", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Errors", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Near-Misses", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Prompts", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Time", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Number Errors", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Color Errors", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Near-Misses", "Z Skoru", "Persentil", "Sözel sonuç",
-        "Prompts", "Z Skoru", "Persentil", "Sözel sonuç"],
-               
-        "13": ["Genel bilgi standart puan ",
-        "Yargılama standart puan ",
-        "Aritmetik standart puan ",
-        "Benzerlik standart puan ",
-        "Sayı dizisi standart puan ", 
-        "Kelime standart puan ",
-        "Şifre standart puan ",
-        "Resim tamamlama standart puan ",
-        "Küplerle desen standart puan ",
-        "Resim düzenleme standart puan ",
-        "Parça birleştirme standart puan ",
-        "Sözel standart puan ",
-        "Sözel IQ",
-        "Performans standart puan ",
-        "Performans IQ",
-        "Toplam standart puan ",
-        "Toplam IQ"],
-               
-        "14": ["Sayı dizisi toplam", "Sözel sonuç",
-        "Sayı dizisi ileri", "Sözel sonuç",
-        "Sayı dizisi geri", "Sözel sonuç"],
-        
-        "15": ["'S' harfi için: " , "Z Skoru", "Persentil", "Sözel sonuç",
-               "'A' harfi için: ", "Z Skoru", "Persentil", "Sözel sonuç",
-               "'Z' harfi için: ", "Z Skoru", "Persentil", "Sözel sonuç"],
-               
-        "16": ["Hayvan için: ", "Z Skoru", "Persentil", "Sözel sonuç",
-               "İnsan için: ", "Z Skoru", "Persentil", "Sözel sonuç",
-               "İnsan-Hayvan için: ", "Z Skoru", "Persentil", "Sözel sonuç"],
-                
-        "17": ["Skor: ", "Z Skoru", "Persentil", "Sözel sonuç"],
-        
-        "18": ["Puan ", "Z Skoru", "Persentil", "Sözel sonuç"],
-        
-        "19": ["İleri yorum","Geri yorum"],
-        
-        "20": ["Düzenli HF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli HF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli HF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli HF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli HF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli ŞF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli ŞF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
-                   "Düzenli ŞF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
-                   "Düzenli ŞF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzenli ŞF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz HF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz HF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz HF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz HF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz HF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
-                   "Düzensiz ŞF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz ŞF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
-                   "Düzensiz ŞF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz ŞF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
-                   "Düzensiz ŞF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
-               
-        "21": ["KA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
-               "KA+AİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
-            "KA+AİA+SİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"]
-        
-                    }
+            
+            excelWriter_data = jsonLoader(settings("cogsFolder") + "excelWriter_data.json")
+            
+            excelWriter_data["test_name_list"]
+            
+            test_name_list = excelWriter_data["test_name_list"]
+
+            masterDataList = excelWriter_data["userNotesHandle"] + test_name_list
+                         
+            testExcelColNameDict = { "masterData": masterDataList, **excelWriter_data["testExcelColNameDict"]}
             
 
             excel_sheet_names_list = []
@@ -1399,7 +1283,7 @@ def csvWriter(path, test_name, printable_list):
             
             with open(test_name, 'a', encoding='UTF-8', newline='') as csvfile:
                 data_writer = csv.writer(csvfile, delimiter='~', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                data = [patient_admin, date, time, patient_ID, patient_age, patient_sex, patient_edu] + printable_list
+                data = [patient_admin, date, time, patient_ID, patient_age, funcLangLocal(patient_sex), patient_edu] + printable_list
                 data_writer.writerow(data)
                 
             break
@@ -1440,7 +1324,7 @@ def txtWrite(path, console_results):
                     "\n=============================================\n" + 
                     "Testi uygulayan: " + patient_admin + "\nGünün tarihi: " + date + "\nSaat: " + time +
                     "\nHastanın ismi: " +  patient_name + "\nHastanın kodu: " + str(patient_ID) +
-                    "\nHastanın yaşı: " + str(patient_age) + "\nHastanın cinsiyeti: " + str(patient_sex) +
+                    "\nHastanın yaşı: " + str(patient_age) + "\nHastanın cinsiyeti: " + str(funcLangLocal(patient_sex)) +
                     "\nHastanın toplam eğitim yılı: " + str(patient_edu) +
                     "\n=============================================\n")
                     
@@ -1483,10 +1367,10 @@ def inputPatient_sex():
     while True:    
         patient_sex_user_input = exitable_input("Hastanın cinsiyeti: (1) Kadın - (2) Erkek: ")
         if patient_sex_user_input == "1":
-            patient_sex = "Kadın"
+            patient_sex = "Female"
             break
         elif patient_sex_user_input == "2":
-            patient_sex = "Erkek"
+            patient_sex = "Male"
             break
         else:
             print("Lütfen sadece 1 veya 2 giriniz.")
@@ -2650,7 +2534,7 @@ def testSf():
             else:
                 break
 
-        if patient_sex == "Kadın": 
+        if patient_sex == "Female": 
             if patient_edu <= 8:
                 if 15 <= patient_age <= 24:
                     mean_list = [14.20, 22.30, 16.50] #Hayvan, İnsan, Hayvan-insan için ortalamalar sıralı liste
@@ -2738,7 +2622,7 @@ def testSf():
                 print("Bu eğitim grubu için norm mevcut değildir.")
                 norm_exists = False
                 
-        elif patient_sex == "Erkek": 
+        elif patient_sex == "Male": 
             if patient_edu <= 8:
                 if 15 <= patient_age <= 24:
                     mean_list = [17.20, 24.60, 18.60]
@@ -4480,7 +4364,7 @@ def testGisd(): #görsel işitsel sayı dizileri testi
             #of the specified age, education and sex, where it applies.
             #It's in a way that it corresponds to order of the
             #result_list.
-        if patient_sex == "Erkek":
+        if patient_sex == "Male":
             if patient_edu <= 5:
                 if patient_age <= 15:
                     norm_exists = False
@@ -4560,7 +4444,7 @@ def testGisd(): #görsel işitsel sayı dizileri testi
                 norm_exists = False  
                 #"No norm exists for the group", sets it to False
                 
-        elif patient_sex == "Kadın":
+        elif patient_sex == "Female":
             
             if patient_edu <= 5:
                 if patient_age <= 15:
@@ -5001,7 +4885,7 @@ def testBNT(): #Boston Naming Test, Boston Adlandırma Testi
             #It's in a way that it corresponds to order of the
             #result_list.
         
-        if patient_sex == "Erkek":
+        if patient_sex == "Male":
             if patient_edu <= 8:
                 if 20 <= patient_age <= 39:
                     mean_list = [28.14, 31.36, 36.64]
@@ -5086,7 +4970,7 @@ def testBNT(): #Boston Naming Test, Boston Adlandırma Testi
                 norm_exists = False  
                 #"No norm exists for the group", sets it to False
                     
-        elif patient_sex == "Kadın":
+        elif patient_sex == "Female":
             if patient_edu <= 8:
                 if 20 <= patient_age <= 39:
                     mean_list = [28.4, 31.5, 36.9]
@@ -5320,20 +5204,20 @@ def funcTestTemplate(JSONname): #Test Name
                         """
                         Example data structure:
                         {
-                        "sex": "Erkek",
+                        "sex": "Male",
                         "eduLow": 0,
                         "eduHigh": 4,
                         "ageLow": 0,
                         "ageHigh": 69,
                         "0": {
                         "parameterNormExists": true,
-                        "cutOffGroupNameList": [1, 2, 3],
-                        "cutOffGroupCutoffList": ["Low", "Medium", "High", "Very High"]
+                        "cutOffGroupCutoffList": [1, 2, 3],
+                        "cutOffGroupNameList": ["Low", "Medium", "High", "Very High"]
                         },
                         "1": {
                         "parameterNormExists": true,
-                        "cutOffGroupNameList": [5, 10, 20, 50],
-                        "cutOffGroupCutoffList": ["Little", "Medium", "Big", "Very Big", "Huge"]
+                        "cutOffGroupCutoffList": [5, 10, 20, 50],
+                        "cutOffGroupNameList": ["Little", "Medium", "Big", "Very Big", "Huge"]
                         }
                         "2": {
                         "parameterNormExists": false
