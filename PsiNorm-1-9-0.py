@@ -2237,10 +2237,13 @@ def calcZscore(result_list, mean_list, sd_list):
     #finds out which SD interval patient result is in and orders it in a list
     z_score_list = []
     for i in range(len(result_list)):
-        if sd_list[i] == 0:
-            sd_list[i] = 0.00000001 #protects the program from failing
-        z_score = ((result_list[i] - mean_list[i]) / sd_list[i])
-        z_score_list.append(float("%.2f" % z_score))
+        if mean_list[i] != None and sd_list[i] != None:
+            if sd_list[i] == 0:
+                sd_list[i] = 0.00000001 #protects the program from failing
+            z_score = ((result_list[i] - mean_list[i]) / sd_list[i])
+            z_score_list.append(float("%.2f" % z_score))
+        else:
+            z_score_list.append(None)
     return z_score_list
 
 def calcPercentile(z_score_list):
@@ -2252,12 +2255,15 @@ def calcPercentile(z_score_list):
 
     perc_list = []
     for i in range(len(z_score_list)):
-        try:
-            perc_temp = str("%.2f" % (100 * float(percentile(z_score_list[i]))))
-            perc_list.append(perc_temp)
-        except:
-            print("Persentil hesaplanırken bir hata oluştu.")
-            pass
+        if z_score_list[i] != None:
+            try:
+                perc_temp = str("%.2f" % (100 * float(percentile(z_score_list[i]))))
+                perc_list.append(perc_temp)
+            except:
+                print("Persentil hesaplanırken bir hata oluştu.")
+                pass
+        else:
+            perc_list.append(None)
 
     return perc_list
     
@@ -2267,7 +2273,7 @@ def outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list):
     for y in range(len(result_list)):
         if not result_list[y] in ["999", 999, 999.0, "999.0"]:
             printable_list.append(result_list[y])
-            if not float(z_score_list[y]) in [999.0, -999.0]:
+            if z_score_list[y] != None:
                 printable_list.append(z_score_list[y])
                 printable_list.append(perc_list[y])
                 printable_list.append(z_score_verbal_list[y])
@@ -2287,11 +2293,11 @@ def outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_l
     console_result = []
     
     for i in range(len(z_score_list)):
-        if (result_list[i] != 999.00) and (999.00 != float(z_score_list[i])) and (-999.00 != float(z_score_list[i])):
+        if (result_list[i] != 999.00) and (None != z_score_list[i]):
             console_result.append("Hastanın puanı: " + str(result_list[i]) + " - " + 
             str(z_score_verbal_list[i]) + " Z skoru: " + str(z_score_list[i]) + " - Persentil: " + str(perc_list[i]))
             
-        elif (result_list[i] != 999.00) and ((999.00 == float(z_score_list[i])) or (-999.00 == float(z_score_list[i]))):
+        elif (result_list[i] != 999.00) and (None == z_score_list[i]):
             console_result.append("Hastanın puanı: " + str(result_list[i]) + " - Bu parametreye ait norm verisi yoktur.")
         
         else:
@@ -2303,33 +2309,28 @@ def outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_l
 def zScoreToVerbal(z_score_list): 
     #assumes Z scores get better as it goes up, multiply with "-1" if otherwise before using this function
     z_score_verbal_list = []
-    if settings("zInterval") == "0-1":
-        for i in range(len(z_score_list)):
-            if z_score_list[i] >= -1:
-                x = "Normal."
-            elif -2 <= z_score_list[i] < -1:
-                x = "Hafif derecede bozulma."
-            elif -3 <= z_score_list[i] < -2:
-                x = "Orta derecede bozulma."
-            elif z_score_list[i] < -3 and z_score_list[i] != 999:
-                x = "Ağır derecede bozulma." 
-            else:
-                x = "Bu grup için norm değeri bulunmamaktadır."
-            z_score_verbal_list.append(x)
     
+    if settings("zInterval") == "0-1":
+        cutOffList = [-1, -2, -3]    
     if settings("zInterval") == "0-1.5":
-        for i in range(len(z_score_list)):
-            if z_score_list[i] >= -1.5:
+        cutOffList = [-1.5, -2, -3] 
+        
+    for i in range(len(z_score_list)):
+        if z_score_list[i] != None:
+            if z_score_list[i] >= cutOffList[0]:
                 x = "Normal."
-            elif -2 <= z_score_list[i] < -1.5:
+            elif cutOffList[1] <= z_score_list[i] < cutOffList[0]:
                 x = "Hafif derecede bozulma."
-            elif -3 <= z_score_list[i] < -2:
+            elif cutOffList[2] <= z_score_list[i] < cutOffList[1]:
                 x = "Orta derecede bozulma."
-            elif z_score_list[i] < -3 and z_score_list[i] != 999:
+            elif cutOffList[2] < -3:
                 x = "Ağır derecede bozulma." 
             else:
-                x = "Bu grup için norm değeri bulunmamaktadır."
-            z_score_verbal_list.append(x)
+                x = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
+        if z_score_list[i] == None:
+            x = "Bu grup için norm değeri bulunmamaktadır."
+        
+        z_score_verbal_list.append(x)
     
     return z_score_verbal_list
 
@@ -2348,7 +2349,10 @@ def zScoreInterpreter(z_score_list, z_score_legend):
                     
         elif z_score_legend["all"] == "less":
             for i in range(len(z_score_list)):
-                temp_z_score_list[i] = -1 * z_score_list[i]
+                if z_score_list[i] != None:
+                    temp_z_score_list[i] = -1 * z_score_list[i]
+                else:
+                    temp_z_score_list[i] = z_score_list[i]
             
     except:
         for i in z_score_legend.keys():
@@ -2356,7 +2360,10 @@ def zScoreInterpreter(z_score_list, z_score_legend):
                 temp_z_score_list[i] = z_score_list[i]
                 
             elif z_score_legend[i] == "less":
-                temp_z_score_list[i] = -1 * z_score_list[i]
+                if z_score_list[i] != None:
+                    temp_z_score_list[i] = -1 * z_score_list[i]
+                else:
+                    temp_z_score_list[i] = z_score_list[i]
                 
     
     perc_list = calcPercentile(temp_z_score_list)
@@ -5215,74 +5222,177 @@ def testBNT(): #Boston Naming Test, Boston Adlandırma Testi
         return
         #saves the program from fiery death
 
+def funcResultList(testDataDict):
+    while True:
+        try:
+            result_list = []
+            print("\n===================================\n" + testDataDict["testName"])
+            for i in range(testDataDict["paraNum"]):
+                result_list.append(floInput(testDataDict[str(i)]))
+            #prints user interface
+            #gets raw input from the user, these are test results
+            
+        except SystemExit:
+            raise
+        except:
+            print("Lütfen sadece sayı giriniz.")
+            continue
+            #"Only enter numbers", and then resets the function
+        
+        else:
+            break
 
-def testOneSizeFitsMost(JSONname): #3MS testi
-    testDataDict = jsonLoader(JSONname)
+def funcTestTemplate(JSONname): #Test Name
+    testDataDict = jsonLoader(JSONname) 
+    #Load test data from JSON file
 
     try:
-        while True:
-            try:
-                result_list = []
-                print("\n===================================\n" + testDataDict["testName"])
-                for i in range(testDataDict["paraNum"]):
-                    result_list.append(floInput(testDataDict[str(i)]))
-                #prints user interface
-                #gets raw input from the user, these are test results
+        if testDataDict["testType"] == "zScore":
+            #if test type is zScore calculating type
+            
+            result_list = funcResultList(testDataDict)
+            #Ask for patient results from the user
                 
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #"Only enter numbers", and then resets the function
+            norm_exists = False
+            for i in testDataDict["normList"]:
+                if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
+                    correctNorm = i
+                    norm_exists = True
+                    break
+            #Find the correct norm values by iterating through every entry in JSON    
+            
+            
+            mean_list = []
+            sd_list = []
+            
+            if norm_exists:
+                for i in range(testDataDict["paraNum"]):
+                    mean_list.append(correctNorm[str(i)][0])
+                    sd_list.append(correctNorm[str(i)][1])
+            else:
+                for i in range(testDataDict["paraNum"]):
+                    mean_list.append(None)
+                    sd_list.append(None)
+                
+            #Create appropriate mean and standard deviation lists for further calculations
+                    
+                    
+            z_score_list = calcZscore(result_list, mean_list, sd_list)
+            #it calculated the patient's SD interval as a float using the results, means and the SD
+            
+            perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, testDataDict["zScoreLegend"])
+            #calculates patient percentile and it's human language equivalent
+    
+            printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
+            #creates a list to be put into a CSV file
+    
+            console_results = "==================================\n" + testDataDict["testName"]
+            for i in range(testDataDict["paraNum"]):
+                console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
+            console_results = console_results + ("\n==================================")
+                
+            #Creates a text dump for the console and the txt report
+            
+            
+        if testDataDict["testType"] == "cutOff":
+            #if the test is a simple cutoff type
+            result_list = funcResultList(testDataDict)
+            #get patient results from the user
+            
+            verbal_result_list = []
+      
+            norm_exists = False
+            for i in testDataDict["normList"]:
+                if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
+                    correctNorm = i
+                    norm_exists = True
+                    break
+                
+            #Find the correct cutoff values by iterating through every entry in JSON    
+            if norm_exists: 
+                for i in range(testDataDict["paraNum"]):
+                    if correctNorm[str(i)]["parameterNormExists"]:
+                        cutOffGroupNameList = correctNorm[str(i)]["cutOffGroupNameList"]
+                        #[groupName1, groupName2, groupName3...]
+                        cutOffGroupCutoffList = correctNorm[str(i)]["cutOffGroupCutoffList"]
+                        #[cutOff1, cutOff2, cutOff3...]
+                        
+                        """
+                        Example data structure:
+                        {
+                        "sex": "Erkek",
+                        "eduLow": 0,
+                        "eduHigh": 4,
+                        "ageLow": 0,
+                        "ageHigh": 69,
+                        "0": {
+                        "parameterNormExists": true,
+                        "cutOffGroupNameList": [1, 2, 3],
+                        "cutOffGroupCutoffList": ["Low", "Medium", "High", "Very High"]
+                        },
+                        "1": {
+                        "parameterNormExists": true,
+                        "cutOffGroupNameList": [5, 10, 20, 50],
+                        "cutOffGroupCutoffList": ["Little", "Medium", "Big", "Very Big", "Huge"]
+                        }
+                        "2": {
+                        "parameterNormExists": false
+                        }
+                        }
+                        """
+                        
+                        # patientResult <= cutOff1 = groupName1 
+                        # cutOff1 < patientResult <= cutOff2 = groupName2
+                        # cutOff2 < patientResult <= cutOff3 = groupName3
+                        # cutOff3 < patientResult = groupName4                        
+                
+                        for cutOffGroupNum in range(len(cutOffGroupCutoffList)):
+                            if cutOffGroupNum == 0:
+                                result_list[i] <= cutOffGroupCutoffList[cutOffGroupNum]
+                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
+                                
+                            elif cutOffGroupNum < len(cutOffGroupCutoffList)-1:
+                                cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[i] <= cutOffGroupCutoffList[cutOffGroupNum]
+                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
+                                
+                            elif cutOffGroupNum == len(cutOffGroupCutoffList)-1:
+                                cutOffGroupCutoffList[cutOffGroupNum] < result_list[i]
+                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum+1])
+                        #iterates through all the cutoff-group couples, adding appropriate verbal results when available
+                    else:
+                        verbal_result_list.append("Bu basamak uygulanmamış veya uygulanamamıştır.")
+                        #Adds a N/A entry for every missing norm value 
             
             else:
-                break
+                for i in range(testDataDict["paraNum"]):
+                    verbal_result_list.append("Bu basamak uygulanmamış veya uygulanamamıştır.")
+                    #if no norm exists at all, fills up the verbal results with N/A
             
-            #tries to get user input, makes sure it's correct input
             
-        norm_exists = False
-        for i in testDataDict["normList"]:
-            if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
-                correctNorm = i
-                norm_exists = True
-                break
-        
-        mean_list = []
-        sd_list = []
-        for i in range(testDataDict["paraNum"]):
-            mean_list.append(correctNorm[str(i)][0])
-            sd_list.append(correctNorm[str(i)][1])
+            printable_list = []
+            for i in range(testDataDict["paraNum"]):
+                printable_list.append(result_list[i])
+                printable_list.append(verbal_result_list[i])      
+            #Creates a dump for excel/CSV
             
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        
-        z_score_legend = {"all":"more"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
+            console_results = "==================================\n" + testDataDict["testName"]
+            for i in range(testDataDict["paraNum"]):
+                console_results = console_results + "\n" + (testDataDict[str(i)] + str(result_list[i]) + ", " + str(verbal_result_list[i]))         
+            console_results = console_results + ("\n==================================")
+            #Creates a dump for console/txt file
+            
+                
         test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, result_list)
-        #writes the printable_list in a CSV file
-        
-        console_results = "==================================\n" + testDataDict["testName"]
-        for i in range(testDataDict["paraNum"]):
-            console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
-        console_results = console_results + ("\n==================================")
-        #txtWrite(patient_admin, patient_ID, console_results)
         
         if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
             print(console_results)
             #creates a patient report for the physician and prints it out for the user
             return [test_name, printable_list, console_results]
         else:
             print("Bu demografik grup için norm değeri bulunmamaktadır.")
-            #txtWrite(patient_admin, patient_ID, ("Saat çizme: Bu grup için norm mevcut değildir.\n"+console_results))
+            #print("No norm value exists for the grup")
             return [test_name, printable_list, console_results]
-    
+            
     except:
         print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
         raise

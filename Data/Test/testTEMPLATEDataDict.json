@@ -1,0 +1,48 @@
+{
+    "testName": "Modifiye Mini-Mental Test(3MS)",
+	
+    "paraNum": 1,
+	
+    "0": "Toplam puan: ",
+	
+	"zScoreLegend": {"all": "more"},
+	
+	"testType": "zScore" "cutOff",
+	
+	"cutOffList": [
+		{
+			"sex": "Erkek",
+			"eduLow": 0,
+			"eduHigh": 4,
+			"ageLow": 0,
+			"ageHigh": 69,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupNameList": [1, 2, 3],
+				"cutOffGroupCutoffList": ["Low", "Medium", "High", "Very High"]
+				},
+			"1": {
+				"parameterNormExists": true,
+				"cutOffGroupNameList": [5, 10, 20, 50],
+				"cutOffGroupCutoffList": ["Little", "Medium", "Big", "Very Big", "Huge"]
+				}
+			"2": {
+				"parameterNormExists": false
+				}
+			}
+		],
+	
+    "normList": [
+        {
+            "sex": "Erkek",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 0,
+            "ageHigh": 69,
+            "0": [
+                75.74,
+                7.78
+            ]
+        }
+    ]
+}
