@@ -1,0 +1,12 @@
+{
+    "testName": "Ayları ileri-geri sayma",
+    "paraNum": 2,
+    "0": "İleri yorum: ",
+    "1": "Geri yorum: ",
+    "zScoreLegend": {
+        "all": "more"
+    },
+    "testType": "zScore",
+    "cutOffList": [],
+    "normList": []
+}
