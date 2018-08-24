@@ -1,5 +1,5 @@
 {
-    "testName": "Modifiye Mini-Mental Test(3MS)",
+    "testName": "",
 	
     "paraNum": 1,
 	
@@ -7,7 +7,7 @@
 	
 	"zScoreLegend": {"all": "more"},
 	
-	"testType": "zScore" "cutOff",
+	"testType": "zScore" / "cutOff", SADECE BİRİNİ SEÇİP, DİĞERİ İLE BİRLİKTE BU YAZIYI SİLİNİZ.
 	
 	"cutOffList": [
 		{
@@ -25,7 +25,7 @@
 				"parameterNormExists": true,
 				"cutOffGroupCutoffList": [5, 10, 20, 50],
 				"cutOffGroupNameList": ["Little", "Medium", "Big", "Very Big", "Huge"]
-				}
+				},
 			"2": {
 				"parameterNormExists": false
 				}

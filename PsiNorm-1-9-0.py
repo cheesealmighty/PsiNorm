@@ -663,6 +663,7 @@ def guiStartupMenu():
     root.mainloop() 
 
 def goBackToDefault(fileName):
+    print("Bir şeyler yanlış gitti, program varsayılan seçeneklere dönüyor.")
     
     import os
     cwd = os.getcwd()
@@ -692,9 +693,63 @@ def funcLangLocal(item):
 
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
+    
+    documentsPath = getUserDocumentsPsiPath()
+    
+    import configparser
+    parser = configparser.ConfigParser()
+    jsonAddressList = documentsPath + "/Data/Cogs/" + "jsonAddressList.ini"
+    
+    try:
+        parser.read(jsonAddressList, encoding = 'utf-8-sig')
+        
+    except:
+        goBackToDefault(jsonAddressList)
+        parser.read(jsonAddressList, encoding = 'utf-8-sig')
+    
+    jsonFileExists = False
+    amILooping = 0
+    while not jsonFileExists:
+        for i in parser.sections():
+            if jsonFileName in parser[i]:
+                jsonFileExists = True
+                
+        if not jsonFileExists:
+            goBackToDefault(jsonAddressList)
+            amILooping = amILooping + 1
+        
+        if amILooping > 1:
+            class jsonFileLooped(Exception):
+                """What did  y'all do?!? """
+
+            raise jsonFileLooped(
+"""
+jsonAddressList.ini içerisinde talep edilen JSON dosyası mevcut değil.
+Eğer kişiselleştirilmiş test eklediyseniz, lütfen doğru adresi kaydettiğinizden emin olunuz.
+Eğer herhangi bir değişiklik yapmadınız ve buna rağmen bu uyarıyı görüyorsanız lütfen programcıya ulaşınız.
+""")
+            
+    if jsonFileName in parser['DefaultTests']:
+        
+        testType = "Default"
+        jsonFileAddress = parser['Default'][jsonFileName]
+        jsonFileAddress = documentsPath + "/Data/Test/" + jsonFileAddress 
+        
+    elif jsonFileName in parser['CustomTests']:
+        
+        testType = "Custom"
+        jsonFileAddress = parser['Custom'][jsonFileName]
+        jsonFileAddress = documentsPath + "/Data/Test/Custom/" + jsonFileAddress 
+        
+    elif jsonFileName in parser['[InternalFiles']:
+        
+        jsonFileAddress = parser['InternalFiles'][jsonFileName]
+        jsonFileAddress = documentsPath + "/Data/" + jsonFileAddress     
+
+
     try:
         import json
-        with open(settings(jsonFileName), 'r', encoding="utf8") as fp:
+        with open(jsonFileName, 'r', encoding="utf8") as fp:
             mainDict = json.load(fp)
         
         fp.close()
@@ -705,7 +760,7 @@ def jsonLoader(jsonFileName):
             print("JSON file missing. Restoring the default.")
             goBackToDefault(jsonFileName)
             import json
-            with open(settings(jsonFileName), 'r', encoding="utf8") as fp:
+            with open(jsonFileName, 'r', encoding="utf8") as fp:
                 mainDict = json.load(fp)
             
             fp.close()
@@ -940,16 +995,6 @@ def settings(which_setting):
                 x = False
                 return setting_to_return
             
-            if (which_setting == "form_data"):
-                setting_to_return = cwd + "/Data/Form/" + setting_to_return
-                x = False
-                return setting_to_return
-            
-            if (which_setting == "info_data"):
-                setting_to_return = cwd + "/Data/Cogs/" + setting_to_return
-                x = False
-                return setting_to_return
-            
             if (which_setting == "folder_name"):
                 if setting_to_return == "default":
                     setting_to_return =  documentsPath + ("Results/")
@@ -961,21 +1006,7 @@ def settings(which_setting):
             
             if which_setting == "zInterval":
                 return setting_to_return
-            
-            
-            menu_list = ["testMmtDataDict", "testMocaDataDict", "test3msDataDict", "testGisdDataDict",
-                         "testEcrDataDict", "testSbstDataDict", "testRkftDataDict", 
-                         "testTmDataDict", "testStroopDataDict", "testWisconsinDataDict", 
-                         "testVvtDataDict", "testCctDataDict", "testWechslerDataDict", 
-                         "testWechslerSayiDataDict", "testVfDataDict", "testSfDataDict", 
-                         "testCdDataDict", "testSdotDataDict", "testMonthsDataDict",
-                         "testVaNVCDataDict", "testBNTDataDict"]  
-            
-            if which_setting in menu_list:
-                setting_to_return = cwd + "/Data/Test/" + setting_to_return
-                x = False
-                return setting_to_return
-            
+
             if setting_to_return == "True":
                 setting_to_return = True
                 
@@ -988,12 +1019,6 @@ def settings(which_setting):
                 
             x = False
             return setting_to_return
-                
-        except configparser.NoOptionError:
-            if ".json" and (cwd + "/Data/Cogs/") in which_setting:
-                setting_to_return = which_setting
-                x = False
-                return setting_to_return
         
         except:
             amILooping()
@@ -1026,7 +1051,8 @@ testTmDataDict = testTmDataDict.json
 testStroopDataDict = testStroopDataDict.json
 testWisconsinDataDict = testWisconsinDataDict.json
 testVvtDataDict = testVvtDataDict.json
-testCctDataDict = testCctDataDict.json
+testCct1DataDict = testCct1DataDict.json
+testCct2DataDict = testCct2DataDict.json
 testWechslerDataDict = testWechslerDataDict.json
 testWechslerSayiDataDict = testWechslerSayiDataDict.json
 testVfDataDict = testVfDataDict.json
@@ -1052,7 +1078,7 @@ def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDi
             demographic_data = [patient_ID, patient_name_local, patient_admin, date, time, patient_age, funcLangLocal(patient_sex), patient_edu]
             
             
-            excelWriter_data = jsonLoader(settings("cogsFolder") + "excelWriter_data.json")
+            excelWriter_data = jsonLoader("excelWriter_data")
             
             excelWriter_data["test_name_list"]
             
@@ -4227,114 +4253,16 @@ def testCct():
     return dataCct
 
 
-def testRkft():
-    try:
-        while True:
-            try: 
-                print("\n===================================\nRey karmaşık figür testi: ")
-                result_name = ["\nKopyalama: ", "\nAnlık hatırlama: ", 
-                "\nGecikmeli hatırlama: ",  "\nTanıma doğru pozitif puanı: ", 
-                "\nTanıma yanlış pozitif puanı: "]  
-                
-                result_list = []               
-                for i in range(len(result_name)):
-                    result_list.append(floInput(result_name[i]))
-                #gets raw input from the user, these are test results
-    
-                mean_list = []
-                sd_list = []
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)            
-                norm_exists = True
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-            else:
-                break
-        
-        if patient_edu < 8:
-            if patient_age <= 49:
-                mean_list = [29.90, 14.45, 14.35, 10.37, 2.63]
-                sd_list = [5.277, 5.604, 5.992, 1.71, 1.56]
-                
-            elif 50 <= patient_age <= 60:
-                mean_list = [27.3, 13.3, 13.5, 10, 2.50]
-                sd_list = [6.391, 4.461, 4.577, 1.05, 1.65]
-                
-            elif 61 <= patient_age <= 71:
-                mean_list = [27.05, 10.3, 8.85, 9.7, 2.4]
-                sd_list = [4.764, 4.656, 4.308, 1.7, 1.78]
-            
-            elif 72 <= patient_age:
-                mean_list = [24.3, 8.3, 7.55, 10.3, 3.2]
-                sd_list = [5.673, 5.089, 4.919, 1.7, 1.99]
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                
-        elif 8 <= patient_edu:
-            
-            if patient_age <= 49:
-                mean_list = [33.096, 19.75, 18.84, 9.73, 1.27]
-                sd_list = [2.548, 4.993, 5.062, 1.74, 1.17]
-                
-            elif 50 <= patient_age <= 60:
-                mean_list = [32.75, 16.7, 16.25, 10.2, 1.55]
-                sd_list = [3.263, 4.998, 5.175, 1.4, 1.39]
-                
-            elif 61 <= patient_age <= 71:
-                mean_list = [31.125, 14.525, 14.35, 9.45, 1.8]
-                sd_list = [3.947, 6.315, 6.796, 1.9, 1.54]
-            
-            elif 72 <= patient_age:
-                mean_list = [28.6, 10.975, 11.025, 9.1, 2.2]
-                sd_list = [3.192, 4.805, 5.466, 1.83, 1.67]
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False  
-        else:
-            print("Bu eğitim grubu için norm mevcut değildir.")
-            norm_exists = False  
-                                
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        z_score_legend = {"all":"more"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-
-        test_name = 'rey_data.csv' #test datasının toplanacağı csv dosyasını belirtiyor
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        
-        console_results = "==================================\nRey karmaşık figür testinin sonuçları:"
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-                
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            
-        else:
-            #txtWrite(patient_admin, patient_ID, ("Rey: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-    
-    except:
-        print("Rey testini değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-
+def testRkft(): #Rey karmaşık figür testi
+    return funcTestTemplate("testRkftDataDict")
 
 def testGisd(): #görsel işitsel sayı dizileri testi
     return funcTestTemplate("testGisdDataDict")
         
-def test3ms():
+def test3ms(): #3MS testi
     return funcTestTemplate("test3msDataDict")
 
-def testMonths(): 
+def testMonths(): #Aylar ileri geri
     return funcTestTemplate("testMonthsDataDict")
 
 def testVaNVC(): #Verbal and Nonverbal Cancellation Test, İşaretleme Testi
