@@ -7,6 +7,9 @@
 	"3": "B formu düzeltme sayısı: ",
 	"4": "B+A skoru: ",
 	"5": "B-A skoru: ",
+	"zScoreLegend": {
+        "all": "less"
+    },
     "normList": [
         {
             "sex": "Female",

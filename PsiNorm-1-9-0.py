@@ -2420,9 +2420,7 @@ def testWechsler():
             printable_list.append(result_values[i])
             
         
-        test_name = 'wechsler_data.csv' #test datasının toplanacağı csv dosyasını belirtiyor
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        
+        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
         
         outputConsole_results = []
         for i in range(len(result_list)):
@@ -2456,7 +2454,7 @@ def testWechslerSayi():
     try:
         while True:
             try:        
-                print("\n===================================\nWechsler zeka testi:\n")
+                print("\n===================================\nWechsler zeka testi - Sadece Sayılar:\n")
 
                 result_name = ["\nSayı dizisi toplam: ", "\nSayı dizisi ileri: ", "\nSayı dizisi geri: "]    
                                
@@ -3379,860 +3377,78 @@ def testTm():
                 correctNorm = i
                 norm_exists = True
                 break
+        #Find the correct norm values by iterating through every entry in JSON    
+        
         
         mean_list = []
         sd_list = []
-        for i in range(testDataDict["paraNum"]):
-            mean_list.append(correctNorm[str(i)][0])
-            sd_list.append(correctNorm[str(i)][1])
+        
+        if norm_exists:
+            for i in range(testDataDict["paraNum"]):
+                mean_list.append(correctNorm[str(i)][0])
+                sd_list.append(correctNorm[str(i)][1])
+        else:
+            for i in range(testDataDict["paraNum"]):
+                mean_list.append(None)
+                sd_list.append(None)
             
+        #Create appropriate mean and standard deviation lists for further calculations
+                
+                
         z_score_list = calcZscore(result_list, mean_list, sd_list)
         #it calculated the patient's SD interval as a float using the results, means and the SD
         
-        z_score_legend = {"all":"less"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
+        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, testDataDict["zScoreLegend"])
+        #calculates patient percentile and it's human language equivalent
 
         printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
         #creates a list to be put into a CSV file
 
-        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, result_list)
-        #writes the printable_list in a CSV file
-        
         console_results = "==================================\n" + testDataDict["testName"]
         for i in range(testDataDict["paraNum"]):
             console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
         console_results = console_results + ("\n==================================")
-        #txtWrite(patient_admin, patient_ID, console_results)
+            
+        #Creates a text dump for the console and the txt report
+        
+        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
         
         if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
             print(console_results)
             #creates a patient report for the physician and prints it out for the user
             return [test_name, printable_list, console_results]
         else:
             print("Bu demografik grup için norm değeri bulunmamaktadır.")
-            #txtWrite(patient_admin, patient_ID, ("Saat çizme: Bu grup için norm mevcut değildir.\n"+console_results))
+            #print("No norm value exists for the grup")
             return [test_name, printable_list, console_results]
-    
+            
     except:
         print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
         raise
         return
         #saves the program from fiery death
-                     
+
                 
 def testStroop(): #Stroop testinin ana fonksiyonu
-    try:
-        while True:
-            try:
-                print("\n===================================\nStroop Testi: \n")
-                result_name = ["\nBölüm 1: ","\nHata-1: ", "\nDüzeltme-1: ",
-                               "\nBölüm 2: ","\nHata-2: ", "\nDüzeltme-2: ",
-                               "\nBölüm 3: ","\nHata-3: ", "\nDüzeltme-3: ",
-                               "\nBölüm 4: ","\nHata-4: ", "\nDüzeltme-4: ",
-                               "\nBölüm 5: ","\nHata-5: ", "\nDüzeltme-5: "
-                               ]
+    return funcTestTemplate("testStroopDataDict")
                 
-                result_list = []               
-                for i in range(len(result_name)):   
-                    result_list.append(floInput(result_name[i]))
-                #gets raw input from the user, these are test results and creates a list from them
-                         
-                
-                mean_list = []
-                sd_list = []
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)      
-                norm_exists = True
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-            else:
-                break
-            
-        if patient_age <= 54 and patient_edu <= 8:
-            mean_list = [12.13, result_list[1]-999, result_list[2]-999,
-                        13.61, result_list[4]-999, result_list[5]-999,
-                        17.46, result_list[7]-999, result_list[8]-999,
-                        28.07, result_list[10]-999, result_list[11]-999,
-                        40.57, result_list[13]-999, result_list[14]-999]
-                        
-            sd_list = [6.29, 1, 1,
-                       7.41, 1, 1,
-                       9.60, 1, 1,
-                       13.85, 1, 1,
-                       24.24, 1, 1]     
-            
-        elif 55 <= patient_age and patient_edu <= 8:
-            mean_list = [13.51, result_list[1]-999, result_list[2]-999,
-                         16.47, result_list[4]-999, result_list[5]-999,
-                         24.45, result_list[7]-999, result_list[8]-999,
-                         38.39, result_list[10]-999, result_list[11]-999,
-                         47.93, result_list[13]-999, result_list[14]-999]
+def testSdot(): #Yetişkinlerde çizgi yönünü belirleme
+    return funcTestTemplate("testSdotDataDict")
 
-            sd_list = [5.49, 1, 1,
-                       6.76, 1, 1,
-                       13.36, 1, 1,
-                       18.52, 1, 1,
-                       20.82, 1, 1]
-            
-        elif patient_age <= 54 and  8 < patient_edu:
-            mean_list = [8.81, result_list[1]-999, result_list[2]-999,
-                         9.43, result_list[4]-999, result_list[5]-999,
-                         12.32, result_list[7]-999, result_list[8]-999,
-                         16.95, result_list[10]-999, result_list[11]-999,
-                         26.38, result_list[13]-999, result_list[14]-999]
+def testSbst(): #SBST
+    return funcTestTemplate("testSbstDataDict")
 
-            sd_list = [1.76, 1, 1,
-                       2.52, 1, 1,
-                       2.71, 1, 1,
-                       6.70, 1, 1,
-                       12.29, 1, 1]
-            
-        elif 55 <= patient_age and 8 < patient_edu:
-            mean_list = [10.09, result_list[1]-999, result_list[2]-999,
-                         11.63, result_list[4]-999, result_list[5]-999,
-                         15.93, result_list[7]-999, result_list[8]-999,
-                         24.87, result_list[10]-999, result_list[11]-999,
-                         35.96, result_list[13]-999, result_list[14]-999]
-
-            sd_list = [3.71, 1, 1,
-                       5.41, 1, 1,
-                       4.06, 1, 1,
-                       10.94, 1, 1,
-                       16.23, 1, 1]
-            
-        else:
-            print("Stroop: Bu yaş veya eğitim grubu için norm mevcut değildir.") 
-            norm_exists = False
-                
-                
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        z_score_legend = {"all":"less"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        
-        
-        test_name = 'stroop_data.csv' #test datasının toplanacağı csv dosyasını belirtiyor
-                       
-        console_results = "==================================\nStroop testinin sonuçları: "
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] +
-            str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-        
-        if norm_exists:
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            
-        else:
-            print(console_results)
-            return [test_name, printable_list, console_results]
-        
-    except:
-        print("Stroop testini işlerken bir hata oluştu, sistem yeniden başlatılacak.")
-        raise
-        return
-
-                
-def testSdot():
-    try:
-        while True:
-            try:
-                print("\n===================================\nYetişkinlerde çizgi yönünü belirleme: \n")
-                sdot_1 = floInput("Puan: ")
-                result_list = [sdot_1]
-                
-                result_name = ["\nÇizgi yönü: "]
-                
-                mean_list = []
-                sd_list = []
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)      
-                norm_exists = True
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-            else:
-                break
-            
-        if patient_age <= 54 and patient_edu <= 8:
-            mean_list = [20.03]
-            sd_list = [4.58]     
-            
-        elif 55 <= patient_age and patient_edu <= 8:
-            mean_list = [19.81]
-            sd_list = [4.00]
-            
-        elif patient_age <= 54 and  9 <= patient_edu <= 11:
-            mean_list = [22.46]
-            sd_list = [4.52]
-            
-        elif 55 <= patient_age and 9 <= patient_edu <= 11:
-            mean_list = [21.18]
-            sd_list = [4.82]
-            
-        elif patient_age <= 54 and 12 <= patient_edu:
-            mean_list = [25.37]
-            sd_list = [3.51]
-            
-        elif 55 <= patient_age and 12 <= patient_edu:
-            mean_list = [23.04]
-            sd_list = [3.43]
-            
-        else:
-            print("Çizgi yönü: Bu yaş veya eğitim grubu için norm mevcut değildir.") 
-            norm_exists = False
-        
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        z_score_legend = {"all":"more"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        
-        test_name = 'sdot_data.csv' #test datasının toplanacağı csv dosyasını belirtiyor
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        
-        console_results = "==================================\nÇizgi yönünü belirleme testinin sonuçları: "
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            
-        else:
-            #txtWrite(patient_admin, patient_ID, ("Çizgi yönü: Bu grup için norm mevcut değildir\n"+console_results))
-            return [test_name, printable_list, console_results]
-        
-    except:
-        print("Çizgi yönü testini işlerken bir hata oluştu, sistem yeniden başlatılacak.")
-        raise
-        return
-
-
-#these variables were got before
-def testSbst(): 
-    try:
-        while True:
-            try:
-                print("\n===================================\nSBST: ")
-                result_name = ["\nKendiliğinden geciktirilmiş hatırlama boyutu: ", "\nTanıma boyutu: ", 
-                "\nToplam geciktirilmiş hatırlama boyutu: ",  "\nGeciktirilmiş hatırlama yanlışı boyutu: ", 
-                "\nYanlış tanıma boyutu: ", "\nA listesi anlık bellek boyutu: ", 
-                "\nA listesi toplam öğrenme boyutu: "]  
-                #prints user interface
-
-                result_list = []               
-                for i in range(len(result_name)):   
-                    result_list.append(floInput(result_name[i]))
-                    #gets raw input from the user, these are test results and creates a list from them
-              
-                mean_list = []
-                sd_list = []
-                #creates empty lists for future use 
-                #for the means and standard deviations
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)            
-                    #makes it so that it prints out 999 if there's 
-                    #no norm calculated for that group
-                norm_exists = True
-                #It assumes that there's a norm for every group
-                #if none exists, it changes to False
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #"Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            
-            
-            """
-            Following are lists of means and standard deviations,
-            of the specified age, education and sex, where it applies.
-            It's in a way that it corresponds to order of the
-            result_list.
-            """
-        if patient_edu <= 7:
-            if patient_age <= 39:
-                mean_list = [13.64, 1.21, 14.86, 0.24, 0.04, 5.50, 116.27]
-                sd_list = [1.20, 1.16, 0.35, 0.51, 0.19, 1.64, 10.74]
-                
-            elif 40 <= patient_age <= 49:
-                mean_list = [13.27, 1.69, 14.97, 0.15, 0.08, 5.32, 109.11]
-                sd_list = [1.24, 1.21, 0.18, 0.40, 0.27, 1.35, 11.94]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [13.24, 1.74, 14.98, 0.15, 0.00, 5.08, 113.50] 
-                sd_list = [1.38, 1.37, 0.12, 0.40, 0, 1.03, 12.00]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [12.90, 2.27, 14.94, 0.20, 0.02, 5.10, 107.80]
-                sd_list = [1.36, 2.04, 0.24, 0.46, 0.14, 1.37, 11.16]
-            
-            elif 70 <= patient_age <= 79:
-                mean_list = [12.93, 2.02, 14.96, 0.24, 0.02, 5.00, 103.69]
-                sd_list = [1.44, 1.39, 0.21, 0.43, 0.15, 1.09, 14.21]
-                
-            elif 80 <= patient_age:
-                mean_list = [10.35, 4.35, 14.70, 0.26, 0.30, 3.96, 88.96]
-                sd_list = [1.72, 1.58, 0.64, 0.45, 0.56, 1.66, 14.02]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 8 <= patient_edu:
-            if patient_age <= 39:
-                mean_list = [14.00, 0.97, 14.97, 0.13, 0.00, 7.87, 131.21] 
-                sd_list = [1.05, 1.04, 0.16, 0.45, 0, 2.05, 10.61]
-                
-            elif 40 <= patient_age <= 49:
-                mean_list = [13.62, 1.29, 14.91, 0.15, 0.03, 6.98, 126.12]
-                sd_list = [1.39, 1.27, 0.29, 0.40, 0.17, 1.96, 11.25]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [13.45, 1.54, 14.97, 0.13, 0.03, 6.61, 124.22]
-                sd_list = [1.29, 1.28, 0.17, 0.34, 0.17, 1.50, 10.48]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [13.64, 1.22, 14.88, 0.12, 0.00, 5.94, 116.88]
-                sd_list = [1.10, 0.91, 0.39, 0.39, 0, 1.33, 11.15]
-            
-            elif 70 <= patient_age <= 79:
-                mean_list = [12.29, 2.63, 14.94, 0.13, 0.04, 5.27, 109.75]
-                sd_list = [1.80, 1.75, 0.24, 0.34, 0.20, 1.45, 13.98]
-                
-            elif 80 <= patient_age:
-                mean_list = [11.88, 3.02, 14.89, 0.18, 0.09, 5.19, 109.68]
-                sd_list = [1.72, 1.63, 0.36, 0.47, 0.34, 1.64, 16.80]
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False  
-        else:
-            print("Bu eğitim grubu için norm mevcut değildir.")
-            norm_exists = False  
-                
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        z_score_legend = {0:"more", 1:"more", 2:"more", 3:"less", 4:"less", 5:"more", 6:"more"}
-        
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        
-
-        test_name = 'SBST_data.csv' #test datasının toplanacağı csv dosyasını belirtiyor
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        #writes the printable_list in a CSV file
-        
-        console_results = "==================================\nSBST testinin sonuçları:"
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-        #prints the list using the range of the list and makes it more appealing for the user (probably should've used a decorator here)
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            #creates a patient report for the physician and prints it out for the user
-        else:
-            #txtWrite(patient_admin, patient_ID, ("SBST: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-            #if there's no norm, it puts "there's no norm for this group" in the patient report
-    
-    except:
-        print("SBST testini değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-        #saves the program from fiery death
-        
-#these variables were got before
 def testVvt(): #visual verbal test
-    try:
-        while True:
-            try:
-                print("\n===================================\nGörsel Sözel Test: ")
-                result_name = ["\nToplam 'sort' sayısı: ", "\nToplam 'shift' sayısı: "]  
-                #prints user interface
-                
-                vvt_sort = floInput(result_name[0])
-                vvt_shift = floInput(result_name[1])
-                
-                #gets raw input from the user, these are test results
-                
-                result_list = [vvt_sort, vvt_shift]
-                mean_list = []
-                sd_list = []
-                #creates a list for the test results, and empty ones 
-                #for the means and standard deviations
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)            
-                    #makes it so that it prints out 999 if there's 
-                    #no norm calculated for that group
-                norm_exists = True
-                #It assumes that there's a norm for every group
-                #if none exists, it changes to False
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #"Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            
-            
-            """
-            Following are lists of means and standard deviations,
-            of the specified age, education and sex, where it applies.
-            It's in a way that it corresponds to order of the
-            result_list.
-            """
-        if patient_edu <= 5:
-            if patient_age <= 49:
-                mean_list = [15.72, 6.53]
-                sd_list = [3.40, 2.55]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [13.74, 5.36]
-                sd_list = [4.81, 2.85]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [12.64, 4.46]
-                sd_list = [4.22, 2.76]
-            
-            elif 70 <= patient_age:
-                mean_list = [9.27, 2.82]
-                sd_list = [5.90, 2.87]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 6 <= patient_edu <= 11:
-            if patient_age <= 49:
-                mean_list = [16.45, 7.11]
-                sd_list = [3.47, 2.43]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [15.43, 6.93]
-                sd_list = [4.76, 3.22]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [14.30, 5.25]
-                sd_list = [4.10,  2.95]
-            
-            elif 70 <= patient_age:
-                mean_list = [13.80, 4.95]
-                sd_list = [4.07, 3.15]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 12 <= patient_edu:
-            if patient_age <= 49:
-                mean_list = [18.41, 8.60]
-                sd_list = [1.75, 1.43]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [17.71, 7.97]
-                sd_list = [2.52, 2.10]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [16.75, 7.18]
-                sd_list = [2.94, 2.18]
-            
-            elif 70 <= patient_age:
-                mean_list = [15.00, 5.83]
-                sd_list = [4.28, 3.01]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-        else:
-            print("Bu eğitim grubu için norm mevcut değildir.")
-            norm_exists = False  
+    return funcTestTemplate("testVvtDataDict")
 
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        z_score_legend = {"all":"more"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
-        test_name = 'VVT_data.csv' #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        #writes the printable_list in a CSV file
-        
-        console_results = "==================================\nGörsel Sözel Test sonuçları:"
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-        #prints the list using the range of the list and makes it more appealing for the user (probably should've used a decorator here)
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            #creates a patient report for the physician and prints it out for the user
-        else:
-            #txtWrite(patient_admin, patient_ID, ("VVT: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-            #if there's no norm, it puts "there's no norm for this group" in the patient report
-    
-    except:
-        print("VVT'yi değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-        #saves the program from fiery death
-
-
-def testCct_1(): #color trails test
-    try:
-        while True:
-            try:
-                print("\n===================================\nCTT1: ")
-                result_name = ["\nTime: ", "\nErrors: ", "\nNear-Misses: ", "\nPrompts: "]  
-                #prints user interface
-                
-                result_list = []               
-                
-                for i in range(len(result_name)):
-                    result_list.append(floInput(result_name[i]))
-                #gets raw input from the user, these are test results
-                    
-                mean_list = []
-                sd_list = []
-                
-                #creates a list for the test results, and empty ones 
-                #for the means and standard deviations
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)            
-                    #makes it so that it prints out 999 if there's 
-                    #no norm calculated for that group
-                    
-                norm_exists = True
-                #It assumes that there's a norm for every group
-                #if none exists, it changes to False
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                raise
-                continue
-                #"Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            """
-            Following are lists of means and standard deviations,
-            of the specified age, education and sex, where it applies.
-            It's in a way that it corresponds to order of the
-            result_list.
-            """
-
-        if patient_edu <= 5:
-            if patient_age <= 49:
-                mean_list = [6.65, 0.15, 0.46, 0.20]
-                sd_list = [29.90, 0.74, 1.30, 0.40]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [90.53, 0.23, 1.38, 0.07]
-                sd_list = [36.14, 0.61, 3.17, 0.27]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [91.68, 0.33, 1.24, 0.17]
-                sd_list = [35.17, 0.63, 1.28, 0.44]
-            
-            elif 70 <= patient_age:
-                mean_list = [152.36, 0.58, 2.21, 0.34]
-                sd_list = [68.13, 1.46, 2.25, 0.76]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 6 <= patient_edu <= 11:
-            if patient_age <= 49:
-                mean_list = [55.45, 0.04, 0.26, 0.08]
-                sd_list = [21.06, 0.26, 0.67, 0.27]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [65.97, 0.10, 0.28, 0.02]
-                sd_list = [23.43, 0.31, 0.50, 0.14]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [87.72, 0.22, 0.72, result_list[3]]
-                sd_list = [32.62, 0.73, 1.39, 1]
-            
-            elif 70 <= patient_age:
-                mean_list = [110.58, 0.25, 1.65, 0.04]
-                sd_list = [47.84, 0.58, 2.84, 0.21]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 12 <= patient_edu:
-            if patient_age <= 49:
-                mean_list = [44.91, 0.01, 0.01, 0.01]
-                sd_list = [14.66, 0.10, 0.10, 0.10]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [61.20, 0.02, 0.26, 0.04]
-                sd_list = [25.72, 0.14, 0.70, 0.19]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [73.42, 0.09, 0.21, 0.12]
-                sd_list = [36.88, 0.29, 0.48, 0.41]
-            
-            elif 70 <= patient_age:
-                mean_list = [106.77, 0.27, 1.05, 0.11]
-                sd_list = [49.88, 0.66, 1.58, 0.47]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-        else:
-            print("Bu eğitim grubu için norm mevcut değildir.")
-            norm_exists = False  
-            #"No norm exists for the group", sets it to False
-                
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        z_score_legend = {"all":"less"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
-        test_name = 'CCT1_data.csv' #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        #writes the printable_list in a CSV file        
-              
-        console_results = "==================================\nColor Trails Test 1 sonuçları:"
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-        #prints the list using the range of the list and makes it more appealing for the user (probably should've used a decorator here)
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            #creates a patient report for the physician and prints it out for the user
-        else:
-            #txtWrite(patient_admin, patient_ID, ("CCT1: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-            #if there's no norm, it puts "there's no norm for this group" in the patient report
-    
-    except:
-        print("CCT 1'i değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        #saves the program from fiery death
+def testCct_1(): #color trails test 1
+    return funcTestTemplate("testCct1DataDict")
 
         
-def testCct_2(): #color trails test
-    try:
-        while True:
-            try:
-                print("\n===================================\nCTT2: ")
-                result_name = ["\nTime: ", "\nNumber Errors: ", "\nColor Errors: ", "\nNear-Misses: ", "\nPrompts: "]  
-                #prints user interface
-                
-                result_list = []               
-                for i in range(len(result_name)):
-                    result_list.append(floInput(result_name[i]))
-                #gets raw input from the user, these are test results
-                    
-                mean_list = []
-                sd_list = []
-                #creates a list for the test results, and empty ones 
-                #for the means and standard deviations
-                for i in range(len(result_list)):
-                    mean_list.append(result_list[i]-999)
-                    sd_list.append(1)            
-                    #makes it so that it prints out 999 if there's 
-                    #no norm calculated for that group
-                norm_exists = True
-                #It assumes that there's a norm for every group
-                #if none exists, it changes to False
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #prints "Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            
-            #Following are lists of means and standard deviations,
-            #of the specified age, education and sex, where it applies.
-            #It's in a way that it corresponds to order of the
-            #result_list.
-            
-        if patient_edu <= 5:
-            if patient_age <= 39:
-                mean_list = [114.97, 0.62, 0.06, 1.20, 0.23]
-                sd_list = [46.15, 0.87, 0.25, 1.37, 0.42]
-            
-            elif 40 <= patient_age <= 49:
-                mean_list = [138.85, 1.29, 0.41, 2.70, 0.26]
-                sd_list = [67.24, 1.89, 1.15, 3.15, 0.51]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [163.68, 0.44, 0.26, 2.34, 0.22]
-                sd_list = [63.03, 0.73, 0.78, 2.01, 0.49]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [186.11, 0.82, 0.44, 3.77, 0.55]
-                sd_list = [62.50, 0.96, 0.86, 2.77, 0.81]
-            
-            elif 70 <= patient_age:
-                mean_list = [250.17, 1.51, 0.21, 4.12, 0.24]
-                sd_list = [93.83, 1.89, 0.57, 2.96, 0.58]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-                
-        elif 6 <= patient_edu <= 11:
-            if 20 <= patient_age <= 39:
-                mean_list = [100.82, 0.29, 0.12, 1.10, 0.37]
-                sd_list = [35.16, 0.58, 0.48, 1.25, 0.67]
-            
-            elif 40 <= patient_age <= 49:
-                mean_list = [108.83, 0.50, result_list[2], 0.75, 0.25]
-                sd_list = [31.04, 0.88, 1, 0.79, 0.44]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [117.23, 0.34, 0.08, 1.04, 0.13]
-                sd_list = [37.81, 0.64, 0.35, 1.31, 0.34]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [159.65, 0.57, 0.17, 1.92, 0.23]
-                sd_list = [55.94, 0.90, 0.50, 2.10, 0.61]
-            
-            elif 70 <= patient_age <= 100:
-                mean_list = [197.44, 0.65, 0.11, 3.58, 0.34]
-                sd_list = [58.89, 0.75, 0.32, 3.56, 0.78]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-        
-                
-        elif 12 <= patient_edu:
-            
-            if patient_age <= 39:
-                mean_list = [89.72, 0.20, 0.03, 0.66, 0.22]
-                sd_list = [34.86, 0.51, 0.25, 0.93, 0.58]
-            
-            elif 40 <= patient_age <= 49:
-                mean_list = [101.09, 0.45, 0.04, 1.00, 0.18]
-                sd_list = [36.72, 0.85, 0.21, 1.23, 0.39]
-                
-            elif 50 <= patient_age <= 59:
-                mean_list = [112.24, 0.24, 0.02, 0.81, 0.14]
-                sd_list = [36.28, 0.56, 0.14, 1.13, 0.35]
-            
-            elif 60 <= patient_age <= 69:
-                mean_list = [144.12, 0.45, 0.15, 0.15, 0.15]
-                sd_list = [58.16, 0.86, 0.44, 0.44, 0.44]
-            
-            elif 70 <= patient_age:
-                mean_list = [183.77, 0.55, 0.27, 2.72, 0.16]
-                sd_list = [69.47, 1.04, 0.75, 2.44, 0.38]
-                
-            else: 
-                print("Bu yaş aralığı için norm mevcut değildir.")
-                norm_exists = False     
-                #"No norm exists for the group", sets it to False
-        else:
-            print("Bu eğitim grubu için norm mevcut değildir.")
-            norm_exists = False  
-            #"No norm exists for the group", sets it to False
+def testCct_2(): #color trails test 2
+    return funcTestTemplate("testCct2DataDict")
 
-        
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        z_score_legend = {"all":"less"}
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, z_score_legend)
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
-        test_name = 'CCT2_data.csv' #declares name of the CSV file to save the data in
-        #csvWriter(patient_admin, patient_ID, patient_age, patient_sex, patient_edu, test_name, printable_list)
-        #writes the printable_list in a CSV file
-        
-              
-        console_results = "===================================\nColor Trails Test 2 sonuçları:"
-        for i in range(len(mean_list)):
-            console_results = console_results + (result_name[i] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))            
-        console_results = console_results + ("\n==================================")
-            #prints the list using the range of the list and makes it more appealing for the user (probably should've used a decorator here)
-        
-        if norm_exists:
-            #txtWrite(patient_admin, patient_ID, console_results)
-            print(console_results)
-            return [test_name, printable_list, console_results]
-            #creates a patient report for the physician and prints it out for the user
-        else:
-            #txtWrite(patient_admin, patient_ID, ("CCT2: Bu grup için norm mevcut değildir.\n"+console_results))
-            return [test_name, printable_list, console_results]
-            #if there's no norm, it puts "there's no norm for this group" in the patient report
-    
-    except:
-        print("CCT'yi değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-        #saves the program from fiery death
-
-def testCct():
+def testCct(): #Color trails joiner
     while True:
         try:
             dataCct = ['CCT_data.csv', "", ""]
