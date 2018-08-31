@@ -3336,99 +3336,9 @@ def testWisconsin():
         return
 
         
-def testTm():
-    testDataDict = jsonLoader("testTmDataDict")
+def testTm(): #Trailmaking test
+    return funcTestTemplate("testTmDataDict")
 
-    try:
-        while True:
-            try:
-                result_list = []
-                print("\n===================================\n" + testDataDict["testName"])
-                for i in range(testDataDict["paraNum"]):
-                    if i <= 3:
-                        result_list.append(floInput(testDataDict[str(i)]))
-                        
-                if result_list[0] != 999 and result_list[2] != 999: #If B and A are both valid numbers
-                    result_list.append(result_list[0] + result_list[2]) #B+A
-                    result_list.append(result_list[2] - result_list[0]) #B-A
-                    
-                else: #If either A or B are not valid numbers, append 999 to prevent crash on Z calc
-                    result_list.append(999) 
-                    result_list.append(999)
-                                 
-                #prints user interface
-                #gets raw input from the user, these are test results
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-                #"Only enter numbers", and then resets the function
-            
-            else:
-                break
-            
-            #tries to get user input, makes sure it's correct input
-            
-        norm_exists = False
-        for i in testDataDict["normList"]:
-            if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
-                correctNorm = i
-                norm_exists = True
-                break
-        #Find the correct norm values by iterating through every entry in JSON    
-        
-        
-        mean_list = []
-        sd_list = []
-        
-        if norm_exists:
-            for i in range(testDataDict["paraNum"]):
-                mean_list.append(correctNorm[str(i)][0])
-                sd_list.append(correctNorm[str(i)][1])
-        else:
-            for i in range(testDataDict["paraNum"]):
-                mean_list.append(None)
-                sd_list.append(None)
-            
-        #Create appropriate mean and standard deviation lists for further calculations
-                
-                
-        z_score_list = calcZscore(result_list, mean_list, sd_list)
-        #it calculated the patient's SD interval as a float using the results, means and the SD
-        
-        perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, testDataDict["zScoreLegend"])
-        #calculates patient percentile and it's human language equivalent
-
-        printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-        #creates a list to be put into a CSV file
-
-        console_results = "==================================\n" + testDataDict["testName"]
-        for i in range(testDataDict["paraNum"]):
-            console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
-        console_results = console_results + ("\n==================================")
-            
-        #Creates a text dump for the console and the txt report
-        
-        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
-        
-        if norm_exists:
-            print(console_results)
-            #creates a patient report for the physician and prints it out for the user
-            return [test_name, printable_list, console_results]
-        else:
-            print("Bu demografik grup için norm değeri bulunmamaktadır.")
-            #print("No norm value exists for the grup")
-            return [test_name, printable_list, console_results]
-            
-    except:
-        print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
-        raise
-        return
-        #saves the program from fiery death
-
-                
 def testStroop(): #Stroop testinin ana fonksiyonu
     return funcTestTemplate("testStroopDataDict")
                 
@@ -3497,7 +3407,39 @@ def funcTestTemplate(JSONname): #Test Name
             result_list = []
             print("\n===================================\n" + testDataDict["testName"])
             for i in range(testDataDict["paraNum"]):
-                result_list.append(floInput(testDataDict[str(i)]))
+                if str(i) not in testDataDict["Math"].keys():
+                    result_list.append(floInput(testDataDict[str(i)]))
+                else:
+                    result_list.append("999")
+                    
+            for i in testDataDict["mathOper"].keys():
+                try:
+                    firstVal = result_list[testDataDict["Math"][i][0]]
+                    secondVal = result_list[testDataDict["Math"][i][2]]
+                    operator = testDataDict["Math"][i][1]
+                    
+                    bothResultsExist = "999" not in [firstVal, secondVal]
+                    
+                    if bothResultsExist:
+                        if operator == "+":
+                            result_list[int(i)] = firstVal + secondVal
+                        elif operator == "-":
+                            result_list[int(i)] = firstVal - secondVal
+                        elif operator == "*":
+                            result_list[int(i)] = firstVal * secondVal
+                        elif operator == "/":
+                            if secondVal == 0:
+                                secondVal = 0.00000001 #If secondVal is equal to 0, protects program from failing.
+                            result_list[int(i)] = firstVal / secondVal
+                        else:
+                            print("Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/")
+                            result_list[int(i)] = 999
+                except SystemExit:
+                    raise
+                except:
+                    print("KRİTİK TEST HATASI, EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
+                    result_list[int(i)] = 999
+                    pass
             #prints user interface
             #gets raw input from the user, these are test results
             
