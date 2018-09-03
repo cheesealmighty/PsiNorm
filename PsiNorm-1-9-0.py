@@ -509,6 +509,62 @@ def guiSimpleTextDump(gui_title, text_dump):
     my_gui = MyFirstGUI(root)
     root.mainloop()
 
+def guiCustomTest(customTestDict):
+    import tkinter as tk
+    from tkinter.scrolledtext import ScrolledText as ScrolledText
+    
+    textDump = """Kullanıcı testler: \n"""
+    
+    for i in customTestDict.keys():
+        textDump = textDump + str(int(i)+1) + ") " + customTestDict[i] + "\n"
+    
+    class customTestGUI:
+        def __init__(self, master):
+            self.master = master
+            master.title("Kullanıcı testleri")
+            
+            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
+            self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
+            self.label.insert(tk.INSERT, textDump)
+            self.label.config(state=tk.DISABLED)
+            self.label.insert(tk.END, " in ScrolledText")
+            
+            self.label = tk.Label(master, text="Yapılacak Test No: ", relief=tk.GROOVE)
+            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
+            
+            self.entryCustomTestNum = tk.Entry(master)
+            self.entryCustomTestNum.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+      
+            self.save_button = tk.Button(master, text="Kaydet", command=self.save)
+            self.save_button.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+
+            self.close_button = tk.Button(master, text="Çıkış", command=self.close)
+            self.close_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
+      
+        def save(self):
+            customTestNum = self.entryCustomTestNum.get()                
+            if checkGuiInputInt(customTestNum):
+                if 0 < int(customTestNum) and int(customTestNum) <= len(customTestDict.keys()):  
+                    globals()["customTestToDo"] = customTestDict[str(int(customTestNum)-1)][0]
+                    root.destroy()
+                else:
+                    print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
+            else:
+                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
+            
+        def close(self):
+            globals()["customTestToDo"] = None
+            root.destroy()
+    
+    root = tk.Tk()
+    tk.Grid.rowconfigure(root, [0, 1, 2], weight=1)
+    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+    
+    my_gui = customTestGUI(root)
+    
+    root.mainloop()
+
 def guiPatientNotes(gui_title, text_dump):
     import tkinter as tk
     from tkinter.scrolledtext import ScrolledText as ScrolledText
@@ -662,6 +718,26 @@ def guiStartupMenu():
     root.protocol("WM_DELETE_WINDOW", MyFirstGUI.on_closing)
     root.mainloop() 
 
+def criticalError(errorTitle, errorMessage, shouldIBeep):
+    """
+    errorTitle = Title of the popup, string, if None, prints a console message instead.
+    errorMessage = string
+    shouldIbeep = Should it make a beep sound, boolean
+    """
+    
+    if shouldIBeep:
+        import winsound
+        try:
+            winsound.Beep(440, 50)
+        except:
+            pass
+    
+    if errorTitle:
+        guiSimplePopup(errorTitle, errorMessage)
+        
+    else:
+        print(errorMessage)
+           
 def goBackToDefault(fileName):
     print("Bir şeyler yanlış gitti, program varsayılan seçeneklere dönüyor.")
     
@@ -691,9 +767,43 @@ def funcLangLocal(item):
         
     return localItem
 
+def customTestDictGen():
+    documentsPath = getUserDocumentsPsiPath()
+    
+    import configparser
+    parser = configparser.ConfigParser()
+    jsonAddressList = documentsPath + "/Data/Cogs/" + "jsonAddressList.ini"
+    
+    try:
+        parser.read(jsonAddressList, encoding = 'utf-8-sig')
+        
+    except:
+        goBackToDefault(jsonAddressList)
+        parser.read(jsonAddressList, encoding = 'utf-8-sig')
+
+    customTestDict = {}
+    for testDataDict in parser["CustomTests"]:
+        if testDataDict:
+            try:
+                customTestDict[testDataDict] = jsonLoader(testDataDict)["testName"]
+            except: 
+                customTestDict[testDataDict] = "HATALI JSON DOSYASI, LÜTFEN KONTROL EDİNİZ!"
+                criticalError("customTestDict", "HATALI JSON DOSYASI, LÜTFEN KONTROL EDİNİZ!", True)
+        
+    tempCustomTestDict = {}
+    
+    for i in range(len(customTestDict.keys())):
+        for x in customTestDict:
+            tempCustomTestDict["i"] = x
+    
+    customTestDict = tempCustomTestDict
+    
+    return customTestDict
+
+
+
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
-    
     documentsPath = getUserDocumentsPsiPath()
     
     import configparser
@@ -727,7 +837,7 @@ def jsonLoader(jsonFileName):
 jsonAddressList.ini içerisinde talep edilen JSON dosyası mevcut değil.
 Eğer kişiselleştirilmiş test eklediyseniz, lütfen doğru adresi kaydettiğinizden emin olunuz.
 Eğer herhangi bir değişiklik yapmadınız ve buna rağmen bu uyarıyı görüyorsanız lütfen programcıya ulaşınız.
-""")
+""")    
             
     if jsonFileName in parser['DefaultTests']:
         
@@ -1959,6 +2069,8 @@ def mainMenu():
 |>=============================================|=====================================================<|
 |                                              |                                                      |
 |>=============================================|=====================================================<|
+|                      Kişiselleştirilmiş testleriniz için '666' giriniz.                             |
+|>=============================================|=====================================================<|
 |                        Hasta ile ilgili not almak için '777' giriniz.                               |
 |>=============================================|=====================================================<|
 |                            Bilgi alma formları için '888' giriniz.                                  |
@@ -2060,7 +2172,10 @@ def mainMenu():
                     print("Kaydedilirken bir hata oluştu.")
                     wait(2)
                     raise
-            
+   
+            elif menu_input == 666:
+                customTestDictcustomTestDictGen()
+         
             elif menu_input == 777:
                 guiPatientNotes("Hasta notları", patientNotes)
 
