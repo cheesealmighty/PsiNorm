@@ -509,62 +509,6 @@ def guiSimpleTextDump(gui_title, text_dump):
     my_gui = MyFirstGUI(root)
     root.mainloop()
 
-def guiCustomTest(customTestDict):
-    import tkinter as tk
-    from tkinter.scrolledtext import ScrolledText as ScrolledText
-    
-    textDump = """Kullanıcı testler: \n"""
-    
-    for i in customTestDict.keys():
-        textDump = textDump + str(int(i)+1) + ") " + customTestDict[i] + "\n"
-    
-    class customTestGUI:
-        def __init__(self, master):
-            self.master = master
-            master.title("Kullanıcı testleri")
-            
-            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
-            self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
-            self.label.insert(tk.INSERT, textDump)
-            self.label.config(state=tk.DISABLED)
-            self.label.insert(tk.END, " in ScrolledText")
-            
-            self.label = tk.Label(master, text="Yapılacak Test No: ", relief=tk.GROOVE)
-            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
-            
-            self.entryCustomTestNum = tk.Entry(master)
-            self.entryCustomTestNum.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
-      
-            self.save_button = tk.Button(master, text="Kaydet", command=self.save)
-            self.save_button.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
-
-            self.close_button = tk.Button(master, text="Çıkış", command=self.close)
-            self.close_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
-      
-        def save(self):
-            customTestNum = self.entryCustomTestNum.get()                
-            if checkGuiInputInt(customTestNum):
-                if 0 < int(customTestNum) and int(customTestNum) <= len(customTestDict.keys()):  
-                    globals()["customTestToDo"] = customTestDict[str(int(customTestNum)-1)][0]
-                    root.destroy()
-                else:
-                    print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
-            else:
-                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
-            
-        def close(self):
-            globals()["customTestToDo"] = None
-            root.destroy()
-    
-    root = tk.Tk()
-    tk.Grid.rowconfigure(root, [0, 1, 2], weight=1)
-    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
-    root.config(borderwidth=10, relief=tk.GROOVE)
-    
-    my_gui = customTestGUI(root)
-    
-    root.mainloop()
-
 def guiPatientNotes(gui_title, text_dump):
     import tkinter as tk
     from tkinter.scrolledtext import ScrolledText as ScrolledText
@@ -768,6 +712,12 @@ def funcLangLocal(item):
     return localItem
 
 def customTestDictGen():
+    """
+    Returns a dict:
+        {"1": (test1DataDict, Test1Name),
+        "2": (test2DataDict, Test2Name)}
+        
+    """
     documentsPath = getUserDocumentsPsiPath()
     
     import configparser
@@ -794,13 +744,106 @@ def customTestDictGen():
     
     for i in range(len(customTestDict.keys())):
         for x in customTestDict:
-            tempCustomTestDict["i"] = x
+            tempCustomTestDict[str(i+1)] = x
     
     customTestDict = tempCustomTestDict
     
     return customTestDict
 
 
+def menuAutoCreate(menuDict):
+    testGroupDict = {}
+    for i in menuDict.keys():
+        try:
+            testGroupDict[menuDict[i]["testGroupName"]].append(i)
+        except:
+            testGroupDict[menuDict[i]["testGroupName"]] = i
+    
+    
+    decorator = """|>"""
+    for i in range(61):
+        decorator += "="
+    decorator += "<|\n"
+    
+    textDump = """"""
+    textDump += decorator
+    
+    from natsort import natsorted as nt
+    
+    for key in nt(testGroupDict.keys(), key=lambda y: y.lower()):
+        
+        textDump += "|{:54}         |".format(key) + "\n"
+        
+        for i in nt(testGroupDict[key], key=lambda y: y.lower()):
+            data = {"testNum": i, "testName": menuDict[i]["testName"]}
+            textDump += "|({d[testNum]}) {d[testName]:50}         |".format(d=data) + "\n"
+    
+        textDump += decorator
+
+    return textDump
+
+
+def guiTestChoose(title, menuDict):
+    import tkinter as tk
+    from tkinter.scrolledtext import ScrolledText as ScrolledText
+    
+    textDump = menuAutoCreate(menuDict)
+
+    class testChooseGUI:
+        def __init__(self, master, title):
+            self.master = master
+            master.title(title)
+            
+            root.bind("<Return>", self.pressEnter)
+            
+            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
+            self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
+            self.label.insert(tk.INSERT, textDump)
+            self.label.config(state=tk.DISABLED)
+            self.label.insert(tk.END, " in ScrolledText")
+            
+            self.label = tk.Label(master, text="Yapılacak Test No: ", relief=tk.GROOVE)
+            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
+            
+            self.entryCustomTestNum = tk.Entry(master)
+            self.entryCustomTestNum.focus_force()
+            self.entryCustomTestNum.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+      
+            self.save_button = tk.Button(master, text="Kaydet", command=self.save)
+            self.save_button.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+
+            self.close_button = tk.Button(master, text="Çıkış", command=self.close)
+            self.close_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
+      
+        def pressEnter(self, event):
+            try:
+                root.focus_get().invoke()
+            except:
+                self.save()
+        
+        def save(self):
+            customTestNum = self.entryCustomTestNum.get()                
+            if checkGuiInputInt(customTestNum):
+                if str(customTestNum) in menuDict.keys():  
+                    globals()["testToDo"] = menuDict[customTestNum]["testDataDict"]
+                    root.destroy()
+                else:
+                    print("Lütfen üstteki listede belirtilen sayılardan birini seçiniz.")
+            else:
+                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
+            
+        def close(self):
+            globals()["testToDo"] = None
+            root.destroy()
+    
+    root = tk.Tk()
+    tk.Grid.rowconfigure(root, [0, 1, 2], weight=1)
+    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+      
+    my_gui = testChooseGUI(root, title)
+    
+    root.mainloop()
 
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
@@ -1150,28 +1193,7 @@ textFileNameFormat = firstDate
 form_data = form_data.json
 info_data = info_data.json
 
-testMmtDataDict = testMmtDataDict.json
-testMocaDataDict = testMocaDataDict.json
-test3msDataDict = test3msDataDict.json
-testGisdDataDict = testGisdDataDict.json
-testEcrDataDict = testEcrDataDict.json
-testSbstDataDict = testSbstDataDict.json
-testRkftDataDict = testRkftDataDict.json
-testTmDataDict = testTmDataDict.json
-testStroopDataDict = testStroopDataDict.json
-testWisconsinDataDict = testWisconsinDataDict.json
-testVvtDataDict = testVvtDataDict.json
-testCct1DataDict = testCct1DataDict.json
-testCct2DataDict = testCct2DataDict.json
-testWechslerDataDict = testWechslerDataDict.json
-testWechslerSayiDataDict = testWechslerSayiDataDict.json
-testVfDataDict = testVfDataDict.json
-testSfDataDict = testSfDataDict.json
-testCdDataDict = testCdDataDict.json
-testSdotDataDict = testSdotDataDict.json
-testMonthsDataDict = testMonthsDataDict.json
-testVaNVCDataDict = testVaNVCDataDict.json
-testBNTDataDict = testBNTDataDict.json
+debug = False
 
 zInterval = 0-1
 

@@ -1,0 +1,40 @@
+{
+    "testName": "MOCA",
+	
+    "paraNum": 1,
+	
+    "0": "Toplam puan: ",
+	
+	"zScoreLegend": {"all": "more"},
+	
+	"testType": "cutOff"
+	
+	"cutOffList": [
+		{
+			"sex": "Male",
+			"eduLow": 0,
+			"eduHigh": 99,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [20],
+				"cutOffGroupNameList": ["Eşik altı değer", "Normal"]
+				}
+			},
+		{
+			"sex": "Female",
+			"eduLow": 0,
+			"eduHigh": 99,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [20],
+				"cutOffGroupNameList": ["Eşik altı değer", "Normal"]
+				}
+			}
+		],
+	
+    "normList": []
+}
