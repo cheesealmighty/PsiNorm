@@ -880,13 +880,20 @@ def goBackToDefault(fileName):
     shutil.copy2('/src/dir/file.ext', '/dst/dir/newname.ext') # complete target filename given
     shutil.copy2('/src/file.ext', '/dst/dir') # target filename is /dst/dir/file.ext
     """
-    missingFile = settings(fileName)
+    missingFile = fileName
     missingFileList = missingFile.split("/Data")
     missingFileR = missingFileList[1]
     
-    defaultFile = cwd + "/Data/Default" + missingFileR
+    defaultFile = cwd + "/Data/Default" + missingFileR   
     
-    shutil.copy2(defaultFile, missingFile)
+    dirToEnsure = ""
+    i = 0
+    while i < len(missingFile.split("/"))-1:
+        dirToEnsure += missingFile.split("/")[i] + "/"
+        i += 1
+        
+    ensure_dir(dirToEnsure)
+    shutil.copy(defaultFile, missingFile)
 
 
 def funcLangLocal(item):
@@ -906,29 +913,27 @@ def jsonLoader(jsonFileName):
     parser = configparser.ConfigParser()
     jsonAddressList = documentsPath + "/Data/Cogs/" + "jsonAddressList.ini"
     
-    try:
-        parser.read(jsonAddressList, encoding = 'utf-8-sig')
+    parser.read(jsonAddressList, encoding = 'utf-8-sig')
         
-    except:
+    jsonFileExists = False
+    
+    for i in parser.sections():
+        if jsonFileName in parser[i]:
+            jsonFileExists = True
+        
+    if not jsonFileExists:
         goBackToDefault(jsonAddressList)
         parser.read(jsonAddressList, encoding = 'utf-8-sig')
-    
-    jsonFileExists = False
-    amILooping = 0
-    while not jsonFileExists:
+        
         for i in parser.sections():
             if jsonFileName in parser[i]:
                 jsonFileExists = True
-                
-        if not jsonFileExists:
-            goBackToDefault(jsonAddressList)
-            amILooping = amILooping + 1
-        
-        if amILooping > 1:
-            class jsonFileLooped(Exception):
-                """What did  y'all do?!? """
+    
+    if not jsonFileExists:
+        class jsonFileLooped(Exception):
+            """What did  y'all do?!? """
 
-            raise jsonFileLooped(
+        raise jsonFileLooped(
 """
 jsonAddressList.ini içerisinde talep edilen JSON dosyası mevcut değil.
 Eğer kişiselleştirilmiş test eklediyseniz, lütfen doğru adresi kaydettiğinizden emin olunuz.
@@ -947,15 +952,15 @@ Eğer herhangi bir değişiklik yapmadınız ve buna rağmen bu uyarıyı görü
         jsonFileAddress = parser['Custom'][jsonFileName]
         jsonFileAddress = documentsPath + "/Data/Test/Custom/" + jsonFileAddress 
         
-    elif jsonFileName in parser['[InternalFiles']:
+    elif jsonFileName in parser['InternalFiles']:
         
         jsonFileAddress = parser['InternalFiles'][jsonFileName]
-        jsonFileAddress = documentsPath + "/Data/" + jsonFileAddress     
+        jsonFileAddress = documentsPath + "/Data/" + jsonFileAddress
 
 
     try:
         import json
-        with open(jsonFileName, 'r', encoding="utf8") as fp:
+        with open(jsonFileAddress, 'r', encoding="utf8") as fp:
             mainDict = json.load(fp)
         
         fp.close()
@@ -964,9 +969,10 @@ Eğer herhangi bir değişiklik yapmadınız ve buna rağmen bu uyarıyı görü
     except:
         try:           
             print("JSON file missing. Restoring the default.")
-            goBackToDefault(jsonFileName)
+            goBackToDefault(jsonFileAddress)
+            
             import json
-            with open(jsonFileName, 'r', encoding="utf8") as fp:
+            with open(jsonFileAddress, 'r', encoding="utf8") as fp:
                 mainDict = json.load(fp)
             
             fp.close()
@@ -1243,8 +1249,7 @@ excel_name = PsiNorm
 
 textFileNameFormat = firstDate
 
-form_data = form_data.json
-info_data = info_data.json
+jsonaddresslist = jsonaddresslist.ini
 
 debug = False
 
