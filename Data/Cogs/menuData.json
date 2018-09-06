@@ -1,0 +1,106 @@
+{
+	"1": {"testDataDict": "testMmtDataDict",
+				"testName": "Mini Mental Test",
+				"testGroupName":"A. Genel Bilişsel Tarama Testleri"
+		},
+		
+	"2": {"testDataDict": "testMocaDataDict",
+				"testName": "Montreal Bilişsel Değerlendirme",
+				"testGroupName":"A. Genel Bilişsel Tarama Testleri"
+		},
+		
+	"3": {"testDataDict": "test3msDataDict",
+				"testName": "3MS",
+				"testGroupName":"A. Genel Bilişsel Tarama Testleri"
+		},
+		
+	"4": {"testDataDict": "testGisdDataDict",
+				"testName": "Görsel İşitsel Sayı Dizileri",
+				"testGroupName":"B. Dikkat Testleri"
+		},
+		
+	"5": {"testDataDict": "testEcrDataDict",
+				"testName": "Artırılmış İpuçlu Hatırlama",
+				"testGroupName":"C. Bellek Testleri"
+		},
+		
+	"6": {"testDataDict": "testSbstDataDict",
+				"testName": "Öktem Sözel Bellek Süreçleri",
+				"testGroupName":"C. Bellek Testleri"
+		},
+
+	"7": {"testDataDict": "testRkftDataDict",
+				"testName": "Rey Karmaşık Figür",
+				"testGroupName":"C. Bellek Testleri"
+		},
+
+	"8": {"testDataDict": "testTmDataDict",
+				"testName": "İz Sürme",
+				"testGroupName":"D.Yönetici İşlev Testleri"
+		},
+
+	"9": {"testDataDict": "testStroopDataDict",
+				"testName": "Stroop",
+				"testGroupName":"D.Yönetici İşlev Testleri"
+		},
+		
+	"10": {"testDataDict": "testWisconsinDataDict",
+				"testName": "Yetişkin Wisconsin Kart Eşleme",
+				"testGroupName":"D.Yönetici İşlev Testleri"
+		},
+		
+	"11": {"testDataDict": "testVvtDataDict",
+				"testName": "Görsel Sözel Test",
+				"testGroupName":"D.Yönetici İşlev Testleri"
+		},
+		
+	"12": {"testDataDict": "testCctDataDict",
+				"testName": "Renkli İz Sürme",
+				"testGroupName":"D.Yönetici İşlev Testleri"
+		},
+		
+	"13": {"testDataDict": "testWechslerDataDict",
+				"testName": "Wechsler Zeka Testi",
+				"testGroupName":"G.WAIS"
+		},
+		
+	"14": {"testDataDict": "testWechslerSayiDataDict",
+				"testName": "Wechsler Zeka Testi-Sadece Sayı Dizisi",
+				"testGroupName":"B. Dikkat Testleri"
+		},
+		
+	"15": {"testDataDict": "testVfDataDict",
+				"testName": "Sözel Akıcılık",
+				"testGroupName":"E.Lisan Testleri"
+		},
+		
+	"16": {"testDataDict": "testSfDataDict",
+				"testName": "Semantik Akıcılık",
+				"testGroupName":"E.Lisan Testleri"
+		},
+		
+	"17": {"testDataDict": "testCdDataDict",
+				"testName": "Saat Çizme",
+				"testGroupName":"F.Görsel-Uzaysal İşlev Testleri"
+		},
+		
+	"18": {"testDataDict": "testSdotDataDict",
+				"testName": "Çizgi Yönünü Belirleme",
+				"testGroupName":"F.Görsel-Uzaysal İşlev Testleri"
+		},
+		
+	"19": {"testDataDict": "testMonthsDataDict",
+				"testName": "Ayları İleri-Geri Sayma",
+				"testGroupName":"B. Dikkat Testleri"
+		},
+		
+	"20": {"testDataDict": "testVaNVCDataDict",
+				"testName": "İşaretleme",
+				"testGroupName":"F.Görsel-Uzaysal İşlev Testleri"
+		},
+		
+	"21": {"testDataDict": "testBNTDataDict",
+				"testName": "Boston Adlandırma Testi",
+				"testGroupName":"E.Lisan Testleri"
+		}
+}

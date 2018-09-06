@@ -662,6 +662,190 @@ def guiStartupMenu():
     root.protocol("WM_DELETE_WINDOW", MyFirstGUI.on_closing)
     root.mainloop() 
 
+def menuAutoCreate(menuDict):
+    """
+    Returns the template for the guiTestChoose.
+    doneTests = Dict formatting must be done before printing.
+    
+    menuDict = 
+        {"1":
+            {"testDataDict": "testDataDict1",
+            "testName": "testName1",
+            "testGroupName":"testGroupName1"}
+            } 
+    """
+    testGroupDict = {}
+    for testNum in menuDict.keys():
+        try:
+            testGroupDict[menuDict[testNum]["testGroupName"]].append(testNum)
+        except:
+            testGroupDict[menuDict[testNum]["testGroupName"]] = [testNum]
+     #Groups the tests under the group names       
+    
+    decorator = """|>"""
+    for i in range(51):
+        decorator += "="
+    decorator += "<|>"
+    for i in range(52):
+        decorator += "="
+    decorator += "<|\n"
+    
+    textDump = """"""
+    textDump += decorator
+    
+    from natsort import natsorted as nt
+    
+    testGroupNamesList = nt(testGroupDict.keys(), key=lambda y: y.lower())
+    #Naturally sorts group names so they look orderly
+    
+    i = 0
+    while i < len(testGroupNamesList):
+        howManyLinesEven = 0
+        evenList = []
+        howManyLinesOdd = 0
+        oddList = []
+        
+        testGroupNameEven = testGroupNamesList[i]
+        textDump += "|{:44}         |".format(testGroupNameEven)
+        howManyLinesEven = len(testGroupDict[testGroupNameEven])
+        
+        evenList = nt(testGroupDict[testGroupNameEven], key=lambda y: y.lower())
+        #If it's an even number, it puts the menu template on the left side of the screen
+        
+        
+        if i != len(testGroupNamesList)-1:
+            testGroupNameOdd = testGroupNamesList[i+1]
+            textDump += "{:45}         |".format(testGroupNameOdd) + "\n"
+            howManyLinesOdd = len(testGroupDict[testGroupNameOdd])   
+            oddList = nt(testGroupDict[testGroupNameOdd], key=lambda y: y.lower())
+        #If it's odd, on the right side.  
+            
+        if i == len(testGroupNamesList)-1:
+            textDump += "{:45}         |".format("") + "\n"
+            #Ensures everything is correctly whitespaced
+            
+        howManyLines = max(howManyLinesEven, howManyLinesOdd)
+        #Checks how many lines there are, so if a group has less tests, it will have extra whitespaces
+        
+        for line in range(howManyLines):
+            if line < howManyLinesEven:
+                data = {"testNum": evenList[line], "testName": menuDict[evenList[line]]["testName"]}
+                textDump += "|({d[testNum]}) {d[testName]:36}        {{doneTests[{d[testNum]}]:^4}} |".format(d=data)
+            else:
+                textDump += "|{:44}         |".format("")
+            
+            if line < howManyLinesOdd:
+                data = {"testNum": oddList[line], "testName": menuDict[oddList[line]]["testName"]}
+                textDump += "({d[testNum]}) {d[testName]:37}        {{doneTests[{d[testNum]}]:^4}} |".format(d=data) + "\n"
+            else:
+                textDump += "{:45}         |".format("") + "\n"
+            #Automatically creates a menu
+            
+        textDump += decorator
+        
+        i += 2
+   
+    return textDump
+
+
+def guiTestChoose(title, menuDict, textDump):
+    import tkinter as tk
+    from tkinter.scrolledtext import ScrolledText as ScrolledText
+    from tkinter import messagebox
+    import sys
+    
+    class testChooseGUI:
+        def __init__(self, master, title):
+            self.master = master
+            master.title(title)
+            
+            root.bind("<Return>", self.pressEnter)
+            root.protocol("WM_DELETE_WINDOW", self.close)
+            
+            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
+            self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
+            self.label.insert(tk.INSERT, textDump)
+            self.label.config(state=tk.DISABLED)
+            self.label.insert(tk.END, " in ScrolledText")
+            
+            self.label = tk.Label(master, text="Yapılacak Test No (Bir sayı girip ENTER tuşuna basınız.): ", relief=tk.GROOVE)
+            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
+            
+            self.entryUserInput = tk.Entry(master)
+            self.entryUserInput.focus_force()
+            self.entryUserInput.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+      
+            self.patientNotes = tk.Button(master, text="Hasta Notları", command=self.getPatientNotes)
+            self.patientNotes.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            
+            self.patientInfoForms = tk.Button(master, text="Hasta Veri Formları", command=self.getPatientInfoForms)
+            self.patientInfoForms.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            
+            self.save_button = tk.Button(master, text="Kaydet ve Çık", command=self.save)
+            self.save_button.grid(row=3, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+
+            self.close_button = tk.Button(master, text="Kaydetmeden Çıkış", command=self.close)
+            self.close_button.grid(row=3, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
+      
+        def pressEnter(self, event):
+            try:
+                if root.focus_get() == self.entryUserInput:
+                    self.entry()
+                else:
+                    root.focus_get().invoke()
+            except:
+                print("Lütfen uygun bir seçim yapınız.")
+                
+        def getPatientNotes(self):
+            globals()["whatToDo"] = "getPatientNotes"
+            root.destroy()
+        
+        def getPatientInfoForms(self):
+            globals()["whatToDo"] = "getPatientInfoForms"
+            root.destroy()
+        
+        def entry(self):
+            userInput = self.entryUserInput.get()
+
+            if checkGuiInputInt(userInput):
+                if str(userInput) in menuDict.keys():  
+                    globals()["whatToDo"] = "doTest"
+                    globals()["testNumToDo"] = userInput
+                    root.destroy()
+                else:
+                    print("Lütfen üstteki listede belirtilen sayılardan birini seçiniz.")
+            else:
+                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
+                
+        def save(self):
+            text = "Verileri kaydetip çıkış yapılacak, emin misiniz?"
+            answer = messagebox.askyesno("Uyarı!", text)
+            if answer:
+                globals()["whatToDo"] = "saveProgram"
+                root.destroy()
+            else:
+                return
+            
+        def close(self):
+            text = "KAYDETMEDEN çıkılacak, emin misiniz?"
+            answer = messagebox.askyesno("Uyarı!", text)
+            if answer:
+                globals()["whatToDo"] = "exitProgram"
+                root.destroy()
+                sys.exit()             
+            else:
+                return
+            
+    
+    root = tk.Tk()
+    tk.Grid.rowconfigure(root, [0, 1, 2, 3], weight=1)
+    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+    
+    my_gui = testChooseGUI(root, title)
+    
+    root.mainloop()
+
 def criticalError(errorTitle, errorMessage, shouldIBeep):
     """
     errorTitle = Title of the popup, string, if None, prints a console message instead.
@@ -682,6 +866,7 @@ def criticalError(errorTitle, errorMessage, shouldIBeep):
     else:
         print(errorMessage)
            
+        
 def goBackToDefault(fileName):
     print("Bir şeyler yanlış gitti, program varsayılan seçeneklere dönüyor.")
     
@@ -703,6 +888,7 @@ def goBackToDefault(fileName):
     
     shutil.copy2(defaultFile, missingFile)
 
+
 def funcLangLocal(item):
     if item == "Female":
         localItem = "Kadın"
@@ -711,139 +897,6 @@ def funcLangLocal(item):
         
     return localItem
 
-def customTestDictGen():
-    """
-    Returns a dict:
-        {"1": (test1DataDict, Test1Name),
-        "2": (test2DataDict, Test2Name)}
-        
-    """
-    documentsPath = getUserDocumentsPsiPath()
-    
-    import configparser
-    parser = configparser.ConfigParser()
-    jsonAddressList = documentsPath + "/Data/Cogs/" + "jsonAddressList.ini"
-    
-    try:
-        parser.read(jsonAddressList, encoding = 'utf-8-sig')
-        
-    except:
-        goBackToDefault(jsonAddressList)
-        parser.read(jsonAddressList, encoding = 'utf-8-sig')
-
-    customTestDict = {}
-    for testDataDict in parser["CustomTests"]:
-        if testDataDict:
-            try:
-                customTestDict[testDataDict] = jsonLoader(testDataDict)["testName"]
-            except: 
-                customTestDict[testDataDict] = "HATALI JSON DOSYASI, LÜTFEN KONTROL EDİNİZ!"
-                criticalError("customTestDict", "HATALI JSON DOSYASI, LÜTFEN KONTROL EDİNİZ!", True)
-        
-    tempCustomTestDict = {}
-    
-    for i in range(len(customTestDict.keys())):
-        for x in customTestDict:
-            tempCustomTestDict[str(i+1)] = x
-    
-    customTestDict = tempCustomTestDict
-    
-    return customTestDict
-
-
-def menuAutoCreate(menuDict):
-    testGroupDict = {}
-    for i in menuDict.keys():
-        try:
-            testGroupDict[menuDict[i]["testGroupName"]].append(i)
-        except:
-            testGroupDict[menuDict[i]["testGroupName"]] = i
-    
-    
-    decorator = """|>"""
-    for i in range(61):
-        decorator += "="
-    decorator += "<|\n"
-    
-    textDump = """"""
-    textDump += decorator
-    
-    from natsort import natsorted as nt
-    
-    for key in nt(testGroupDict.keys(), key=lambda y: y.lower()):
-        
-        textDump += "|{:54}         |".format(key) + "\n"
-        
-        for i in nt(testGroupDict[key], key=lambda y: y.lower()):
-            data = {"testNum": i, "testName": menuDict[i]["testName"]}
-            textDump += "|({d[testNum]}) {d[testName]:50}         |".format(d=data) + "\n"
-    
-        textDump += decorator
-
-    return textDump
-
-
-def guiTestChoose(title, menuDict):
-    import tkinter as tk
-    from tkinter.scrolledtext import ScrolledText as ScrolledText
-    
-    textDump = menuAutoCreate(menuDict)
-
-    class testChooseGUI:
-        def __init__(self, master, title):
-            self.master = master
-            master.title(title)
-            
-            root.bind("<Return>", self.pressEnter)
-            
-            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
-            self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
-            self.label.insert(tk.INSERT, textDump)
-            self.label.config(state=tk.DISABLED)
-            self.label.insert(tk.END, " in ScrolledText")
-            
-            self.label = tk.Label(master, text="Yapılacak Test No: ", relief=tk.GROOVE)
-            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
-            
-            self.entryCustomTestNum = tk.Entry(master)
-            self.entryCustomTestNum.focus_force()
-            self.entryCustomTestNum.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
-      
-            self.save_button = tk.Button(master, text="Kaydet", command=self.save)
-            self.save_button.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
-
-            self.close_button = tk.Button(master, text="Çıkış", command=self.close)
-            self.close_button.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
-      
-        def pressEnter(self, event):
-            try:
-                root.focus_get().invoke()
-            except:
-                self.save()
-        
-        def save(self):
-            customTestNum = self.entryCustomTestNum.get()                
-            if checkGuiInputInt(customTestNum):
-                if str(customTestNum) in menuDict.keys():  
-                    globals()["testToDo"] = menuDict[customTestNum]["testDataDict"]
-                    root.destroy()
-                else:
-                    print("Lütfen üstteki listede belirtilen sayılardan birini seçiniz.")
-            else:
-                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
-            
-        def close(self):
-            globals()["testToDo"] = None
-            root.destroy()
-    
-    root = tk.Tk()
-    tk.Grid.rowconfigure(root, [0, 1, 2], weight=1)
-    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
-    root.config(borderwidth=10, relief=tk.GROOVE)
-      
-    my_gui = testChooseGUI(root, title)
-    
-    root.mainloop()
 
 def jsonLoader(jsonFileName):
     # Currently: "form_data", "info_data"["agreeTerms_data", "FAQ_data", "about_data", "references_data"]
@@ -1629,8 +1682,6 @@ Hangi sayıyı kullanmak istersiniz?
                 
         return birthday
 
-
-
 def formMain(mainDict): #main function for the dataforms
     def eQuest(qDict, qNum, templateDict): #expandable questions
         
@@ -2030,144 +2081,78 @@ giriniz: """)
     
 
 def mainMenu():
-    #creates a list for the tests that were employed before, so it doesn't get used again
-    menu_list = [testMmt, testMoca, test3ms, testGisd, testEcr, testSbst, testRkft, 
-                         testTm, testStroop, testWisconsin, testVvt, testCct, testWechsler,
-                         testWechslerSayi, testVf, testSf, testCd, testSdot, testMonths,
-                         testVaNVC, testBNT
-                         ]  
-                #list of tests' function names
-
     global patientNotes
     patientNotes = """ """
     
-    test_name_list = [
-    "(1)Mini Mental test ", "(2)Montreal Bilişsel Değerlendirme ", 
-    "(3)3MS ", "(4)Görsel İşitsel Sayı Dizileri ", "(5)Artırılmış İpuçlu Hatırlama ",
-    "(6)Öktem Sözel Bellek Süreçleri ", "(7)Rey Karmaşık Figür ", "(8)İz Sürme ", "(9)Stroop ",
-    "(10)Yetişkin Wisconsin Kart Eşleme ", "(11)Görsel Sözel Test ", "(12)Renkli İz Sürme ",
-    "(13)Wechsler Zeka Testi ", "(14)Wechsler Zeka Testi-Sadece Sayı Dizisi ",
-    "(15)Sözel Akıcılık ", "(16)Semantik Akıcılık ", "(17)Saat Çizme ", "(18)Çizgi Yönünü Belirleme ",
-    "(19)Ayları İleri-Geri Sayma ", "(20)İşaretleme ", "(21)Boston Adlandırma Testi "
-    ]
-        #verbal names of the tests      
+    dataDict = {}
     
-    data_dict = {}
-    done_tests_vanilla = []
-    for i in range(len(menu_list)):
-        done_tests_vanilla.append("(-)")       
-                         
-    menu_ui_layout = """
-|>=============================================|=====================================================<|
-| DİKKAT >>> EĞER ÇIKMADAN ÖNCE """ +  str(len(menu_list)+1) + """ GİRMEZSENİZ PROGRAM BİLGİLERİ KAYDETMEDEN KAPANACAKTIR. <<< DİKKAT |
-|   DİKKAT >>>  ÇIKIŞ KOMUTU VERDİKTEN SONRA LÜTFEN PROGRAMIN KAYDETMESİNİ BEKLEYİNİZ.   <<< DİKKAT   |
-|>=============================================|=====================================================<|    
-|                                              |                                                      | 
-|>=============================================|=====================================================<|
-|A. Genel Bilişsel Tarama Testleri:            |B. Dikkat Testleri:                                   |
-|(1)Mini Mental Test                  {0!s:^8} |(4)Görsel İşitsel Sayı Dizileri              {3!s:^8} |
-|(2)Montreal Bilişsel Değerlendirme   {1!s:^8} |(14)Wechsler Zeka Testi-Sadece Sayı Dizisi  {13!s:^9} |
-|(3)3MS                               {2!s:^8} |(19)Ayları İleri-Geri Sayma                 {18!s:^9} |
-|                                              |                                                      |
-|>=============================================|=====================================================<|
-|C. Bellek Testleri:                           |D.Yönetici İşlev Testleri:                            |
-|(5)Artırılmış İpuçlu Hatırlama       {4!s:^8} |(8)İz Sürme                                  {7!s:^8} |
-|(6)Öktem Sözel Bellek Süreçleri      {5!s:^8} |(9)Stroop                                    {8!s:^8} |
-|(7)Rey Karmaşık Figür                {6!s:^8} |(10)Yetişkin Wisconsin Kart Eşleme           {9!s:^8} |
-|                                              |(11)Görsel Sözel Test                       {10!s:^9} |
-|                                              |(12)Renkli İz Sürme                         {11!s:^9} |
-|>=============================================|=====================================================<|
-|E.Lisan Testleri:                             |F.Görsel-Uzaysal İşlev Testleri:                      |
-|(15)Sözel Akıcılık                  {14!s:^9} |(7)Rey Karmaşık Figür                        {6!s:^8} |
-|(16)Semantik Akıcılık               {15!s:^9} |(17)Saat Çizme                              {16!s:^9} |
-|(21)Boston Adlandırma Testi         {20!s:^9} |(18)Çizgi Yönünü Belirleme                  {17!s:^9} |
-|                                              |(20)İşaretleme                              {19!s:^9} |
-|>=============================================|=====================================================<|
-|G.WAIS:                                       |                                                      |
-|(13)Wechsler Zeka Testi             {12!s:^9} |                                                      |
-|>=============================================|=====================================================<|
-| Not: Girilmemiş testlerin yanında "(-)", girilmiş testlerin yanında "(+)" işareti bulunmaktadır.    |
-|      Eğer bir test iki defa girilmiş ise, yanında "(!+!)" işareti bulunmaktadır.                    |
-|>=============================================|=====================================================<|
-|                                              |                                                      |
-|>=============================================|=====================================================<|
-|                      Kişiselleştirilmiş testleriniz için '666' giriniz.                             |
-|>=============================================|=====================================================<|
-|                        Hasta ile ilgili not almak için '777' giriniz.                               |
-|>=============================================|=====================================================<|
-|                            Bilgi alma formları için '888' giriniz.                                  |
-|>=============================================|=====================================================<|
-| DİKKAT >>> EĞER ÇIKMADAN ÖNCE """ +  str(len(menu_list)+1) + """ GİRMEZSENİZ PROGRAM BİLGİLERİ KAYDETMEDEN KAPANACAKTIR. <<< DİKKAT |
-|   DİKKAT >>>  ÇIKIŞ KOMUTU VERDİKTEN SONRA LÜTFEN PROGRAMIN KAYDETMESİNİ BEKLEYİNİZ.   <<< DİKKAT   |
-|>=============================================|=====================================================<|    
-"""
-
-    menu_ui = menu_ui_layout.format(*tuple(done_tests_vanilla))
-    done_tests_proper = done_tests_vanilla
-
+    menuDict = jsonLoader("menuData")
     
+    doneTests = {}
+    for testNum in menuDict.keys():
+        doneTests[int(testNum)] = "(-)"
+
     while True:
-        try: 
-            menu_done_tests_nums = sorted(list(data_dict.keys()))
-            #ensures there are no duplicates on the done tests list
+        try:          
+            title = "PsiNorm Testler"
             
-            menu_ui = menu_ui_layout.format(*tuple(done_tests_proper))
-            print(menu_ui)
-            #creates a user list from the done tests, without duplicates
-             
+            textDump = menuAutoCreate(menuDict)
             
-            menu_input = numInput("Girmek istediğiniz testin numarasını giriniz. Kaydetmek için (" + str(len(menu_list)+1) + ") giriniz: " )   
-            #input the test number you want to use, or press the calculated number (one higher than the test number) to exit
-                          
-            menu_input = int(menu_input)
+            textDump = textDump.format(doneTests = doneTests)
             
-            if menu_input in menu_done_tests_nums:
-                x = input("Bu test zaten girilmiş, tekrar girmek istiyor musunuz? (e)vet/(h)ayır: ")
-                if x in ["E", "e"]:
-                    print("Test tekrar giriliyor.")                  
-                else:
-                    print("Bir önceki basamağa geri dönülüyor.")
-                    continue
-                    #returns to the previous step
-                    
-            if 0 < menu_input <= len(menu_list):
+            guiTestChoose(title, menuDict, textDump)
+            
+            if whatToDo == "doTest":
+                
                 print("\nLÜTFEN DİKKAT: Test içerisinde uygulamadığınız veya olmayan değerleri 999 olarak giriniz.")
                 
-                done_tests_proper[menu_input-1] = "(+)"
-                if menu_input in menu_done_tests_nums:
-                    done_tests_proper[menu_input-1] = "(!+!)"  
-
-                data = menu_list[menu_input-1]()
-                data_dict.update({menu_input : data})
+                if menuDict[testNumToDo] == "testWechslerDataDict":
+                    data = testWechsler()
+                
+                elif menuDict[testNumToDo] == "testCctDataDict":
+                    data = testCct()
+                    
+                else: 
+                    data = funcTestTemplate(menuDict[testNumToDo])
+                
+                doneTests[int(testNumToDo)] = "(+)"
+                
+                dataDict.update({int(testNumToDo) : data})
                 continue
                 #using the number, calls the function user wanted, adds that to the done tests
-
-            elif menu_input == (len(menu_list)+1):   
-                try: 
-                    for data_num in menu_done_tests_nums:
-                                            
-                        test_name = data_dict[data_num][0]
-                        printable_list = data_dict[data_num][1]
-                        console_results = data_dict[data_num][2]
-                        #using the numbers from the used tests list, it creates data to feed into the writers
                 
-                        if settings("output_excel"):
-                            excelWriter(settings("excel_path"), data_num, printable_list, "testData", None)
-                            
-                        if settings("output_csv"):
-                            csvWriter(settings("csv_path"), test_name, printable_list)
-                            #writes the printable_list in a CSV file
-                        if settings("output_txt"):
-                            txtWrite(settings("txt_path"), console_results)
-                            #writes the console results on the txt file
+            elif whatToDo == "getPatientNotes":
+                guiPatientNotes("Hasta notları", patientNotes)
+            
+            elif whatToDo == "saveProgram":
+                try: 
+                    for testNum in doneTests.keys():
+                        if doneTests[testNum] != "(-)":
+                                            
+                            test_name = dataDict[testNum][0]
+                            printable_list = dataDict[testNum][1]
+                            console_results = dataDict[testNum][2]
+                            #using the numbers from the used tests list, it creates data to feed into the writers
+                    
+                            if settings("output_excel"):
+                                excelWriter(settings("excel_path"), testNum, printable_list, "testData", None)
+                                
+                            if settings("output_csv"):
+                                csvWriter(settings("csv_path"), test_name, printable_list)
+                                #writes the printable_list in a CSV file
+                            if settings("output_txt"):
+                                txtWrite(settings("txt_path"), console_results)
+                                #writes the console results on the txt file
                             
                     if settings("output_excel"):
                         excelWriter(settings("excel_path"), None, menu_done_tests_nums, "masterData", None)
                     
                     if settings("output_txt"):
                         done_tests_string = "\n----------------------------------------\nYapılan testler listesi: "
-                        for i in menu_done_tests_nums:
-                            done_tests_string += "\n> " + test_name_list[i-1]
+                        
+                        for testNum in doneTests.keys():
+                            if doneTests[testNum] != "(-)":
+                                done_tests_string += "\n> " + menuDict[str(testNum)]["testName"]
                             
                         done_tests_string += "\n----------------------------------------\n"
                         
@@ -2194,14 +2179,8 @@ def mainMenu():
                     print("Kaydedilirken bir hata oluştu.")
                     wait(2)
                     raise
-   
-            elif menu_input == 666:
-                customTestDictcustomTestDictGen()
-         
-            elif menu_input == 777:
-                guiPatientNotes("Hasta notları", patientNotes)
-
-            elif  menu_input == 888:
+                    
+            elif whatToDo == "getPatientInfoForms":
                 mainDict = jsonLoader("form_data")
                 
                 form_list = []
@@ -2248,14 +2227,14 @@ def mainMenu():
                     else:
                         print("Lütfen varolan seçeneklerden birini seçiniz. ")
                         continue
-                    
                 continue
                     
-                
+            elif whatToDo == "exitPatient":
+                break
+            
             else:
-                print("\nLütfen listede olan numaralardan giriniz.")
-                continue
-                #this is called if user enters a number higher than tests that are in the program
+                criticalError("Kritik hata!", "Bir şeyler çok yanlış gitti, lütfen yazılımcıya ulaşınız.", True)
+        
         except SystemExit:
             raise
         except:
@@ -2587,58 +2566,14 @@ def testWechsler():
         raise
         return
           
-def testWechslerSayi():
-    return funcTestTemplate("testWechslerSayiDataDict")
-
-def testSf(): #Semantic fluency
-    return funcTestTemplate("testSfDataDict")
-        
-def testMmt(): #Mini Mental Test
-    return funcTestTemplate("testMmtDataDict")
-
-def testEcr(): #enhanced cued recall/Artırılmış ipuçlu hatırlama    
-    return funcTestTemplate("testEcrDataDict")
-                
-def testMoca():
-    return funcTestTemplate("testMocaDataDict")
-        
-def testCd(): #Clock drawing test
-    return funcTestTemplate("testCdDataDict")
-
-def testVf():
-    return funcTestTemplate("testVfDataDict")
-
-def testWisconsin():
-    return funcTestTemplate("testWisconsinDataDict")
-        
-def testTm(): #Trailmaking test
-    return funcTestTemplate("testTmDataDict")
-
-def testStroop(): #Stroop testinin ana fonksiyonu
-    return funcTestTemplate("testStroopDataDict")
-                
-def testSdot(): #Yetişkinlerde çizgi yönünü belirleme
-    return funcTestTemplate("testSdotDataDict")
-
-def testSbst(): #SBST
-    return funcTestTemplate("testSbstDataDict")
-
-def testVvt(): #visual verbal test
-    return funcTestTemplate("testVvtDataDict")
-
-def testCct_1(): #color trails test 1
-    return funcTestTemplate("testCct1DataDict")
-
-def testCct_2(): #color trails test 2
-    return funcTestTemplate("testCct2DataDict")
 
 def testCct(): #Color trails joiner
     while True:
         try:
             dataCct = ['CCT_data.csv', "", ""]
             
-            dataCct1 = testCct_1()            
-            dataCct2 = testCct_2()
+            dataCct1 = funcTestTemplate("testCct1DataDict")
+            dataCct2 = funcTestTemplate("testCct2DataDict")
             
             dataCct[1] = dataCct1[1] + dataCct2[1]
             dataCct[2] = dataCct1[2] + dataCct2[2]
@@ -2651,26 +2586,6 @@ def testCct(): #Color trails joiner
             break
     
     return dataCct
-
-
-def testRkft(): #Rey karmaşık figür testi
-    return funcTestTemplate("testRkftDataDict")
-
-def testGisd(): #görsel işitsel sayı dizileri testi
-    return funcTestTemplate("testGisdDataDict")
-        
-def test3ms(): #3MS testi
-    return funcTestTemplate("test3msDataDict")
-
-def testMonths(): #Aylar ileri geri
-    return funcTestTemplate("testMonthsDataDict")
-
-def testVaNVC(): #Verbal and Nonverbal Cancellation Test, İşaretleme Testi
-    return funcTestTemplate("testVaNVCDataDict")
-
-def testBNT(): #Boston Naming Test, Boston Adlandırma Testi
-    return funcTestTemplate("testBNTDataDict")
-
 
 def funcTestTemplate(JSONname): #Test Name
     testDataDict = jsonLoader(JSONname) 
