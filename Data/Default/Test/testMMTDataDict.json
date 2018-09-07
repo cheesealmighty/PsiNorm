@@ -5,7 +5,10 @@
 	
     "0": "Toplam puan: ",
 	
-	"testType": "zScore" "cutOff",
+	"testType": "cutOff",
+	
+	"mathOper": {
+	},
 	
 	"cutOffList": [
 		{

@@ -42,7 +42,24 @@ Dr. Bilal Bahadır Akbulut
 contact adress: b.bahadirakbulut@gmail.com
 
 """
-
+def resetGlobals():
+    globals()["patient_admin"] = None
+                
+    globals()["patient_ID"] = None
+    
+    globals()["patient_name"] = None
+    
+    globals()["patient_age"] = None
+    
+    globals()["patient_sex"] = None
+    
+    globals()["patient_edu"] = None
+    
+    globals()["whatToDo"] = None
+    
+    globals()["testNumToDo"] = None
+    
+    
 def guiSettings():
     import tkinter as tk
     titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Seçenekler "
@@ -237,6 +254,8 @@ def guiPatientInfo():
             self.master = master
             master.title("PsiNorm Persentil Hesaplayıcı")
             
+            root.bind("<Return>", self.pressEnter)
+            
             self.label = tk.Label(master, text=titleText, relief=tk.GROOVE, font= (None, 16))
             self.label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=5)    
 
@@ -245,7 +264,7 @@ def guiPatientInfo():
 
             self.entryPatientAdmin = tk.Entry(master, width=50)
             self.entryPatientAdmin.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
-
+            self.entryPatientAdmin.focus_force()
             self.label1 = tk.Label(master, text="*", relief=tk.GROOVE)
             self.label1.grid(row=1, column=3, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
 
@@ -315,6 +334,12 @@ def guiPatientInfo():
  
             self.buttonAbort = tk.Button(master, text="İptal", command=self.abortFunc)
             self.buttonAbort.grid(row=8, column=2, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+        
+        def pressEnter(self, event):
+            try:
+                root.focus_get().invoke()
+            except:
+                pass   
         
         def buttonFemaleFunc(self):
             self.buttonFemale.config(state= tk.DISABLED)
@@ -397,18 +422,19 @@ def guiPatientInfo():
             "\nHastanın cinsiyeti: " + funcLangLocal(temppatient_sex) + "\nHastanın toplam eğitim yılı: " + str(temppatient_edu)+
             "\nBu kaydı onaylıyor musunuz?")
             if tk.messagebox.askokcancel("Çıkış", text_dump):
-                global patient_admin
-                patient_admin = temppatient_admin
-                global patient_ID
-                patient_ID = temppatient_ID
-                global patient_name
-                patient_name = temppatient_name
-                global patient_age
-                patient_age = temppatient_age
-                global patient_sex
-                patient_sex = temppatient_sex
-                global patient_edu
-                patient_edu = temppatient_edu
+                
+                globals()["patient_admin"] = temppatient_admin
+                
+                globals()["patient_ID"] = temppatient_ID
+                
+                globals()["patient_name"] = temppatient_name
+                
+                globals()["patient_age"] = temppatient_age
+                
+                globals()["patient_sex"] = temppatient_sex
+                
+                globals()["patient_edu"] = temppatient_edu
+
                 root.destroy()
             
         def on_closing():
@@ -493,6 +519,8 @@ def guiSimpleTextDump(gui_title, text_dump):
             self.master = master
             master.title(gui_title)
             
+            root.bind("<Return>", self.pressEnter)
+            
             self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
             self.label.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
             self.label.insert(tk.INSERT, text_dump)
@@ -500,7 +528,14 @@ def guiSimpleTextDump(gui_title, text_dump):
             self.label.insert(tk.END, " in ScrolledText")
        
             self.close_button = tk.Button(master, text="Tamam.", command=self.close)
-            self.close_button.pack(side=tk.BOTTOM)    
+            self.close_button.pack(side=tk.BOTTOM)
+            self.close_button.focus_force()
+            
+        def pressEnter(self, event):
+            try:
+                root.focus_get().invoke()
+            except:
+                pass   
             
         def close(self):
             root.destroy()
@@ -521,6 +556,7 @@ def guiPatientNotes(gui_title, text_dump):
             self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
             self.label.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
             self.label.insert(tk.INSERT, text_dump)
+            self.label.focus_force()
        
             self.close_button = tk.Button(master, text="Çıkış", command=self.close)
             self.close_button.pack(side=tk.BOTTOM)    
@@ -578,6 +614,9 @@ def guiReferences():
     guiSimpleTextDump(gui_title, text_dump)
 
 def guiStartupMenu():
+    
+    resetGlobals()
+    
     import tkinter as tk
     from tkinter import messagebox
     import sys
@@ -592,12 +631,13 @@ def guiStartupMenu():
  """
     titleWarning = "HESAPLAMALAR BU EKRANIN YANINDA AÇILAN KONSOLDAN YAPILMAKTADIR, LÜTFEN KAPATMAYINIZ."
 
-    class MyFirstGUI:
+    class startupGUI:
         def __init__(self, master):
             self.master = master
             master.title("PsiNorm Persentil Hesaplayıcı")
             
             psiNormIcon = tk.PhotoImage(file = "psiNormIcon.gif")
+            root.bind("<Return>", self.pressEnter)
 
             self.label = tk.Label(master,image=psiNormIcon)
             self.label.image = psiNormIcon
@@ -612,25 +652,30 @@ def guiStartupMenu():
             self.label = tk.Label(master, text=titleWarning, bg="white", relief=tk.GROOVE, font=(None, 12))
             self.label.grid(row=3, column=0, padx=5, pady=5, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=6)   
             
-            self.greet_button = tk.Button(master, text="Programı çalıştır", command=self.startup)
-            self.greet_button.grid(row=4, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonStartup = tk.Button(master, text="Programı çalıştır", command=self.startup)
+            self.buttonStartup.grid(row=4, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonStartup.focus_force()
     
-            self.greet_button = tk.Button(master, text="Sık Sorulan Sorular", command=self.guiFAQ)
-            self.greet_button.grid(row=4, column=1, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonguiFAQ = tk.Button(master, text="Sık Sorulan Sorular", command=self.guiFAQ)
+            self.buttonguiFAQ.grid(row=4, column=1, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
             
-            self.greet_button = tk.Button(master, text="Hakkında", command=self.guiAbout)
-            self.greet_button.grid(row=4, column=2, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonguiAbout = tk.Button(master, text="Hakkında", command=self.guiAbout)
+            self.buttonguiAbout.grid(row=4, column=2, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
             
-            self.greet_button = tk.Button(master, text="Kaynakça", command=self.guiReferences)
-            self.greet_button.grid(row=4, column=3, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
+            self.buttonguiReferences = tk.Button(master, text="Kaynakça", command=self.guiReferences)
+            self.buttonguiReferences.grid(row=4, column=3, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
             
-            self.greet_button = tk.Button(master, text="Ayarlar", command=self.menuSettings)
-            self.greet_button.grid(row=4, column=4, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonMenuSettings = tk.Button(master, text="Ayarlar", command=self.menuSettings)
+            self.buttonMenuSettings.grid(row=4, column=4, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
             
-            self.greet_button = tk.Button(master, text="Çıkış Yap", command=self.programExit)
-            self.greet_button.grid(row=4, column=5, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
+            self.buttonProgramExit = tk.Button(master, text="Çıkış Yap", command=self.programExit)
+            self.buttonProgramExit.grid(row=4, column=5, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
     
-        
+        def pressEnter(self, event):
+            try:
+                root.focus_get().invoke()
+            except:
+                pass   
             
         def guiFAQ(self):
             guiFAQ()
@@ -645,7 +690,7 @@ def guiStartupMenu():
             guiSettings()
         
         def programExit(self):
-            MyFirstGUI.on_closing()
+            startupGUI.on_closing()
             
         def on_closing():
             if messagebox.askokcancel("Çıkış", "Programı kapatmak istediğinizden emin misiniz?"):
@@ -658,8 +703,8 @@ def guiStartupMenu():
     tk.Grid.rowconfigure(root, [0,1,2,3,4], weight=1)
     tk.Grid.columnconfigure(root, [0,1,2,3,4,5], weight=1)
     root.config(borderwidth=10, relief=tk.GROOVE)
-    my_gui = MyFirstGUI(root)
-    root.protocol("WM_DELETE_WINDOW", MyFirstGUI.on_closing)
+    my_gui = startupGUI(root)
+    root.protocol("WM_DELETE_WINDOW", startupGUI.on_closing)
     root.mainloop() 
 
 def menuAutoCreate(menuDict):
@@ -683,10 +728,10 @@ def menuAutoCreate(menuDict):
      #Groups the tests under the group names       
     
     decorator = """|>"""
-    for i in range(51):
+    for i in range(52):
         decorator += "="
     decorator += "<|>"
-    for i in range(52):
+    for i in range(53):
         decorator += "="
     decorator += "<|\n"
     
@@ -706,7 +751,7 @@ def menuAutoCreate(menuDict):
         oddList = []
         
         testGroupNameEven = testGroupNamesList[i]
-        textDump += "|{:44}         |".format(testGroupNameEven)
+        textDump += "| {:44}         |".format(testGroupNameEven)
         howManyLinesEven = len(testGroupDict[testGroupNameEven])
         
         evenList = nt(testGroupDict[testGroupNameEven], key=lambda y: y.lower())
@@ -715,13 +760,13 @@ def menuAutoCreate(menuDict):
         
         if i != len(testGroupNamesList)-1:
             testGroupNameOdd = testGroupNamesList[i+1]
-            textDump += "{:45}         |".format(testGroupNameOdd) + "\n"
+            textDump += " {:45}         |".format(testGroupNameOdd) + "\n"
             howManyLinesOdd = len(testGroupDict[testGroupNameOdd])   
             oddList = nt(testGroupDict[testGroupNameOdd], key=lambda y: y.lower())
         #If it's odd, on the right side.  
             
         if i == len(testGroupNamesList)-1:
-            textDump += "{:45}         |".format("") + "\n"
+            textDump += "{:46}         |".format("") + "\n"
             #Ensures everything is correctly whitespaced
             
         howManyLines = max(howManyLinesEven, howManyLinesOdd)
@@ -730,15 +775,15 @@ def menuAutoCreate(menuDict):
         for line in range(howManyLines):
             if line < howManyLinesEven:
                 data = {"testNum": evenList[line], "testName": menuDict[evenList[line]]["testName"]}
-                textDump += "|({d[testNum]}) {d[testName]:36}        {{doneTests[{d[testNum]}]:^4}} |".format(d=data)
+                textDump += "|{d[testNum]:>3}) {d[testName]:45}{{doneTests[{d[testNum]}]:^4}}|".format(d=data)
             else:
-                textDump += "|{:44}         |".format("")
+                textDump += "|{:54}|".format("")
             
             if line < howManyLinesOdd:
                 data = {"testNum": oddList[line], "testName": menuDict[oddList[line]]["testName"]}
-                textDump += "({d[testNum]}) {d[testName]:37}        {{doneTests[{d[testNum]}]:^4}} |".format(d=data) + "\n"
+                textDump += "{d[testNum]:>3}) {d[testName]:46}{{doneTests[{d[testNum]}]:^4}}|".format(d=data) + "\n"
             else:
-                textDump += "{:45}         |".format("") + "\n"
+                textDump += "{:55}|".format("") + "\n"
             #Automatically creates a menu
             
         textDump += decorator
@@ -830,9 +875,8 @@ def guiTestChoose(title, menuDict, textDump):
             text = "KAYDETMEDEN çıkılacak, emin misiniz?"
             answer = messagebox.askyesno("Uyarı!", text)
             if answer:
-                globals()["whatToDo"] = "exitProgram"
-                root.destroy()
-                sys.exit()             
+                globals()["whatToDo"] = "exitPatient"
+                root.destroy()           
             else:
                 return
             
@@ -917,17 +961,19 @@ def jsonLoader(jsonFileName):
         
     jsonFileExists = False
     
-    for i in parser.sections():
-        if jsonFileName in parser[i]:
+    for section in parser.sections():
+        if jsonFileName in parser[section]:
             jsonFileExists = True
+            sectionToUse = section
         
     if not jsonFileExists:
         goBackToDefault(jsonAddressList)
         parser.read(jsonAddressList, encoding = 'utf-8-sig')
         
-        for i in parser.sections():
-            if jsonFileName in parser[i]:
+        for section in parser.sections():
+            if jsonFileName in parser[section]:
                 jsonFileExists = True
+                sectionToUse = section
     
     if not jsonFileExists:
         class jsonFileLooped(Exception):
@@ -939,25 +985,18 @@ jsonAddressList.ini içerisinde talep edilen JSON dosyası mevcut değil.
 Eğer kişiselleştirilmiş test eklediyseniz, lütfen doğru adresi kaydettiğinizden emin olunuz.
 Eğer herhangi bir değişiklik yapmadınız ve buna rağmen bu uyarıyı görüyorsanız lütfen programcıya ulaşınız.
 """)    
-            
-    if jsonFileName in parser['DefaultTests']:
-        
-        testType = "Default"
-        jsonFileAddress = parser['Default'][jsonFileName]
+      
+    jsonFileAddress = parser[sectionToUse][jsonFileName]
+    
+    if sectionToUse == 'DefaultTests':
         jsonFileAddress = documentsPath + "/Data/Test/" + jsonFileAddress 
         
-    elif jsonFileName in parser['CustomTests']:
-        
-        testType = "Custom"
-        jsonFileAddress = parser['Custom'][jsonFileName]
-        jsonFileAddress = documentsPath + "/Data/Test/Custom/" + jsonFileAddress 
-        
-    elif jsonFileName in parser['InternalFiles']:
-        
-        jsonFileAddress = parser['InternalFiles'][jsonFileName]
+    elif sectionToUse == 'CustomTests':
+        jsonFileAddress = documentsPath + "/Data/Test/Custom/" + jsonFileAddress
+    
+    elif sectionToUse == 'InternalFiles':
         jsonFileAddress = documentsPath + "/Data/" + jsonFileAddress
-
-
+    
     try:
         import json
         with open(jsonFileAddress, 'r', encoding="utf8") as fp:
@@ -2118,7 +2157,7 @@ def mainMenu():
                     data = testCct()
                     
                 else: 
-                    data = funcTestTemplate(menuDict[testNumToDo])
+                    data = funcTestTemplate(menuDict[testNumToDo]["testDataDict"])
                 
                 doneTests[int(testNumToDo)] = "(+)"
                 
@@ -2238,7 +2277,7 @@ def mainMenu():
                 break
             
             else:
-                criticalError("Kritik hata!", "Bir şeyler çok yanlış gitti, lütfen yazılımcıya ulaşınız.", True)
+                criticalError("Kritik hata!", "mainMenu() - Bir şeyler çok yanlış gitti, lütfen yazılımcıya ulaşınız.", True)
         
         except SystemExit:
             raise
@@ -2601,7 +2640,7 @@ def funcTestTemplate(JSONname): #Test Name
             result_list = []
             print("\n===================================\n" + testDataDict["testName"])
             for i in range(testDataDict["paraNum"]):
-                if str(i) not in testDataDict["Math"].keys():
+                if str(i) not in testDataDict["mathOper"].keys():
                     result_list.append(floInput(testDataDict[str(i)]))
                 else:
                     result_list.append("999")

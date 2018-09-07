@@ -18,6 +18,8 @@
         "6": "more"
     },
     "testType": "zScore",
+	"mathOper": {
+	},
     "cutOffList": [],
     "normList": [
         {

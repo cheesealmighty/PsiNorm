@@ -6,6 +6,8 @@
         "all": "more"
     },
     "testType": "zScore",
+	"mathOper": {
+	},
     "cutOffList": [],
     "normList": [
         {

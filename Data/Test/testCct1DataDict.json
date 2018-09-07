@@ -9,6 +9,8 @@
         "all": "less"
     },
     "testType": "zScore",
+	"mathOper": {
+	},
     "cutOffList": [],
     "normList": [
         {

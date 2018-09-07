@@ -4,6 +4,8 @@
     "0": "Toplam puan: ",
 	"zScoreLegend": {"all": "more"},
 	"testType": "zScore",
+	"mathOper": {
+	},
     "normList": [
         {
             "sex": "Male",
