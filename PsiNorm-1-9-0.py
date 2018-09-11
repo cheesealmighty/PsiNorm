@@ -2150,14 +2150,16 @@ def mainMenu():
                 
                 print("\nLÜTFEN DİKKAT: Test içerisinde uygulamadığınız veya olmayan değerleri 999 olarak giriniz.")
                 
-                if menuDict[testNumToDo] == "testWechslerDataDict":
+                testDataDict = menuDict[testNumToDo]["testDataDict"]
+                
+                if testDataDict == "testWechslerDataDict":
                     data = testWechsler()
                 
-                elif menuDict[testNumToDo] == "testCctDataDict":
+                elif testDataDict == "testCctDataDict":
                     data = testCct()
                     
                 else: 
-                    data = funcTestTemplate(menuDict[testNumToDo]["testDataDict"])
+                    data = funcTestTemplate(testDataDict)
                 
                 doneTests[int(testNumToDo)] = "(+)"
                 
@@ -2189,15 +2191,16 @@ def mainMenu():
                                 #writes the console results on the txt file
                             
                     if settings("output_excel"):
-                        excelWriter(settings("excel_path"), None, menu_done_tests_nums, "masterData", None)
+                        excelWriter(settings("excel_path"), None, doneTests, "masterData", None)
                     
                     if settings("output_txt"):
                         done_tests_string = "\n----------------------------------------\nYapılan testler listesi: "
                         
                         for testNum in doneTests.keys():
                             if doneTests[testNum] != "(-)":
-                                done_tests_string += "\n> " + menuDict[str(testNum)]["testName"]
-                            
+                                done_tests_string += "\n" + str(testNum)+ ") "
+                                done_tests_string += menuDict[str(testNum)]["testName"]
+                
                         done_tests_string += "\n----------------------------------------\n"
                         
                         done_tests_string += "Hastaya dair uygulayıcı notları: \n"
@@ -2303,6 +2306,8 @@ def mainStartup(): #the mainStartup function
         else:
             mainMenu()
     except NameError:
+        if settings("debug"):
+            raise
         print("Kayıt iptal edilmiş. Geri dönülüyor. ")
         return
     except:
@@ -2425,21 +2430,21 @@ def zScoreInterpreter(z_score_list, z_score_legend):
                     
         elif z_score_legend["all"] == "less":
             for i in range(len(z_score_list)):
-                if z_score_list[i] != None:
+                if z_score_list[int(i)] != None:
                     temp_z_score_list[i] = -1 * z_score_list[i]
                 else:
                     temp_z_score_list[i] = z_score_list[i]
             
     except:
-        for i in z_score_legend.keys():
-            if z_score_legend[i] == "more":
-                temp_z_score_list[i] = z_score_list[i]
+        for key in z_score_legend.keys():
+            if z_score_legend[key] == "more":
+                temp_z_score_list[int(key)] = z_score_list[int(key)]
                 
-            elif z_score_legend[i] == "less":
-                if z_score_list[i] != None:
-                    temp_z_score_list[i] = -1 * z_score_list[i]
+            elif z_score_legend[key] == "less":
+                if z_score_list[int(key)] != None:
+                    temp_z_score_list[int(key)] = -1 * z_score_list[int(key)]
                 else:
-                    temp_z_score_list[i] = z_score_list[i]
+                    temp_z_score_list[int(key)] = z_score_list[int(key)]
                 
     
     perc_list = calcPercentile(temp_z_score_list)
@@ -2737,7 +2742,7 @@ def funcTestTemplate(JSONname): #Test Name
             verbal_result_list = []
       
             norm_exists = False
-            for i in testDataDict["normList"]:
+            for i in testDataDict["cutOffList"]:
                 if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
                     correctNorm = i
                     norm_exists = True
@@ -2745,12 +2750,13 @@ def funcTestTemplate(JSONname): #Test Name
                 
             #Find the correct cutoff values by iterating through every entry in JSON    
             if norm_exists: 
-                for i in range(testDataDict["paraNum"]):
-                    if correctNorm[str(i)]["parameterNormExists"]:
-                        cutOffGroupNameList = correctNorm[str(i)]["cutOffGroupNameList"]
-                        #[groupName1, groupName2, groupName3...]
-                        cutOffGroupCutoffList = correctNorm[str(i)]["cutOffGroupCutoffList"]
+                for paraNum in range(testDataDict["paraNum"]):
+                    if correctNorm[str(paraNum)]["parameterNormExists"]:
+                        cutOffGroupCutoffList = correctNorm[str(paraNum)]["cutOffGroupCutoffList"]
                         #[cutOff1, cutOff2, cutOff3...]
+                        cutOffGroupNameList = correctNorm[str(paraNum)]["cutOffGroupNameList"]
+                        #[groupName1, groupName2, groupName3...]
+
                         
                         """
                         Example data structure:
@@ -2781,21 +2787,21 @@ def funcTestTemplate(JSONname): #Test Name
                         # cutOff2 < patientResult <= cutOff3 = groupName3
                         # cutOff3 < patientResult = groupName4                        
                 
-                        for cutOffGroupNum in range(len(cutOffGroupCutoffList)):
+                        for cutOffGroupNum in range(len(cutOffGroupNameList)):
                             if cutOffGroupNum == 0:
-                                result_list[i] <= cutOffGroupCutoffList[cutOffGroupNum]
-                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
+                                if result_list[paraNum] <= cutOffGroupCutoffList[cutOffGroupNum]:
+                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
                                 
-                            elif cutOffGroupNum < len(cutOffGroupCutoffList)-1:
-                                cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[i] <= cutOffGroupCutoffList[cutOffGroupNum]
-                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
+                            elif cutOffGroupNum < len(cutOffGroupCutoffList):
+                                if cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[paraNum] <= cutOffGroupCutoffList[cutOffGroupNum]:
+                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
                                 
-                            elif cutOffGroupNum == len(cutOffGroupCutoffList)-1:
-                                cutOffGroupCutoffList[cutOffGroupNum] < result_list[i]
-                                verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum+1])
+                            elif cutOffGroupNum == len(cutOffGroupCutoffList):
+                                if cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[paraNum]:
+                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
                         #iterates through all the cutoff-group couples, adding appropriate verbal results when available
                     else:
-                        verbal_result_list.append("Bu basamak uygulanmamış veya uygulanamamıştır.")
+                        verbal_result_list.append("Bu parametreye ait norm verisi yoktur.")
                         #Adds a N/A entry for every missing norm value 
             
             else:
