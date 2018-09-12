@@ -59,6 +59,8 @@ def resetGlobals():
     
     globals()["testNumToDo"] = None
     
+    globals()["patientNotes"] = None
+    
     
 def guiSettings():
     import tkinter as tk
@@ -475,17 +477,18 @@ def guiAgreeTerms():
             self.master = master
             master.title("Kullanım Koşulları")
             text_dump = jsonLoader("info_data")["agreeTerms_data"]
-            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
-            self.label.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+            self.label = ScrolledText(master, wrap = tk.WORD, width = 80, height = 30)
+            self.label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=4) 
             self.label.insert(tk.INSERT, text_dump)
             self.label.config(state=tk.DISABLED)
             self.label.insert(tk.END, " in ScrolledText")
+ 
+            self.greet_button = tk.Button(master, width = 10, height = 1, text="Evet", command=self.greet, relief=tk.GROOVE)
+            self.greet_button.grid(row=1, column=1, padx=10, pady=10, sticky=tk.S)
+
+            self.close_button = tk.Button(master, width = 10, height = 1, text="Hayır", command=self.areyousure, relief=tk.GROOVE)
+            self.close_button.grid(row=1, column=2, padx=10, pady=10, sticky=tk.S)
     
-            self.close_button = tk.Button(master, text="Hayır", command=self.areyousure, relief=tk.GROOVE)
-            self.close_button.pack(padx=3, pady=3, side=tk.BOTTOM, expand=True, fill=tk.BOTH)
-    
-            self.greet_button = tk.Button(master, text="Evet", command=self.greet, relief=tk.GROOVE)
-            self.greet_button.pack(padx=3, pady=3, side=tk.BOTTOM, expand=True, fill=tk.BOTH)
     
         def greet(self):
             root.destroy()
@@ -505,6 +508,11 @@ def guiAgreeTerms():
                 sys.exit()
     
     root = tk.Tk()
+    
+    tk.Grid.rowconfigure(root, [0,1], weight=1)
+    tk.Grid.columnconfigure(root, [0,1,2,3], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+    
     my_gui = MyFirstGUI(root)
     root.protocol("WM_DELETE_WINDOW", MyFirstGUI.on_closing)
     root.mainloop()
@@ -548,30 +556,52 @@ def guiPatientNotes(gui_title, text_dump):
     import tkinter as tk
     from tkinter.scrolledtext import ScrolledText as ScrolledText
     
-    class MyFirstGUI:
+    class patientNoteGUI:
         def __init__(self, master):
             self.master = master
             master.title(gui_title)
             
-            self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
-            self.label.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
-            self.label.insert(tk.INSERT, text_dump)
-            self.label.focus_force()
-       
-            self.close_button = tk.Button(master, text="Çıkış", command=self.close)
-            self.close_button.pack(side=tk.BOTTOM)    
+            self.noteBox = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
+            self.noteBox.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=4) 
+            self.noteBox.insert(tk.INSERT, text_dump)
+            self.noteBox.focus_force()
             
-            self.save_button = tk.Button(master, text="Kaydet", command=self.save)
-            self.save_button.pack(side=tk.BOTTOM)    
+            self.noteBox.bind("<Key>", self.resetSaveStatus)
+ 
+            self.save_button = tk.Button(master, height=2, width=10, text="Kaydet", command=self.save)
+            self.save_button.grid(row=1, column=1, padx=5, pady=5, sticky=tk.S)  
+      
+            self.close_button = tk.Button(master, height=2, width=10, text="Çıkış", command=self.close)
+            self.close_button.grid(row=1, column=2, padx=5, pady=5, sticky=tk.S) 
+            
+            self.saveStatus = tk.Label(master, height=1, width=40, text="")
+            self.saveStatus.grid(row=2, column=1, padx=5, pady=5, sticky=tk.S, columnspan=2) 
+            
+        def resetSaveStatus(self, event):
+            self.saveStatus.config(text="")
             
         def save(self):
-            globals()["patientNotes"] = self.label.get("1.0", tk.END)
+            globals()["patientNotes"] = self.noteBox.get("1.0", tk.END)
+            
+            self.saveStatus.config(text="Test kaydedildi.")
             
         def close(self):
-            root.destroy()
+            tempPatientNotes = self.noteBox.get("1.0", tk.END)
+            if tempPatientNotes != patientNotes:
+                if tk.messagebox.askokcancel("Çıkış", "Değişiklikleri kaydetmeden çıkmak istediğinize emin misiniz?"):
+                    root.destroy()
+                else: 
+                    return
+            else:
+                root.destroy()
     
     root = tk.Tk()
-    my_gui = MyFirstGUI(root)
+    
+    tk.Grid.rowconfigure(root, [0,1,2], weight=1)
+    tk.Grid.columnconfigure(root, [0,1,2,3], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+    
+    my_gui = patientNoteGUI(root)
     root.mainloop()
 
 
@@ -728,10 +758,10 @@ def menuAutoCreate(menuDict):
      #Groups the tests under the group names       
     
     decorator = """|>"""
-    for i in range(52):
+    for i in range(62):
         decorator += "="
     decorator += "<|>"
-    for i in range(53):
+    for i in range(63):
         decorator += "="
     decorator += "<|\n"
     
@@ -751,7 +781,7 @@ def menuAutoCreate(menuDict):
         oddList = []
         
         testGroupNameEven = testGroupNamesList[i]
-        textDump += "| {:44}         |".format(testGroupNameEven)
+        textDump += "| {:54}         |".format(testGroupNameEven)
         howManyLinesEven = len(testGroupDict[testGroupNameEven])
         
         evenList = nt(testGroupDict[testGroupNameEven], key=lambda y: y.lower())
@@ -760,13 +790,13 @@ def menuAutoCreate(menuDict):
         
         if i != len(testGroupNamesList)-1:
             testGroupNameOdd = testGroupNamesList[i+1]
-            textDump += " {:45}         |".format(testGroupNameOdd) + "\n"
+            textDump += " {:55}         |".format(testGroupNameOdd) + "\n"
             howManyLinesOdd = len(testGroupDict[testGroupNameOdd])   
             oddList = nt(testGroupDict[testGroupNameOdd], key=lambda y: y.lower())
         #If it's odd, on the right side.  
             
         if i == len(testGroupNamesList)-1:
-            textDump += "{:46}         |".format("") + "\n"
+            textDump += "{:56}         |".format("") + "\n"
             #Ensures everything is correctly whitespaced
             
         howManyLines = max(howManyLinesEven, howManyLinesOdd)
@@ -775,15 +805,15 @@ def menuAutoCreate(menuDict):
         for line in range(howManyLines):
             if line < howManyLinesEven:
                 data = {"testNum": evenList[line], "testName": menuDict[evenList[line]]["testName"]}
-                textDump += "|{d[testNum]:>3}) {d[testName]:45}{{doneTests[{d[testNum]}]:^4}}|".format(d=data)
+                textDump += "|{d[testNum]:>3}) {d[testName]:55}{{doneTests[{d[testNum]}]:^4}}|".format(d=data)
             else:
-                textDump += "|{:54}|".format("")
+                textDump += "|{:64}|".format("")
             
             if line < howManyLinesOdd:
                 data = {"testNum": oddList[line], "testName": menuDict[oddList[line]]["testName"]}
-                textDump += "{d[testNum]:>3}) {d[testName]:46}{{doneTests[{d[testNum]}]:^4}}|".format(d=data) + "\n"
+                textDump += "{d[testNum]:>3}) {d[testName]:56}{{doneTests[{d[testNum]}]:^4}}|".format(d=data) + "\n"
             else:
-                textDump += "{:55}|".format("") + "\n"
+                textDump += "{:65}|".format("") + "\n"
             #Automatically creates a menu
             
         textDump += decorator
@@ -807,31 +837,39 @@ def guiTestChoose(title, menuDict, textDump):
             root.bind("<Return>", self.pressEnter)
             root.protocol("WM_DELETE_WINDOW", self.close)
             
+            
             self.label = ScrolledText(master, wrap = tk.WORD,width  = 80, height = 30)
             self.label.grid(row=0, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)
             self.label.insert(tk.INSERT, textDump)
             self.label.config(state=tk.DISABLED)
             self.label.insert(tk.END, " in ScrolledText")
             
+            self.status = tk.Label(master, text="", relief=tk.GROOVE)
+            self.status.grid(row=1, column=0, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=2)  
+            
             self.label = tk.Label(master, text="Yapılacak Test No (Bir sayı girip ENTER tuşuna basınız.): ", relief=tk.GROOVE)
-            self.label.grid(row=1, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
+            self.label.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)    
             
             self.entryUserInput = tk.Entry(master)
+            self.entryUserInput.bind("<Key>", self.resetStatus)
             self.entryUserInput.focus_force()
-            self.entryUserInput.grid(row=1, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            self.entryUserInput.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
       
             self.patientNotes = tk.Button(master, text="Hasta Notları", command=self.getPatientNotes)
-            self.patientNotes.grid(row=2, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            self.patientNotes.grid(row=3, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
             
             self.patientInfoForms = tk.Button(master, text="Hasta Veri Formları", command=self.getPatientInfoForms)
-            self.patientInfoForms.grid(row=2, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            self.patientInfoForms.grid(row=3, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
             
             self.save_button = tk.Button(master, text="Kaydet ve Çık", command=self.save)
-            self.save_button.grid(row=3, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)
+            self.save_button.grid(row=4, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
 
             self.close_button = tk.Button(master, text="Kaydetmeden Çıkış", command=self.close)
-            self.close_button.grid(row=3, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)   
+            self.close_button.grid(row=4, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)   
       
+        def resetStatus(self, event):
+            self.status.config(text="")
+        
         def pressEnter(self, event):
             try:
                 if root.focus_get() == self.entryUserInput:
@@ -839,7 +877,7 @@ def guiTestChoose(title, menuDict, textDump):
                 else:
                     root.focus_get().invoke()
             except:
-                print("Lütfen uygun bir seçim yapınız.")
+                self.status.config(text="Lütfen uygun bir seçim yapınız.")
                 
         def getPatientNotes(self):
             globals()["whatToDo"] = "getPatientNotes"
@@ -858,9 +896,10 @@ def guiTestChoose(title, menuDict, textDump):
                     globals()["testNumToDo"] = userInput
                     root.destroy()
                 else:
-                    print("Lütfen üstteki listede belirtilen sayılardan birini seçiniz.")
+                    self.status.config(text="Lütfen üstteki listede belirtilen sayılardan birini seçiniz.")
+
             else:
-                print("Uygunsuz test numarası, lütfen tekrar deneyiniz.")
+                self.status.config(text="Uygunsuz test numarası, lütfen tekrar deneyiniz.")
                 
         def save(self):
             text = "Verileri kaydetip çıkış yapılacak, emin misiniz?"
@@ -882,9 +921,11 @@ def guiTestChoose(title, menuDict, textDump):
             
     
     root = tk.Tk()
-    tk.Grid.rowconfigure(root, [0, 1, 2, 3], weight=1)
-    tk.Grid.columnconfigure(root, [0, 1, 2], weight=1)
+    tk.Grid.rowconfigure(root, [0, 1, 2, 3, 4], weight=1)
+    tk.Grid.columnconfigure(root, [0, 1], weight=1)
     root.config(borderwidth=10, relief=tk.GROOVE)
+    
+    root.state('zoomed')
     
     my_gui = testChooseGUI(root, title)
     
@@ -2648,15 +2689,17 @@ def funcTestTemplate(JSONname): #Test Name
                 if str(i) not in testDataDict["mathOper"].keys():
                     result_list.append(floInput(testDataDict[str(i)]))
                 else:
-                    result_list.append("999")
+                    result_list.append(999)
                     
             for i in testDataDict["mathOper"].keys():
                 try:
-                    firstVal = result_list[testDataDict["Math"][i][0]]
-                    secondVal = result_list[testDataDict["Math"][i][2]]
-                    operator = testDataDict["Math"][i][1]
+                    mathList = testDataDict["mathOper"][i]
                     
-                    bothResultsExist = "999" not in [firstVal, secondVal]
+                    firstVal = result_list[mathList[0]]
+                    secondVal = result_list[mathList[2]]
+                    operator = mathList[1]
+                    
+                    bothResultsExist = 999 not in [firstVal, secondVal]
                     
                     if bothResultsExist:
                         if operator == "+":
@@ -2675,7 +2718,9 @@ def funcTestTemplate(JSONname): #Test Name
                 except SystemExit:
                     raise
                 except:
-                    print("KRİTİK TEST HATASI, EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
+                    if settings("debug"):
+                        raise
+                    print("KRİTİK TEST HATASI(mathOper), EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
                     result_list[int(i)] = 999
                     pass
             #prints user interface
@@ -2684,6 +2729,8 @@ def funcTestTemplate(JSONname): #Test Name
         except SystemExit:
             raise
         except:
+            if settings("debug"):
+                raise
             print("Lütfen sadece sayı giriniz.")
             continue
             #"Only enter numbers", and then resets the function
@@ -2895,9 +2942,13 @@ except SystemExit:
     raise
     
 except Exception as e:
-    crashlogPath = getUserDocumentsPsiPath() + ("psinormcrash" + date + "-" + stime + ".log")
+    crashLogFolder = getUserDocumentsPsiPath() + "/Crash Logs/"
+    ensure_dir(crashLogFolder)
     
-    guiSimplePopup("Kritik hata!", "Bir hata oluştu ve program kapatılacak. \n\n'Documents' veya 'Belgelerim' içerisinde, 'PsiNorm' klasörünün içerisinde bulunan 'psinormcrash" + date + "-" + stime + ".log' dosyasını b.bahadirakbulut@gmail.com'a yönlendiriniz.")
+    
+    crashlogPath = crashLogFolder + ("psinormcrash-" + date + "-" + stime + ".log")
+    
+    guiSimplePopup("Kritik hata!", "Bir hata oluştu ve program kapatılacak. \n\n'Documents' veya 'Belgelerim' içerisinde, 'PsiNorm/Crash Logs' klasörünün içerisinde bulunan 'psinormcrash" + date + "-" + stime + ".log' dosyasını b.bahadirakbulut@gmail.com'a yönlendiriniz.")
     logging.basicConfig(level=logging.DEBUG, filename= crashlogPath, filemode='w')
     
     howtosenderrorlog = """

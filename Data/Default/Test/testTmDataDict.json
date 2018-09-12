@@ -10,6 +10,7 @@
 	"zScoreLegend": {
         "all": "less"
     },
+	"testType": "zScore",
 	"mathOper": {
 	"4":[2,"+",0],
 	"5":[2,"-",0]
