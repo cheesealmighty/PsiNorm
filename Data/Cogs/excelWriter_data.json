@@ -105,7 +105,7 @@
         
         "18": ["Puan ", "Z Skoru", "Persentil", "Sözel sonuç"],
         
-        "19": ["İleri yorum","Geri yorum"],
+        "19": ["İleri puan", "İleri yorum", "Geri puan", "Geri yorum"],
         
         "20": ["Düzenli HF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
                    "Düzenli HF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 

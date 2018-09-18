@@ -2726,9 +2726,15 @@ def cutOffInterpreter(result, paraNum, testDataDict):
     else:            
         verbalResult = "Bu parametreye ait norm verisi yoktur."
     
+    if result in [999, 999.0, "999", "999.0"]:
+        result = "N/A"
+        printable = [result, verbalResult]
+        console = "Bu basamak uygulanmamış veya uygulanamamıştır."
     
-    printable = [result, verbalResult]
-    console = result + ", " + verbalResult
+    else:
+        printable = [result, verbalResult]
+        console = result + ", " + verbalResult
+    
                     
     return printable, console
                     
