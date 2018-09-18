@@ -6,6 +6,8 @@
     "2": "Color Errors: ",
     "3": "Near-Misses: ",
     "4": "Prompts: ",
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType", "3": "intType", "4": "intType"},
     "zScoreLegend": {
         "all": "less"
     },

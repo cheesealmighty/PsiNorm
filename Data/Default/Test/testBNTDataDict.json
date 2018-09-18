@@ -4,6 +4,7 @@
     "0": "Kendiliğinden Adlandırma (KA) puanı: ",
     "1": "Kendiliğinden Adlandırma ve Anlamsal İpuçları ile Adlandırma (KA+AİA) puanı: ",
     "2": "Kendiliğinden Adlandırma, Anlamsal İpuçları ile Adlandırma ve Sessel İpuçları ile Adlandırma (KA+AİA+SİA) puanı: ",
+	"paraTypeDict": {"0": "intType", "1": "intType", "2": "intType"},
     "zScoreLegend": {
         "all": "more"
     },

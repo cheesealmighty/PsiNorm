@@ -7,6 +7,10 @@
 	"3": "B formu düzeltme sayısı: ",
 	"4": "B+A skoru: ",
 	"5": "B-A skoru: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType", "3": "intType", "4": "intType", "5": "intType"},
+		
 	"zScoreLegend": {
         "all": "less"
     },

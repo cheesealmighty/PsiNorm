@@ -5,6 +5,10 @@
     "1": "Tamamlanan kategori sayısı puanı: ",
     "2": "Toplam perseveretif hata sayısı puanı: ",
     "3": "Perseveratif hata yüzdesi puanı: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType", "3": "intType"},
+		
     "zScoreLegend": {
         "all": "more"
     },

@@ -43,17 +43,17 @@ contact adress: b.bahadirakbulut@gmail.com
 
 """
 def resetGlobals():
-    globals()["patient_admin"] = None
+    globals()["patientAdmin"] = None
                 
-    globals()["patient_ID"] = None
+    globals()["patientID"] = None
     
-    globals()["patient_name"] = None
+    globals()["patientName"] = None
     
-    globals()["patient_age"] = None
+    globals()["patientAge"] = None
     
-    globals()["patient_sex"] = None
+    globals()["patientSex"] = None
     
-    globals()["patient_edu"] = None
+    globals()["patientEdu"] = None
     
     globals()["whatToDo"] = None
     
@@ -249,7 +249,7 @@ def guiSettings():
 def guiPatientInfo():
     import tkinter as tk
     titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Hasta Bilgileri" 
-    patient_sex = None
+    patientSex = None
 
     class patientInfo:
         def __init__(self, master):
@@ -304,10 +304,10 @@ def guiPatientInfo():
             self.label = tk.Label(master, text="Hastanın cinsiyeti: ", relief=tk.GROOVE)
             self.label.grid(row=5, column=0, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=1)    
          
-            self.buttonFemale = tk.Button(master, text="Kadın", command=self.buttonFemaleFunc, state = (tk.DISABLED if patient_sex == "Female" else tk.NORMAL))
+            self.buttonFemale = tk.Button(master, text="Kadın", command=self.buttonFemaleFunc, state = (tk.DISABLED if patientSex == "Female" else tk.NORMAL))
             self.buttonFemale.grid(row=5, column=1, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W) 
             
-            self.buttonMale = tk.Button(master, text="Erkek", command=self.buttonMaleFunc, state = (tk.DISABLED if patient_sex == "Male" else tk.NORMAL))
+            self.buttonMale = tk.Button(master, text="Erkek", command=self.buttonMaleFunc, state = (tk.DISABLED if patientSex == "Male" else tk.NORMAL))
             self.buttonMale.grid(row=5, column=2, ipadx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W)
                  
             self.label5 = tk.Label(master, text="*", relief=tk.GROOVE)
@@ -352,38 +352,38 @@ def guiPatientInfo():
             self.buttonMale.config(state= tk.DISABLED)
             
         def saveFunc(self):
-            patient_admin = self.entryPatientAdmin.get()
-            patient_ID = self.entryPatientID.get()
-            patient_name = self.entryPatientName.get()
-            patient_age = self.entryPatientAge.get()
-            patient_edu = self.entryPatientEdu.get()
+            patientAdmin = self.entryPatientAdmin.get()
+            patientID = self.entryPatientID.get()
+            patientName = self.entryPatientName.get()
+            patientAge = self.entryPatientAge.get()
+            patientEdu = self.entryPatientEdu.get()
             inputError = False
 
             
-            if not checkGuiInputString(patient_admin):
+            if not checkGuiInputString(patientAdmin):
                 self.label1.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
                 inputError = True
             else:
                 self.label1.config(text = "*")
                 
-            if not checkGuiInputString(patient_ID):
+            if not checkGuiInputString(patientID):
                 self.label2.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
                 inputError = True
             else:
                 self.label2.config(text = "*")
                 
-            if not checkGuiInputString(patient_name):
+            if not checkGuiInputString(patientName):
                 self.label3.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
                 inputError = True
             else:
                 self.label3.config(text = "*")
                 
-            if not checkGuiInputInt(patient_age):
+            if not checkGuiInputInt(patientAge):
                 self.label4.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.")
                 inputError = True
             else:
-                patient_age = int(patient_age)
-                if 150 > patient_age > 0:
+                patientAge = int(patientAge)
+                if 150 > patientAge > 0:
                     self.label4.config(text = "*")
                 else:
                     self.label4.config(text = "Hata! Lütfen geçerli bir sayı giriniz.")
@@ -392,19 +392,19 @@ def guiPatientInfo():
             if str(self.buttonFemale["state"]) == "disabled" or str(self.buttonMale["state"]) == "disabled":
                 self.label5.config(text = "*")
                 if str(self.buttonFemale["state"]) == "disabled":
-                    patient_sex = "Female"
+                    patientSex = "Female"
                 if str(self.buttonMale["state"]) == "disabled":
-                    patient_sex = "Male"       
+                    patientSex = "Male"       
             else:
                 self.label5.config(text = "Hata! Lütfen bir seçim yapınız.")
                 inputError = True
                 
-            if not checkGuiInputInt(patient_edu):
+            if not checkGuiInputInt(patientEdu):
                 self.label6.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.")
                 inputError = True
             else:
-                patient_edu = int(patient_edu)
-                if 150 > patient_edu >= 0:
+                patientEdu = int(patientEdu)
+                if 150 > patientEdu >= 0:
                     self.label6.config(text = "*")
                 else:
                     self.label6.config(text = "Hata! Lütfen geçerli bir sayı giriniz.")
@@ -413,29 +413,29 @@ def guiPatientInfo():
             if inputError:
                 return
             else:
-                self.on_saving(patient_admin, patient_ID, patient_name, patient_age, patient_sex, patient_edu)
+                self.on_saving(patientAdmin, patientID, patientName, patientAge, patientSex, patientEdu)
                                 
         def abortFunc(self):
             patientInfo.on_closing()
             
-        def on_saving(self, temppatient_admin, temppatient_ID, temppatient_name, temppatient_age, temppatient_sex, temppatient_edu):            
-            text_dump = ("Testi uygulayan kişi: " + temppatient_admin + "\nHastanın kodu: " + temppatient_ID +
-            "\nHastanın ismi: " + temppatient_name + "\nHastanın yaşı: " + str(temppatient_age) +
-            "\nHastanın cinsiyeti: " + funcLangLocal(temppatient_sex) + "\nHastanın toplam eğitim yılı: " + str(temppatient_edu)+
+        def on_saving(self, temppatientAdmin, temppatientID, temppatientName, temppatientAge, temppatientSex, temppatientEdu):            
+            text_dump = ("Testi uygulayan kişi: " + temppatientAdmin + "\nHastanın kodu: " + temppatientID +
+            "\nHastanın ismi: " + temppatientName + "\nHastanın yaşı: " + str(temppatientAge) +
+            "\nHastanın cinsiyeti: " + funcLangLocal(temppatientSex) + "\nHastanın toplam eğitim yılı: " + str(temppatientEdu)+
             "\nBu kaydı onaylıyor musunuz?")
             if tk.messagebox.askokcancel("Çıkış", text_dump):
                 
-                globals()["patient_admin"] = temppatient_admin
+                globals()["patientAdmin"] = temppatientAdmin
                 
-                globals()["patient_ID"] = temppatient_ID
+                globals()["patientID"] = temppatientID
                 
-                globals()["patient_name"] = temppatient_name
+                globals()["patientName"] = temppatientName
                 
-                globals()["patient_age"] = temppatient_age
+                globals()["patientAge"] = temppatientAge
                 
-                globals()["patient_sex"] = temppatient_sex
+                globals()["patientSex"] = temppatientSex
                 
-                globals()["patient_edu"] = temppatient_edu
+                globals()["patientEdu"] = temppatientEdu
 
                 root.destroy()
             
@@ -1137,7 +1137,7 @@ def amILooping():
     if crashNum > 10:
         print("Houston we have a problem here.")
         raise
-
+    
 
 def hexaInput(questionString):
     import re
@@ -1343,9 +1343,9 @@ first_ever_run = True
 def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDict):
     while True:
         try:
-            patient_name_local = patient_name      
+            patientName_local = patientName      
                 
-            demographic_data = [patient_ID, patient_name_local, patient_admin, date, time, patient_age, funcLangLocal(patient_sex), patient_edu]
+            demographic_data = [patientID, patientName_local, patientAdmin, date, time, patientAge, funcLangLocal(patientSex), patientEdu]
             
             
             excelWriter_data = jsonLoader("excelWriter_data")
@@ -1373,7 +1373,6 @@ def excelWriter(excel_path, data_num, printable_list, which_data, excelColNameDi
             from openpyxl import load_workbook
             
             wb = Workbook(write_only=True)
-            #wbwo = Workbook(write_only=True)
             
             while True:
                 try:
@@ -1424,19 +1423,10 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                                 for col, val in enumerate(test_col_list, start=1):
                                     active_sheet.cell(row=1, column=col).value = val
                                     
-                            #for key in mainDict["formNames"].keys():
-                             #    active_sheet = data_workbook[mainDict["formNames"][key]]
                             
                             data_workbook.save(filename = excel_path + settings("excel_name"))    
                             data_workbook.close()
                                 
-                                
-        #                    wb.save(filename = excel_path + settings("excel_name"))
-        #                    data_workbook = load_workbook(filename = excel_path + settings("excel_name"), read_only=False)
-        #                    active_sheet = data_workbook["Sheet"]
-        #                    data_workbook.remove_sheet(active_sheet)
-        #                    data_workbook.save(filename = excel_path + settings("excel_name"))
-        #                    data_workbook.close()
                             break
                         else:
                             continue
@@ -1585,7 +1575,7 @@ def csvWriter(path, test_name, printable_list):
             
             with open(test_name, 'a', encoding='UTF-8', newline='') as csvfile:
                 data_writer = csv.writer(csvfile, delimiter='~', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-                data = [patient_admin, date, time, patient_ID, patient_age, funcLangLocal(patient_sex), patient_edu] + printable_list
+                data = [patientAdmin, date, time, patientID, patientAge, funcLangLocal(patientSex), patientEdu] + printable_list
                 data_writer.writerow(data)
                 
             break
@@ -1603,13 +1593,13 @@ def txtWrite(path, console_results):
             fileNameFormat = settings("textFileNameFormat")
             
             if fileNameFormat == "firstID":
-                file_name = path + str(patient_ID.replace(" ", "_")) + "-(" + date + "-" + stime + ")-" + patient_admin.replace(" ", "_") + ".txt"
+                file_name = path + str(patientID.replace(" ", "_")) + "-(" + date + "-" + stime + ")-" + patientAdmin.replace(" ", "_") + ".txt"
             
             if fileNameFormat == "firstDate":
-                file_name = path + "(" + date + "-" + stime + ")-" + str(patient_ID.replace(" ", "_")) + "-" + patient_admin.replace(" ", "_") + ".txt"
+                file_name = path + "(" + date + "-" + stime + ")-" + str(patientID.replace(" ", "_")) + "-" + patientAdmin.replace(" ", "_") + ".txt"
                 
             if fileNameFormat == "firstAdmin":
-                file_name = path + patient_admin.replace(" ", "_") + "-(" + date + "-" + stime + ")-" + str(patient_ID.replace(" ", "_")) + ".txt"
+                file_name = path + patientAdmin.replace(" ", "_") + "-(" + date + "-" + stime + ")-" + str(patientID.replace(" ", "_")) + ".txt"
             
             import os.path
             if os.path.exists(file_name):
@@ -1624,10 +1614,10 @@ def txtWrite(path, console_results):
                                "\n============ Copyright (C) 2017 =============" +
                                "\n==== Bilal Bahadır Akbulut & Yavuz Ayhan ====" +
                     "\n=============================================\n" + 
-                    "Testi uygulayan: " + patient_admin + "\nGünün tarihi: " + date + "\nSaat: " + time +
-                    "\nHastanın ismi: " +  patient_name + "\nHastanın kodu: " + str(patient_ID) +
-                    "\nHastanın yaşı: " + str(patient_age) + "\nHastanın cinsiyeti: " + str(funcLangLocal(patient_sex)) +
-                    "\nHastanın toplam eğitim yılı: " + str(patient_edu) +
+                    "Testi uygulayan: " + patientAdmin + "\nGünün tarihi: " + date + "\nSaat: " + time +
+                    "\nHastanın ismi: " +  patientName + "\nHastanın kodu: " + str(patientID) +
+                    "\nHastanın yaşı: " + str(patientAge) + "\nHastanın cinsiyeti: " + str(funcLangLocal(patientSex)) +
+                    "\nHastanın toplam eğitim yılı: " + str(patientEdu) +
                     "\n=============================================\n")
                     
                     file.write(console_results)
@@ -1643,15 +1633,15 @@ def txtWrite(path, console_results):
             raise
 
 
-def inputPatient_age():
+def inputpatientAge():
 #a simple loop to get patient's age  
     while True:   
-        patient_age = exitable_input("Hastanın yaşı: ")
+        patientAge = exitable_input("Hastanın yaşı: ")
         
-        if patient_age.isnumeric():
-            patient_age = int(patient_age)
+        if patientAge.isnumeric():
+            patientAge = int(patientAge)
             
-            if patient_age < 0:
+            if patientAge < 0:
                 #ensures the number is bigger than 0
                 print("Lütfen 0'dan büyük bir sayı giriniz.")
                 continue
@@ -1662,37 +1652,37 @@ def inputPatient_age():
             print("Lütfen sadece sayı giriniz.")
             continue
         
-    return patient_age
+    return patientAge
     
-def inputPatient_sex():   
+def inputpatientSex():   
 #a simple loop to get the sex of the patient, provides two options, female or male
     while True:    
-        patient_sex_user_input = exitable_input("Hastanın cinsiyeti: (1) Kadın - (2) Erkek: ")
-        if patient_sex_user_input == "1":
-            patient_sex = "Female"
+        patientSex_user_input = exitable_input("Hastanın cinsiyeti: (1) Kadın - (2) Erkek: ")
+        if patientSex_user_input == "1":
+            patientSex = "Female"
             break
-        elif patient_sex_user_input == "2":
-            patient_sex = "Male"
+        elif patientSex_user_input == "2":
+            patientSex = "Male"
             break
         else:
             print("Lütfen sadece 1 veya 2 giriniz.")
             continue
-    return patient_sex
+    return patientSex
         
-def inputPatient_edu(): 
+def inputpatientEdu(): 
 #a simple loop to get the number of years of education
     while True:
-        patient_edu = exitable_input("Hastanın toplam eğitim yılı: ")
-        if patient_edu.isnumeric():
-            patient_edu = int(patient_edu)
+        patientEdu = exitable_input("Hastanın toplam eğitim yılı: ")
+        if patientEdu.isnumeric():
+            patientEdu = int(patientEdu)
             break
         else:
             print("Lütfen sadece sayı giriniz.")
             continue
         
-    return patient_edu
+    return patientEdu
 
-def calculate_age(patient_age):
+def calculate_age(patientAge):
     #gets day of birth and ensures it's in correct format
     from datetime import datetime, date
     today = date.today()
@@ -1743,21 +1733,21 @@ def calculate_age(patient_age):
           
         birthday = (bornDay + "/" + bornMonth + "/" + bornYear)
         
-        if patient_age != formPatientAge:
+        if patientAge != formPatientAge:
             #if there's discrepeancy between the calculated age and age entered, forces user to choose
             print("""
 Girişte girilen yaş ile forma girilen yaş arasında fark bulundu.
 Hangi sayıyı kullanmak istersiniz?
-1) Girişte girilen: """ + str(patient_age) + """
+1) Girişte girilen: """ + str(patientAge) + """
 2) Formda hesaplanan: """ + str(formPatientAge))
             
             while True:
                 userInput = int(numInput("\n"))
                 if 0 < userInput < 3:
                     if userInput == 1:
-                        formPatientAge = patient_age
+                        formPatientAge = patientAge
                     else:
-                        globals()['patient_age'] = formPatientAge
+                        globals()['patientAge'] = formPatientAge
                     
                     break
                 
@@ -2341,7 +2331,7 @@ def mainStartup(): #the mainStartup function
     guiPatientInfo()
     
     try:
-        if None in [patient_admin, patient_ID, patient_name, patient_age, patient_sex, patient_edu]:
+        if None in [patientAdmin, patientID, patientName, patientAge, patientSex, patientEdu]:
             print("Kayıt iptal edilmiş. Geri dönülüyor. ")
             return
         else:
@@ -2355,145 +2345,134 @@ def mainStartup(): #the mainStartup function
         raise
         
 
-def calcZscore(result_list, mean_list, sd_list):
-    #finds out which SD interval patient result is in and orders it in a list
-    z_score_list = []
-    for i in range(len(result_list)):
-        if mean_list[i] != None and sd_list[i] != None:
-            if sd_list[i] == 0:
-                sd_list[i] = 0.00000001 #protects the program from failing
-            z_score = ((result_list[i] - mean_list[i]) / sd_list[i])
-            z_score_list.append(float("%.2f" % z_score))
-        else:
-            z_score_list.append(None)
-    return z_score_list
+def calcZscore(result, mean, sd):
+    #finds out which SD interval patient result is in
+    if mean != None and sd != None:
+        if sd == 0:
+            sd = 0.00000001 #protects the program from failing
+        zScore = ((result - mean) / sd)
+        
+        zScore = float("%.2f" % zScore)
+    else:
+        zScore = None
+    return zScore
 
-def calcPercentile(z_score_list):
-    #gets the Z score list, changes it into percentile list
+def calcPercentile(zScore):
+    #gets the Z score and calculate the percentile
     import math
 
-    def percentile(z_score):
-        return .5 * (math.erf(z_score / 2 ** .5) + 1)
+    def percentile(zScore):
+        return .5 * (math.erf(zScore / 2 ** .5) + 1)
 
-    perc_list = []
-    for i in range(len(z_score_list)):
-        if z_score_list[i] != None:
-            try:
-                perc_temp = str("%.2f" % (100 * float(percentile(z_score_list[i]))))
-                perc_list.append(perc_temp)
-            except:
-                print("Persentil hesaplanırken bir hata oluştu.")
-                pass
-        else:
-            perc_list.append(None)
-
-    return perc_list
-    
-def outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list):
-    #puts all the lists in their proper, more manageable order to print in CSV
-    printable_list = []
-    for y in range(len(result_list)):
-        if not result_list[y] in ["999", 999, 999.0, "999.0"]:
-            printable_list.append(result_list[y])
-            if z_score_list[y] != None:
-                printable_list.append(z_score_list[y])
-                printable_list.append(perc_list[y])
-                printable_list.append(z_score_verbal_list[y])
-            else:
-                printable_list.append("N/A")
-                printable_list.append("N/A")
-                printable_list.append("N/A")
-        else:
-            printable_list.append("N/A")
-            printable_list.append("N/A")
-            printable_list.append("N/A")
-            printable_list.append("N/A")
-    return printable_list
-
-def outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list):
-    #gets the results ready to print onto the screen
-    console_result = []
-    
-    for i in range(len(z_score_list)):
-        if (result_list[i] != 999.00) and (None != z_score_list[i]):
-            console_result.append("Hastanın puanı: " + str(result_list[i]) + " - " + 
-            str(z_score_verbal_list[i]) + " Z skoru: " + str(z_score_list[i]) + " - Persentil: " + str(perc_list[i]))
+    if zScore != None:
+        try:
+            perc = str("%.2f" % (100 * float(percentile(zScore))))
             
-        elif (result_list[i] != 999.00) and (None == z_score_list[i]):
-            console_result.append("Hastanın puanı: " + str(result_list[i]) + " - Bu parametreye ait norm verisi yoktur.")
-        
+        except:
+            print("Persentil hesaplanırken bir hata oluştu.")
+            perc = None
+            pass
+    else:
+        perc = None
+
+    return perc
+    
+def outputPrintlist(result, zScore, zScoreVerbalResult, perc):
+    #puts all the lists in their proper, more manageable order to print in CSV
+    printableList = []
+    
+    if not result in ["999", 999, 999.0, "999.0"]:
+        printableList.append(result)
+        if zScore != None:
+            printableList.append(zScore)
+            printableList.append(perc)
+            printableList.append(zScoreVerbalResult)
         else:
-            console_result.append("Bu basamak uygulanmamış veya uygulanamamıştır.")
+            printableList.append("N/A")
+            printableList.append("N/A")
+            printableList.append("N/A")
+    else:
+        printableList.append("N/A")
+        printableList.append("N/A")
+        printableList.append("N/A")
+        printableList.append("N/A")
+        
+    return printableList
 
-    return console_result
+def outputConsoleResults(result, zScore, zScoreVerbalResult, perc):
+    #gets the results ready to print onto the screen    
+    
+    if (result != 999.00) and (zScore != None):
+        consoleResult = ("Hastanın puanı: " + str(result) + " - " + 
+        str(zScoreVerbalResult) + " Z skoru: " + str(zScore) + " - Persentil: " + str(perc))
+        
+    elif (result != 999.00) and (zScore == None):
+        consoleResult = ("Hastanın puanı: " + str(result) + " - Bu parametreye ait norm verisi yoktur.")
+    
+    else:
+        consoleResult = "Bu basamak uygulanmamış veya uygulanamamıştır."
+
+    return consoleResult
 
 
-def zScoreToVerbal(z_score_list): 
+def zScoreToVerbal(zScore): 
     #assumes Z scores get better as it goes up, multiply with "-1" if otherwise before using this function
-    z_score_verbal_list = []
+    zScoreVerbalResult = None
     
     if settings("zInterval") == "0-1":
         cutOffList = [-1, -2, -3]    
     if settings("zInterval") == "0-1.5":
         cutOffList = [-1.5, -2, -3] 
         
-    for i in range(len(z_score_list)):
-        if z_score_list[i] != None:
-            if cutOffList[0] <= z_score_list[i]:
-                x = "Normal."
-            elif cutOffList[1] <= z_score_list[i] < cutOffList[0]:
-                x = "Hafif derecede bozulma."
-            elif cutOffList[2] <= z_score_list[i] < cutOffList[1]:
-                x = "Orta derecede bozulma."
-            elif  z_score_list[i] < cutOffList[2]:
-                x = "Ağır derecede bozulma." 
+        if zScore != None:
+            if cutOffList[0] <= zScore:
+                zScoreVerbalResult = "Normal."
+            elif cutOffList[1] <= zScore < cutOffList[0]:
+                zScoreVerbalResult = "Hafif derecede bozulma."
+            elif cutOffList[2] <= zScore < cutOffList[1]:
+                zScoreVerbalResult = "Orta derecede bozulma."
+            elif  zScore < cutOffList[2]:
+                zScoreVerbalResult = "Ağır derecede bozulma." 
             else:
-                x = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
-        if z_score_list[i] == None:
-            x = "Bu grup için norm değeri bulunmamaktadır."
-        
-        z_score_verbal_list.append(x)
-    
-    return z_score_verbal_list
+                zScoreVerbalResult = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
+        else:
+            zScoreVerbalResult = "Bu grup için norm değeri bulunmamaktadır."
+            
+    return zScoreVerbalResult
 
 
-def zScoreInterpreter(z_score_list, z_score_legend):
+def zScoreInterpreter(paraNum, zScore, zScoreLegend):
     #z_score_legend = {"all":"less"} or {"all":"more"} means the all the Z scores
     # get better as they go lower or higher
     #z_score_legend = {"0":"less", "1":"more", "2":"less"} means 0 and 2nd Z scores
     # get better as they go low and 1 gets better when high
-    z_score_verbal_list = []
-    perc_list = []
-    temp_z_score_list = z_score_list
     try:
-        if z_score_legend["all"] == "more":          
-            temp_z_score_list = z_score_list
+        if zScoreLegend["all"] == "more":          
+            tempZScore = zScore
                     
-        elif z_score_legend["all"] == "less":
-            for i in range(len(z_score_list)):
-                if z_score_list[int(i)] != None:
-                    temp_z_score_list[i] = -1 * z_score_list[i]
-                else:
-                    temp_z_score_list[i] = z_score_list[i]
+        elif zScoreLegend["all"] == "less":
+            if zScore != None:
+                tempZScore = -1 * zScore
+            else:
+                tempZScore = zScore
             
     except:
-        for key in z_score_legend.keys():
-            if z_score_legend[key] == "more":
-                temp_z_score_list[int(key)] = z_score_list[int(key)]
+            if zScoreLegend[paraNum] == "more":
+                tempZScore = zScore
                 
-            elif z_score_legend[key] == "less":
-                if z_score_list[int(key)] != None:
-                    temp_z_score_list[int(key)] = -1 * z_score_list[int(key)]
+            elif zScoreLegend[paraNum] == "less":
+                if zScore != None:
+                    tempZScore = -1 * zScore
                 else:
-                    temp_z_score_list[int(key)] = z_score_list[int(key)]
+                    tempZScore = zScore
                 
     
-    perc_list = calcPercentile(temp_z_score_list)
+    perc = calcPercentile(tempZScore)
             
-    z_score_verbal_list = zScoreToVerbal(temp_z_score_list)
+    zScoreVerbalResult = zScoreToVerbal(tempZScore)
     
     
-    return perc_list, z_score_verbal_list
+    return perc, zScoreVerbalResult
 
 
 def testWechsler():
@@ -2515,7 +2494,7 @@ def testWechsler():
                 print("Lütfen sadece sayı giriniz.")
                 continue
             else:
-                norm_exists = True
+                normExists = True
                 break
 
 
@@ -2597,7 +2576,7 @@ def testWechsler():
             testing_values = [verb_score, perf_score, total_score]
             #result_values = [None, None, None]
             for IQ_dict in IQ_dict_list:
-                if IQ_dict["age"][0] <= patient_age <= IQ_dict["age"][1]:
+                if IQ_dict["age"][0] <= patientAge <= IQ_dict["age"][1]:
                     for i in range(3):
                         if IQ_dict["120"][i] <= testing_values[i]:
                             result_values[i] = "Üstün zeka - (120 ve üzeri IQ) "
@@ -2645,7 +2624,7 @@ def testWechsler():
 
         console_results = console_results + ("\n==================================")
         
-        if norm_exists:
+        if normExists:
             print(console_results)
             return [test_name, printable_list, console_results]
         else:
@@ -2677,55 +2656,144 @@ def testCct(): #Color trails joiner
     
     return dataCct
 
-def funcTestTemplate(JSONname): #Test Name
+def cutOffInterpreter(result, paraNum, testDataDict):
+    normExists = False
+    for i in testDataDict["cutOffList"]:
+        if i["sex"] == patientSex and (i["ageLow"] <= patientAge <= i["ageHigh"]) and (i["eduLow"] <= patientEdu <= i["eduHigh"]):
+            correctNorm = i
+            normExists = True
+            break
+        
+    #Find the correct cutoff values by iterating through every entry in JSON
+    if normExists: 
+        if correctNorm[paraNum]["parameterNormExists"]:
+            if not result in [999, 999.0, "999", "999.0"]:
+                cutOffGroupCutoffList = correctNorm[paraNum]["cutOffGroupCutoffList"]
+                #[cutOff1, cutOff2, cutOff3...]
+                cutOffGroupNameList = correctNorm[paraNum]["cutOffGroupNameList"]
+                #[groupName1, groupName2, groupName3...]
+    
+                
+                """
+                Example data structure:
+                {
+                "sex": "Male",
+                "eduLow": 0,
+                "eduHigh": 4,
+                "ageLow": 0,
+                "ageHigh": 69,
+                "0": {
+                "parameterNormExists": true,
+                "cutOffGroupCutoffList": [1, 2, 3],
+                "cutOffGroupNameList": ["Low", "Medium", "High", "Very High"]
+                },
+                "1": {
+                "parameterNormExists": true,
+                "cutOffGroupCutoffList": [5, 10, 20, 50],
+                "cutOffGroupNameList": ["Little", "Medium", "Big", "Very Big", "Huge"]
+                }
+                "2": {
+                "parameterNormExists": false
+                }
+                }
+                """
+                
+                # patientResult <= cutOff1 = groupName1 
+                # cutOff1 < patientResult <= cutOff2 = groupName2
+                # cutOff2 < patientResult <= cutOff3 = groupName3
+                # cutOff3 < patientResult = groupName4                        
+        
+                for cutOffGroupNum in range(len(cutOffGroupNameList)):
+                    
+                    if cutOffGroupNum == 0:
+                        if result <= cutOffGroupCutoffList[cutOffGroupNum]:
+                            verbalResult = cutOffGroupNameList[cutOffGroupNum]
+                        
+                    elif cutOffGroupNum < len(cutOffGroupCutoffList):
+                        if cutOffGroupCutoffList[cutOffGroupNum-1] < result <= cutOffGroupCutoffList[cutOffGroupNum]:
+                            verbalResult = cutOffGroupNameList[cutOffGroupNum]
+                        
+                    elif cutOffGroupNum == len(cutOffGroupCutoffList):
+                        if cutOffGroupCutoffList[cutOffGroupNum-1] < result:
+                            verbalResult = cutOffGroupNameList[cutOffGroupNum]
+                #iterates through all the cutoff-group couples, adding appropriate verbal results when available
+            else:
+                verbalResult = "Bu basamak uygulanmamış veya uygulanamamıştır."
+        else:
+            verbalResult = "Bu parametreye ait norm verisi yoktur."
+            #Adds a N/A entry for every missing norm value 
+    
+    else:            
+        verbalResult = "Bu parametreye ait norm verisi yoktur."
+    
+    
+    printable = [result, verbalResult]
+    console = result + ", " + verbalResult
+                    
+    return printable, console
+                    
+
+def funcTestTemplate(JSONname):#Test Name
     testDataDict = jsonLoader(JSONname) 
     #Load test data from JSON file
-
+    
     while True:
         try:
-            result_list = []
-            print("\n===================================\n" + testDataDict["testName"])
-            for i in range(testDataDict["paraNum"]):
-                if str(i) not in testDataDict["mathOper"].keys():
-                    result_list.append(floInput(testDataDict[str(i)]))
-                else:
-                    result_list.append(999)
-                    
-            for i in testDataDict["mathOper"].keys():
-                try:
-                    mathList = testDataDict["mathOper"][i]
-                    
-                    firstVal = result_list[mathList[0]]
-                    secondVal = result_list[mathList[2]]
-                    operator = mathList[1]
-                    
-                    bothResultsExist = 999 not in [firstVal, secondVal]
-                    
-                    if bothResultsExist:
-                        if operator == "+":
-                            result_list[int(i)] = firstVal + secondVal
-                        elif operator == "-":
-                            result_list[int(i)] = firstVal - secondVal
-                        elif operator == "*":
-                            result_list[int(i)] = firstVal * secondVal
-                        elif operator == "/":
-                            if secondVal == 0:
-                                secondVal = 0.00000001 #If secondVal is equal to 0, protects program from failing.
-                            result_list[int(i)] = firstVal / secondVal
-                        else:
-                            print("Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/")
-                            result_list[int(i)] = 999
-                except SystemExit:
-                    raise
-                except:
-                    if settings("debug"):
-                        raise
-                    print("KRİTİK TEST HATASI(mathOper), EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
-                    result_list[int(i)] = 999
-                    pass
-            #prints user interface
-            #gets raw input from the user, these are test results
+            resultDict = {}
+            paraTypeDict = testDataDict["paraTypeDict"]
             
+            print("\n===================================\n" + testDataDict["testName"])
+            
+            for paraNum in range(testDataDict["paraNum"]):
+                result = None
+                paraNum = str(paraNum)
+                
+                if str(paraNum) not in testDataDict["mathOper"].keys():
+                    if paraTypeDict[paraNum] == "intType":
+                        result = floInput(testDataDict[paraNum])
+                    elif paraTypeDict[paraNum] == "strType":
+                        result = freeInput(testDataDict[paraNum])
+                    else:
+                        result = "Hatalı tipte kayıt, paraTypeDict, lütfen JSON dosyasını kontrol ediniz."
+                else:
+                    result = (999)
+                    
+                resultDict[str(paraNum)] = result
+                
+            for paraNum in testDataDict["mathOper"].keys():
+                    try:
+                        mathList = testDataDict["mathOper"][paraNum]
+                        
+                        firstVal = resultDict[str(mathList[0])]
+                        secondVal = resultDict[str(mathList[2])]
+                        operator = mathList[1]
+                        
+                        bothResultsExist = 999 not in [firstVal, secondVal]
+                        
+                        if bothResultsExist:
+                            if operator == "+":
+                                resultDict[paraNum] = firstVal + secondVal
+                            elif operator == "-":
+                                resultDict[paraNum] = firstVal - secondVal
+                            elif operator == "*":
+                                resultDict[paraNum] = firstVal * secondVal
+                            elif operator == "/":
+                                if secondVal == 0:
+                                    secondVal = 0.00000001 #If secondVal is equal to 0, protects program from failing.
+                                resultDict[paraNum] = firstVal / secondVal
+                            else:
+                                print("Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/")
+                                resultDict[paraNum] = 999
+                    except SystemExit:
+                        raise
+                    except:
+                        if settings("debug"):
+                            raise
+                        print("KRİTİK TEST HATASI(mathOper), EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
+                        resultDict[paraNum] = 999
+                        pass
+                #prints user interface
+                #gets raw input from the user, these are test results
         except SystemExit:
             raise
         except:
@@ -2737,158 +2805,110 @@ def funcTestTemplate(JSONname): #Test Name
         
         else:
             break
-
+    
     try:
         if testDataDict["testType"] == "zScore":
             #if test type is zScore calculating type
             
-            norm_exists = False
-            for i in testDataDict["normList"]:
-                if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
-                    correctNorm = i
-                    norm_exists = True
+            normExists = False
+            for norm in testDataDict["normList"]:
+                if norm["sex"] == patientSex and (norm["ageLow"] <= patientAge <= norm["ageHigh"]) and (norm["eduLow"] <= patientEdu <= norm["eduHigh"]):
+                    correctNorm = norm
+                    normExists = True
                     break
             #Find the correct norm values by iterating through every entry in JSON    
             
             
-            mean_list = []
-            sd_list = []
+            meanDict = {}
+            sdDict = {}
             
-            if norm_exists:
-                for i in range(testDataDict["paraNum"]):
-                    mean_list.append(correctNorm[str(i)][0])
-                    sd_list.append(correctNorm[str(i)][1])
+            if normExists:
+                for paraNum in range(testDataDict["paraNum"]):
+                    paraNum = str(paraNum)
+                    meanDict[paraNum] = (correctNorm[paraNum][0])
+                    sdDict[paraNum] = (correctNorm[paraNum][1])
             else:
-                for i in range(testDataDict["paraNum"]):
-                    mean_list.append(None)
-                    sd_list.append(None)
+                for paraNum in range(testDataDict["paraNum"]):
+                    paraNum = str(paraNum)
+                    meanDict[paraNum] = None
+                    sdDict[paraNum] = None
                 
             #Create appropriate mean and standard deviation lists for further calculations
                     
+            
+            printableDict = {}
+            consoleDict = {}
+            for paraNum in range(testDataDict["paraNum"]):
+                paraNum = str(paraNum)
+                
+                result = resultDict[paraNum]
+                mean = meanDict[paraNum]
+                sd = sdDict[paraNum]
+                
+                if paraTypeDict[paraNum] == "intType":
+                    zScore= calcZscore(result, mean, sd)
                     
-            z_score_list = calcZscore(result_list, mean_list, sd_list)
-            #it calculated the patient's SD interval as a float using the results, means and the SD
+                    perc, zScoreVerbalResult = zScoreInterpreter(paraNum, zScore, testDataDict["zScoreLegend"])
+                    
+                    printableDict[paraNum] = outputPrintlist(result, zScore, zScoreVerbalResult, perc)
+                    consoleDict[paraNum] = outputConsoleResults(result, zScore, zScoreVerbalResult, perc)
             
-            perc_list, z_score_verbal_list = zScoreInterpreter(z_score_list, testDataDict["zScoreLegend"])
-            #calculates patient percentile and it's human language equivalent
-    
-            printable_list = outputPrintlist(result_list, z_score_list, z_score_verbal_list, perc_list)
-            #creates a list to be put into a CSV file
-    
-            console_results = "==================================\n" + testDataDict["testName"]
-            for i in range(testDataDict["paraNum"]):
-                console_results = console_results + "\n" + (testDataDict[str(i)] + str(outputConsole_results(result_list, z_score_list, z_score_verbal_list, perc_list)[i]))         
-            console_results = console_results + ("\n==================================")
-                
-            #Creates a text dump for the console and the txt report
-            
-            
-        if testDataDict["testType"] == "cutOff":
+                else: #strType
+                    if result == None:
+                        result = " "
+                    printableDict[paraNum] = [result]
+                    consoleDict[paraNum] = "Hastanın değerlendirme sonucu: " + str(result)
+                    
+        elif testDataDict["testType"] == "cutOff":
             #if the test is a simple cutoff type
-            
-            verbal_result_list = []
       
-            norm_exists = False
-            for i in testDataDict["cutOffList"]:
-                if i["sex"] == patient_sex and (i["ageLow"] <= patient_age <= i["ageHigh"]) and (i["eduLow"] <= patient_edu <= i["eduHigh"]):
-                    correctNorm = i
-                    norm_exists = True
-                    break
+            printableDict = {}
+            consoleDict = {}
+            
+            for paraNum in range(testDataDict["paraNum"]):
+                paraNum = str(paraNum)
                 
-            #Find the correct cutoff values by iterating through every entry in JSON    
-            if norm_exists: 
-                for paraNum in range(testDataDict["paraNum"]):
-                    if correctNorm[str(paraNum)]["parameterNormExists"]:
-                        cutOffGroupCutoffList = correctNorm[str(paraNum)]["cutOffGroupCutoffList"]
-                        #[cutOff1, cutOff2, cutOff3...]
-                        cutOffGroupNameList = correctNorm[str(paraNum)]["cutOffGroupNameList"]
-                        #[groupName1, groupName2, groupName3...]
+                if paraTypeDict[paraNum] == "intType":
+                    result, verbalResult = cutOffInterpreter(result, paraNum, testDataDict)
+                    
+                    printableDict[paraNum] = [result, verbalResult]
+                    consoleDict[paraNum] = result + ", " + verbalResult
+                
+                else: #strType
+                    if result == None:
+                        result = " "
+                    printableDict[paraNum] = [result]
+                    consoleDict[paraNum] = "Hastanın değerlendirme sonucu: " + str(result)
 
-                        
-                        """
-                        Example data structure:
-                        {
-                        "sex": "Male",
-                        "eduLow": 0,
-                        "eduHigh": 4,
-                        "ageLow": 0,
-                        "ageHigh": 69,
-                        "0": {
-                        "parameterNormExists": true,
-                        "cutOffGroupCutoffList": [1, 2, 3],
-                        "cutOffGroupNameList": ["Low", "Medium", "High", "Very High"]
-                        },
-                        "1": {
-                        "parameterNormExists": true,
-                        "cutOffGroupCutoffList": [5, 10, 20, 50],
-                        "cutOffGroupNameList": ["Little", "Medium", "Big", "Very Big", "Huge"]
-                        }
-                        "2": {
-                        "parameterNormExists": false
-                        }
-                        }
-                        """
-                        
-                        # patientResult <= cutOff1 = groupName1 
-                        # cutOff1 < patientResult <= cutOff2 = groupName2
-                        # cutOff2 < patientResult <= cutOff3 = groupName3
-                        # cutOff3 < patientResult = groupName4                        
-                
-                        for cutOffGroupNum in range(len(cutOffGroupNameList)):
-                            if cutOffGroupNum == 0:
-                                if result_list[paraNum] <= cutOffGroupCutoffList[cutOffGroupNum]:
-                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
-                                
-                            elif cutOffGroupNum < len(cutOffGroupCutoffList):
-                                if cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[paraNum] <= cutOffGroupCutoffList[cutOffGroupNum]:
-                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
-                                
-                            elif cutOffGroupNum == len(cutOffGroupCutoffList):
-                                if cutOffGroupCutoffList[cutOffGroupNum-1] < result_list[paraNum]:
-                                    verbal_result_list.append(cutOffGroupNameList[cutOffGroupNum])
-                        #iterates through all the cutoff-group couples, adding appropriate verbal results when available
-                    else:
-                        verbal_result_list.append("Bu parametreye ait norm verisi yoktur.")
-                        #Adds a N/A entry for every missing norm value 
-            
-            else:
-                for i in range(testDataDict["paraNum"]):
-                    verbal_result_list.append("Bu basamak uygulanmamış veya uygulanamamıştır.")
-                    #if no norm exists at all, fills up the verbal results with N/A
-            
-            
-            printable_list = []
-            for i in range(testDataDict["paraNum"]):
-                printable_list.append(result_list[i])
-                printable_list.append(verbal_result_list[i])      
-            #Creates a dump for excel/CSV
-            
-            console_results = "==================================\n" + testDataDict["testName"]
-            for i in range(testDataDict["paraNum"]):
-                console_results = console_results + "\n" + (testDataDict[str(i)] + str(result_list[i]) + ", " + str(verbal_result_list[i]))         
-            console_results = console_results + ("\n==================================")
-            #Creates a dump for console/txt file
-            
-                
-        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
+
+        printableList = []
+        for paraNum in printableDict.keys():
+            printableList += printableDict[paraNum]
+        #Creates a dump for excel/CSV
         
-        if norm_exists:
-            print(console_results)
+        consoleResults = "==================================\n" + testDataDict["testName"]
+        for paraNum in consoleDict.keys():
+            consoleResults += "\n" + testDataDict[paraNum] + consoleDict[paraNum]      
+        consoleResults += ("\n==================================")
+        #Creates a dump for console/txt file
+
+        testName = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
+        
+        if normExists:
+            print(consoleResults)
             #creates a patient report for the physician and prints it out for the user
-            return [test_name, printable_list, console_results]
+            return [testName, printableList, consoleResults]
         else:
             print("Bu demografik grup için norm değeri bulunmamaktadır.")
             #print("No norm value exists for the grup")
-            return [test_name, printable_list, console_results]
+            return [testName, printableList, consoleResults]
             
     except:
         print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
         raise
         return
         #saves the program from fiery death
-
-
-
+        
 
 def progStructure():
     first_run = True

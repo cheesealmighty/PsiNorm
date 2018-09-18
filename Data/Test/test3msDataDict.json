@@ -2,6 +2,7 @@
     "testName": "Modifiye Mini-Mental Test(3MS)",
     "paraNum": 1,
     "0": "Toplam puan: ",
+	"paraTypeDict": {"0": "intType"},
 	"zScoreLegend": {"all": "more"},
 	"testType": "zScore",
 	"mathOper": {

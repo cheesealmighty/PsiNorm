@@ -5,6 +5,7 @@
     "1": "Errors: ",
     "2": "Near-Misses: ",
     "3": "Prompts: ",
+	"paraTypeDict" : {"0": "intType", "1": "intType", "2": "intType", "3": "intType"},
     "zScoreLegend": {
         "all": "less"
     },

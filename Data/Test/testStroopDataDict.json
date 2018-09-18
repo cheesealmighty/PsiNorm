@@ -16,6 +16,12 @@
     "12": "Bölüm 5: ",
     "13": "Hata-5: ",
     "14": "Düzeltme-5: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType", "3": "intType", "4": "intType", "5": "intType", 
+		"6": "intType", "7": "intType", "8": "intType", "9": "intType", "10": "intType",
+		"11": "intType", "12": "intType", "13": "intType", "14": "intType"},
+		
     "zScoreLegend": {
         "all": "less"
     },

@@ -4,6 +4,10 @@
     "0": "Sayı dizisi toplam: ",
     "1": "Sayı dizisi ileri: ",
     "2": "Sayı dizisi geri: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType"},
+		
     "zScoreLegend": {
         "all": "more"
     },

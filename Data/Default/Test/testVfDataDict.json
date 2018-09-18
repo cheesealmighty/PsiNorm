@@ -1,16 +1,26 @@
 {
     "testName": "Sözel akıcılık",
+	
     "paraNum": 3,
+	
     "0": "'S' harfi için: ",
     "1": "'A' harfi için: ",
     "2": "'Z' harfi için: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType"},
+	
     "zScoreLegend": {
         "all": "more"
     },
+	
     "testType": "zScore",
+	
 	"mathOper": {
 	},
+	
     "cutOffList": [],
+	
     "normList": [
         {
             "sex": "Female",

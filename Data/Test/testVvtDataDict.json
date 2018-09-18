@@ -3,6 +3,10 @@
     "paraNum": 2,
     "0": "Toplam 'sort' sayısı: ",
     "1": "Toplam 'shift' sayısı: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType"},
+	
     "zScoreLegend": {
         "all": "more"
     },

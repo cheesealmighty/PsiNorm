@@ -2,6 +2,10 @@
     "testName": "Görsel İşitsel Sayı Dizileri",
     "paraNum": 1,
     "0": "Sonuç: ",
+	
+	"paraTypeDict" : {
+		"0": "intType"},
+		
     "zScoreLegend": {
         "all": "more"
     },

@@ -4,6 +4,10 @@
     "0": "Hayvan için: ",
     "1": "İnsan için: ",
     "2": "İnsan-Hayvan için: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType"},
+		
     "zScoreLegend": {
         "all": "more"
     },

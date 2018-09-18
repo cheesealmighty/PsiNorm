@@ -2,6 +2,8 @@
     "testName": "Saat çizme",
     "paraNum": 1,
     "0": "Saat çizme skor: ",
+	"paraTypeDict" : {
+		"0": "intType"},
     "zScoreLegend": {
         "all": "more"
     },

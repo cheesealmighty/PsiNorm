@@ -13,6 +13,10 @@
 	"9": "Resim düzenleme: ",
 	"10": "Parça birleştirme: ",
 	
+	"paraTypeDict" : {
+		"0": "intType", "1": "intType", "2": "intType", "3": "intType", "4": "intType", "5": "intType", 
+		"6": "intType", "7": "intType", "8": "intType", "9": "intType", "10": "intType"},
+	
 	"raw_to_scaled_dict" : {
 		"19": [[29], [27,28], [null], [26], [17], [78, 80], [87, 90], [null], [null], [null], [null]],
 		"18": [[28], [26], [null], [25], [null], [76, 77], [83, 86], [21], [null], [36], [44]],

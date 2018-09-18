@@ -2,6 +2,10 @@
     "testName": "Yetişkinlerde çizgi yönünü belirleme",
     "paraNum": 1,
     "0": "Çizgi yönü puan: ",
+	
+	"paraTypeDict" : {
+		"0": "intType"},
+		
     "zScoreLegend": {
         "all": "more"
     },

@@ -1,8 +1,14 @@
 {
     "testName": "Ayları ileri-geri sayma",
     "paraNum": 2,
-    "0": "İleri yorum: ",
-    "1": "Geri yorum: ",
+    "0": "İleri puan: ",
+	"1": "İleri yorum: ",
+	"2": "Geri puan: ",
+    "3": "Geri yorum: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "strType", "2": "intType", "3": "strType"},
+		
     "zScoreLegend": {
         "all": "more"
     },
