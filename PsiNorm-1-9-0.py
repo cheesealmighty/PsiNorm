@@ -61,7 +61,6 @@ def resetGlobals():
     
     globals()["patientNotes"] = None
     
-    
 def guiSettings():
     import tkinter as tk
     titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Seçenekler "
@@ -931,6 +930,207 @@ def guiTestChoose(title, menuDict, textDump):
     
     root.mainloop()
 
+def guiTest(testDataDict):
+    import tkinter as tk
+    from tkinter import messagebox as messagebox
+    
+    totalParaNum = int(testDataDict["paraNum"])
+    paraTypeDict = testDataDict["paraTypeDict"]
+    testName = testDataDict["testName"]
+    
+    globals()["resultDict"] = None
+    
+    class testGUI:
+        def __init__(self, master):
+            self.master = master
+            master.title(testName)
+            
+            root.bind("<Return>", self.pressEnter)
+            root.bind("<Key>", self.autoCalculate)
+            
+            self.entriesList = []
+            self.entriesSanity = []
+            
+            for paraNum in range(totalParaNum):
+                # create left side info labels
+                tk.Label(text=testDataDict[str(paraNum)]).grid(row=paraNum, column=0, padx=1, pady=1)
+                # create entries list
+                self.entriesList.append(tk.Entry(width=40))
+                # grid layout the entries
+                self.entriesList[paraNum].grid(row=paraNum, column=1, padx=1, pady=1)
+                
+                if str(paraNum) in testDataDict["mathOper"].keys():
+                    self.entriesList[paraNum].insert(tk.END, "Otomatik hesaplanır.")
+                    self.entriesList[paraNum].config(state=tk.DISABLED)
+                    
+                self.entriesSanity.append(tk.Label(text = "*", bg='grey', width=40))
+                
+                self.entriesSanity[paraNum].grid(row=paraNum, column=2, padx=1, pady=1)
+    
+            self.entriesList[0].focus_force()
+
+            self.status = tk.Label(master, height=1, width=120, text="")
+            self.status.grid(row=totalParaNum, column=0, padx=5, pady=5, sticky=tk.S, columnspan=3) 
+    
+            self.save_button = tk.Button(master, height=2, width=10, text="Kaydet ve Çık", state=tk.DISABLED, command=self.save)
+            self.save_button.grid(row=totalParaNum+1, column=1, padx=5, pady=5, sticky=tk.S)  
+            self.save_button.bind("<Enter>", self.saveStatus)
+            self.save_button.bind("<Leave>", self.resetStatus)
+        
+        
+            self.close_button = tk.Button(master, height=2, width=10, text="Çıkış", command=self.close)
+            self.close_button.grid(row=totalParaNum+1, column=2, padx=5, pady=5, sticky=tk.S) 
+            
+        def pressEnter(self, event):
+            try:
+                root.focus_get().invoke()
+            except:
+                if self.save_button["state"] != "disabled":
+                    self.save()
+                else:
+                    pass   
+          
+        def resetStatus(self, event):
+            self.status.config(text = "")
+            
+        def saveStatus(self, event):
+            if self.save_button["state"] == "disabled":
+                text = "Kaydetmek için lütfen yapılmayan veya yapılamayan testlere 999 giriniz."
+            else:
+                text = ""
+            
+            self.status.config(text = text)
+                
+            
+        def autoCalculate(self, event):
+            tempResultDict = {}
+            self.save_button.config(state=tk.NORMAL)
+            for paraNum in range(totalParaNum):
+                paraNum = str(paraNum)
+                tempResultDict[paraNum] = 999
+            try:
+                for paraNum in range(totalParaNum):
+                    paraNum = str(paraNum)
+                    result = self.entriesList[int(paraNum)].get()
+                    if result == "":
+                        self.save_button.config(state=tk.DISABLED)
+                    inputSane = True
+                       
+                    if paraNum not in testDataDict["mathOper"].keys():
+                        if paraTypeDict[paraNum] == "intType":
+                            inputSane = checkGuiInput(result, "flo")
+                            if not inputSane:
+                                self.entriesSanity[int(paraNum)].config(text= "Lütfen sadece sayı giriniz.")
+                            else:
+                                tempResultDict[paraNum] = float(result)
+                        elif paraTypeDict[paraNum] == "strType":
+                            tempResultDict[paraNum] = str(result)
+                        
+                        if not inputSane:
+                            self.entriesSanity[int(paraNum)].config(bg = "red")
+                            self.save_button.config(state=tk.DISABLED)
+                        else:
+                            self.entriesSanity[int(paraNum)].config(text= "*", bg = "green")
+                            
+                            
+                    else:
+                        tempResultDict[paraNum] = 999
+                        
+                        try:
+                            mathList = testDataDict["mathOper"][paraNum]
+                            
+                            firstVal = tempResultDict[str(mathList[0])]
+                            secondVal = tempResultDict[str(mathList[2])]
+                            operator = mathList[1]
+                            
+                            bothResultsExist = 999 not in [firstVal, secondVal]
+                            
+                            if bothResultsExist:
+                                if operator == "+":
+                                    tempResultDict[paraNum] = firstVal + secondVal
+                                elif operator == "-":
+                                    tempResultDict[paraNum] = firstVal - secondVal
+                                elif operator == "*":
+                                    tempResultDict[paraNum] = firstVal * secondVal
+                                elif operator == "/":
+                                    if secondVal == 0:
+                                        secondVal = 0.00000001 #If secondVal is equal to 0, protects program from failing.
+                                    tempResultDict[paraNum] = firstVal / secondVal
+                                else:
+                                    print("Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/")
+                                    
+                                    text = "Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/"
+                                    self.entriesSanity[int(paraNum)].config(text= text)
+                                    
+                                    tempResultDict[paraNum] = 999
+                                    
+                            else:
+                                text = "Bir ya da birden fazla test parametresi eksik."
+                                self.entriesSanity[int(paraNum)].config(text= text, bg="red")
+                                
+                                self.entriesList[int(paraNum)].config(state=tk.NORMAL)
+                                self.entriesList[int(paraNum)].delete(0, tk.END)
+                                
+                                self.entriesList[int(paraNum)].insert(tk.END, "Otomatik hesaplanır.")
+                                self.entriesList[int(paraNum)].config(state=tk.DISABLED)
+
+                            if bothResultsExist and tempResultDict[paraNum] != 999:
+                                self.entriesList[int(paraNum)].config(state=tk.NORMAL)
+                                self.entriesList[int(paraNum)].delete(0, tk.END)
+
+                                self.entriesList[int(paraNum)].insert(tk.END, str(tempResultDict[paraNum]))
+                                self.entriesList[int(paraNum)].config(state=tk.DISABLED)
+                                
+                                text = "*"
+                                self.entriesSanity[int(paraNum)].config(text= text, bg="green")
+                                
+                        except SystemExit:
+                            raise
+                        except:
+                            if settings("debug"):
+                                raise
+                            print("KRİTİK TEST HATASI(mathOper), EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
+                            tempResultDict[paraNum] = 999
+                            pass
+                    
+                    if result == "":
+                        self.entriesSanity[int(paraNum)].config(text= "*", bg = "grey")
+                        
+                globals()["resultDict"] = tempResultDict
+                
+                        
+            except:
+                raise
+            
+        def save(self):
+            root.destroy()
+            
+        def close(self):
+            if tk.messagebox.askokcancel("Çıkış", "Değişiklikleri kaydetmeden çıkmak istediğinize emin misiniz?"):
+                globals()["resultDict"] = None
+                root.destroy()
+                
+            else: 
+                return
+
+    
+    root = tk.Tk()
+    
+    rowList = []
+    i = 0
+    while i < testDataDict["paraNum"] + 2:
+        rowList.append(i)
+        i += 1
+        
+    tk.Grid.rowconfigure(root, rowList, weight=1)
+    tk.Grid.columnconfigure(root, [0,1,2], weight=1)
+    root.config(borderwidth=10, relief=tk.GROOVE)
+    
+    my_gui = testGUI(root)
+    root.mainloop()
+    return resultDict
+
+
 def criticalError(errorTitle, errorMessage, shouldIBeep):
     """
     errorTitle = Title of the popup, string, if None, prints a console message instead.
@@ -1105,6 +1305,28 @@ def exitable_input(interface):
                 continue               
         else:
             return thing
+
+def checkGuiInput(userInput, inputType):
+    import re
+    if inputType == "str":
+        if re.match("^[0-9a-zA-Z\-\_\(\)ığĞüÜşŞİöÖçÇ ]+$", userInput):
+            return True
+        else:
+            return False
+        
+    if inputType == "flo":
+        try:
+            userInput = float(userInput)
+            return True
+        except:
+            return False
+    
+    if inputType == "int":
+        try:
+            userInput = int(userInput)
+            return True
+        except:
+            return False
 
 def checkGuiInputString(userInput):
     import re
@@ -2477,30 +2699,29 @@ def zScoreInterpreter(paraNum, zScore, zScoreLegend):
 
 def testWechsler():
     testDataDict = jsonLoader("testWechslerDataDict")
+    
+    resultDict = guiTest(testDataDict)
+    
+    tempResultDict = resultDict
+    
+    del globals()["resultDict"]
+    
+    resultDict = tempResultDict
+
+    resultList = []
+    
+    
+    from natsort import natsorted as nt
+    
+    resultDictKeys = nt(resultDict.keys(), key=lambda y: y.lower())
+    
+    for key in resultDictKeys:
+        resultList.append(resultDict[key])
 
     try:
-        while True:
-            try:
-                result_list = []
-                print("\n===================================\n" + testDataDict["testName"])
-                for i in range(testDataDict["paraNum"]):
-                    result_list.append(floInput(testDataDict[str(i)]))
-                    
-                #gets raw input from the user, these are test results and creates a list from them
-                
-            except SystemExit:
-                raise
-            except:
-                print("Lütfen sadece sayı giriniz.")
-                continue
-            else:
-                normExists = True
-                break
-
-
-        printable_list = []
-        for y in range(len(result_list)):
-            printable_list.append(result_list[y])
+        printableList = []
+        for y in range(len(resultList)):
+            printableList.append(resultList[y])
             
             
             valid_items_dict = {
@@ -2516,8 +2737,8 @@ def testWechsler():
         
         scaled_dict = {}
         
-        for raw_score_index in range(len(printable_list)):
-            raw_score = printable_list[raw_score_index]
+        for raw_score_index in range(len(printableList)):
+            raw_score = printableList[raw_score_index]
             for dictKey in range(20):
                 to_check_list = raw_to_scaled_dict[str(dictKey)][raw_score_index] 
                 if len(to_check_list) == 2:
@@ -2534,7 +2755,7 @@ def testWechsler():
         
         
         for i in scaled_dict.keys():
-            printable_list[i] = scaled_dict[i]
+            printableList[i] = scaled_dict[i]
             
         verb_items_list = [0, 1, 2, 3, 4, 5]
         perf_items_list = [6, 7, 8, 9, 10]
@@ -2545,7 +2766,7 @@ def testWechsler():
                 
         for i in verb_items_list:
             if valid_items_dict[i] == 1:
-                verb_score += printable_list[i]
+                verb_score += printableList[i]
                 verb_items += 1
         
         if verb_items != 0:
@@ -2555,7 +2776,7 @@ def testWechsler():
         
         for i in perf_items_list:
             if valid_items_dict[i] == 1:
-                perf_score += printable_list[i]
+                perf_score += printableList[i]
                 perf_items += 1
                 
         if perf_items != 0:
@@ -2601,34 +2822,31 @@ def testWechsler():
                 
                 
         for i in range(3):
-            printable_list.append(testing_values[i])
-            printable_list.append(result_values[i])
+            printableList.append(testing_values[i])
+            printableList.append(result_values[i])
             
         
-        test_name = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
+        testName = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
         
-        outputConsole_results = []
-        for i in range(len(result_list)):
-            outputConsole_results.append("Hastanın standart puanı: " + str(printable_list[i]))
+        outputconsoleResults = []
+        for i in range(len(resultList)):
+            outputconsoleResults.append("Hastanın standart puanı: " + str(printableList[i]))
        
-        console_results = "==================================\nWechsler zeka testinin sonuçları: "
+        consoleResults = "==================================\nWechsler zeka testinin sonuçları: "
         
         
         for i in range(testDataDict["paraNum"]):
-            console_results = console_results + ("\n" + testDataDict[str(i)] + str(outputConsole_results[i]))
+            consoleResults += ("\n" + testDataDict[str(i)] + str(outputconsoleResults[i]))
             
-        console_results = console_results + "\nSözel standart puan: " + str(verb_score) + " - " + str(result_values[0])
-        console_results = console_results + "\nPerformans standart puan: " + str(perf_score) + " - " + str(result_values[1])
-        console_results = console_results + "\nToplam standart puan: " + str(total_score) + " - " + str(result_values[2])
+        consoleResults += "\nSözel standart puan: " + str(verb_score) + " - " + str(result_values[0])
+        consoleResults += "\nPerformans standart puan: " + str(perf_score) + " - " + str(result_values[1])
+        consoleResults += "\nToplam standart puan: " + str(total_score) + " - " + str(result_values[2])
         
 
-        console_results = console_results + ("\n==================================")
+        consoleResults = consoleResults + ("\n==================================")
         
-        if normExists:
-            print(console_results)
-            return [test_name, printable_list, console_results]
-        else:
-            return [test_name, printable_list, console_results]
+        guiSimpleTextDump(testDataDict["testName"], consoleResults)
+        return [testName, printableList, consoleResults]
         
     except:
         print("Wechsler zeka testini değerlendirirken bir hata oluştu, program kapatılacak.")
@@ -2733,7 +2951,7 @@ def cutOffInterpreter(result, paraNum, testDataDict):
     
     else:
         printable = [result, verbalResult]
-        console = result + ", " + verbalResult
+        console = str(result) + ", " + verbalResult
     
                     
     return printable, console
@@ -2743,78 +2961,19 @@ def funcTestTemplate(JSONname):#Test Name
     testDataDict = jsonLoader(JSONname) 
     #Load test data from JSON file
     
-    while True:
-        try:
-            resultDict = {}
-            paraTypeDict = testDataDict["paraTypeDict"]
-            
-            print("\n===================================\n" + testDataDict["testName"])
-            
-            for paraNum in range(testDataDict["paraNum"]):
-                result = None
-                paraNum = str(paraNum)
-                
-                if str(paraNum) not in testDataDict["mathOper"].keys():
-                    if paraTypeDict[paraNum] == "intType":
-                        result = floInput(testDataDict[paraNum])
-                    elif paraTypeDict[paraNum] == "strType":
-                        result = freeInput(testDataDict[paraNum])
-                    else:
-                        result = "Hatalı tipte kayıt, paraTypeDict, lütfen JSON dosyasını kontrol ediniz."
-                else:
-                    result = (999)
-                    
-                resultDict[str(paraNum)] = result
-                
-            for paraNum in testDataDict["mathOper"].keys():
-                    try:
-                        mathList = testDataDict["mathOper"][paraNum]
-                        
-                        firstVal = resultDict[str(mathList[0])]
-                        secondVal = resultDict[str(mathList[2])]
-                        operator = mathList[1]
-                        
-                        bothResultsExist = 999 not in [firstVal, secondVal]
-                        
-                        if bothResultsExist:
-                            if operator == "+":
-                                resultDict[paraNum] = firstVal + secondVal
-                            elif operator == "-":
-                                resultDict[paraNum] = firstVal - secondVal
-                            elif operator == "*":
-                                resultDict[paraNum] = firstVal * secondVal
-                            elif operator == "/":
-                                if secondVal == 0:
-                                    secondVal = 0.00000001 #If secondVal is equal to 0, protects program from failing.
-                                resultDict[paraNum] = firstVal / secondVal
-                            else:
-                                print("Yanlış matematik operatörü, kullanılabilir seçenekler: +,-,*,/")
-                                resultDict[paraNum] = 999
-                    except SystemExit:
-                        raise
-                    except:
-                        if settings("debug"):
-                            raise
-                        print("KRİTİK TEST HATASI(mathOper), EĞER DATA DOSYALARINDA DEĞİŞİKLİK YAPTI İSENİZ KONTROL EDİNİZ.")
-                        resultDict[paraNum] = 999
-                        pass
-                #prints user interface
-                #gets raw input from the user, these are test results
-        except SystemExit:
-            raise
-        except:
-            if settings("debug"):
-                raise
-            print("Lütfen sadece sayı giriniz.")
-            continue
-            #"Only enter numbers", and then resets the function
-        
-        else:
-            break
+    paraTypeDict = testDataDict["paraTypeDict"]
     
+    resultDict = guiTest(testDataDict)
+    
+    tempResultDict = resultDict
+    
+    del globals()["resultDict"]
+    
+    resultDict = tempResultDict
+
     try:
         if testDataDict["testType"] == "zScore":
-            #if test type is zScore calculating type
+            #if test type is zScore calculating type      
             
             normExists = False
             for norm in testDataDict["normList"]:
@@ -2875,10 +3034,8 @@ def funcTestTemplate(JSONname):#Test Name
                 paraNum = str(paraNum)
                 
                 if paraTypeDict[paraNum] == "intType":
-                    result, verbalResult = cutOffInterpreter(result, paraNum, testDataDict)
-                    
-                    printableDict[paraNum] = [result, verbalResult]
-                    consoleDict[paraNum] = result + ", " + verbalResult
+                    result = resultDict[paraNum]
+                    printableDict[paraNum], consoleDict[paraNum] = cutOffInterpreter(result, paraNum, testDataDict)
                 
                 else: #strType
                     if result == None:
@@ -2900,14 +3057,8 @@ def funcTestTemplate(JSONname):#Test Name
 
         testName = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
         
-        if normExists:
-            print(consoleResults)
-            #creates a patient report for the physician and prints it out for the user
-            return [testName, printableList, consoleResults]
-        else:
-            print("Bu demografik grup için norm değeri bulunmamaktadır.")
-            #print("No norm value exists for the grup")
-            return [testName, printableList, consoleResults]
+        guiSimpleTextDump(testDataDict["testName"], consoleResults)
+        return [testName, printableList, consoleResults]
             
     except:
         print(testDataDict["testName"] + " değerlendirirken bir hata oluştu, program kapatılacak.")
