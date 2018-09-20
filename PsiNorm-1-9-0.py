@@ -340,6 +340,7 @@ def guiPatientInfo():
             try:
                 root.focus_get().invoke()
             except:
+                self.saveFunc()
                 pass   
         
         def buttonFemaleFunc(self):
@@ -360,53 +361,53 @@ def guiPatientInfo():
 
             
             if not checkGuiInputString(patientAdmin):
-                self.label1.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
+                self.label1.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.", bg="red")
                 inputError = True
             else:
-                self.label1.config(text = "*")
+                self.label1.config(text = "*", bg="green")
                 
             if not checkGuiInputString(patientID):
-                self.label2.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
+                self.label2.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.", bg="red")
                 inputError = True
             else:
-                self.label2.config(text = "*")
+                self.label2.config(text = "*", bg="green")
                 
             if not checkGuiInputString(patientName):
-                self.label3.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.")
+                self.label3.config(text = "Hata! Lütfen harf, sayı, '-', '_', '(' ve ')' dışında giriş yapmayınız.", bg="red")
                 inputError = True
             else:
-                self.label3.config(text = "*")
+                self.label3.config(text = "*", bg="green")
                 
             if not checkGuiInputInt(patientAge):
-                self.label4.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.")
+                self.label4.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.", bg="red")
                 inputError = True
             else:
                 patientAge = int(patientAge)
                 if 150 > patientAge > 0:
-                    self.label4.config(text = "*")
+                    self.label4.config(text = "*", bg="green")
                 else:
-                    self.label4.config(text = "Hata! Lütfen geçerli bir sayı giriniz.")
+                    self.label4.config(text = "Hata! Lütfen geçerli bir sayı giriniz.", bg="red")
                     inputError = True
                 
             if str(self.buttonFemale["state"]) == "disabled" or str(self.buttonMale["state"]) == "disabled":
-                self.label5.config(text = "*")
+                self.label5.config(text = "*", bg="green")
                 if str(self.buttonFemale["state"]) == "disabled":
                     patientSex = "Female"
                 if str(self.buttonMale["state"]) == "disabled":
                     patientSex = "Male"       
             else:
-                self.label5.config(text = "Hata! Lütfen bir seçim yapınız.")
+                self.label5.config(text = "Hata! Lütfen bir seçim yapınız.", bg="red")
                 inputError = True
                 
             if not checkGuiInputInt(patientEdu):
-                self.label6.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.")
+                self.label6.config(text = "Hata! Lütfen sayı dışında giriş yapmayınız.", bg="red")
                 inputError = True
             else:
                 patientEdu = int(patientEdu)
                 if 150 > patientEdu >= 0:
-                    self.label6.config(text = "*")
+                    self.label6.config(text = "*", bg="green")
                 else:
-                    self.label6.config(text = "Hata! Lütfen geçerli bir sayı giriniz.")
+                    self.label6.config(text = "Hata! Lütfen geçerli bir sayı giriniz.", bg="red")
                     inputError = True
 
             if inputError:
@@ -1701,12 +1702,12 @@ Bu işlemi yapmak istediğinizden emin misiniz? (e)vet/(h)ayır: """)
                             active_sheet = data_workbook["Ana Veri"]
                             #sets the correct sheet name
                             
-                            menu_done_tests_nums = printable_list
+                            doneTests = printable_list
                             
                             masterBinaryList = []
                             
                             for num in range(len(test_name_list)):
-                                if (num+1) in menu_done_tests_nums:
+                                if doneTests[num+1] == "(+)":
                                     masterBinaryList.append("1")
                                 else:
                                     masterBinaryList.append("0")
@@ -2426,7 +2427,7 @@ def mainMenu():
             elif whatToDo == "saveProgram":
                 try: 
                     for testNum in doneTests.keys():
-                        if doneTests[testNum] != "(-)":
+                        if doneTests[int(testNum)] != "(-)":
                                             
                             test_name = dataDict[testNum][0]
                             printable_list = dataDict[testNum][1]
@@ -2450,7 +2451,7 @@ def mainMenu():
                         done_tests_string = "\n----------------------------------------\nYapılan testler listesi: "
                         
                         for testNum in doneTests.keys():
-                            if doneTests[testNum] != "(-)":
+                            if doneTests[int(testNum)] != "(-)":
                                 done_tests_string += "\n" + str(testNum)+ ") "
                                 done_tests_string += menuDict[str(testNum)]["testName"]
                 
