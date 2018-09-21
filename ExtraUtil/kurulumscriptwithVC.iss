@@ -2,8 +2,8 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PsiNorm Persentil Hesaplayýcý"
-#define MyAppVersion "1.8.4"
-#define MyAppPublisher "Bilal Bahadýr Akbulut - b.bahadirakbulut"
+#define MyAppVersion "1.9.0"
+#define MyAppPublisher "Bilal Bahadýr Akbulut - Yavuz Ayhan"
 #define MyAppExeName "PsiNorm.exe"
 
 [Setup]
@@ -34,9 +34,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: "vcredist_x86.exe"; DestDir: {tmp}; Flags: deleteafterinstall
-Source: "C:\Users\Cheese\Desktop\PsiNorm05-08-2017\PsiNorm.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\Cheese\Desktop\PsiNorm05-08-2017\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Cheese\Documents\PsiNorm\*"; DestDir: "{userdocs}\PsiNorm\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Cheese\Desktop\PsiNorm22092018\PsiNorm.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\Cheese\Desktop\PsiNorm22092018\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Cheese\Documents\PsiNorm\*"; Excludes: "\Results\*"; DestDir: "{userdocs}\PsiNorm\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\Cheese\Documents\PsiNorm\Results\*"; DestDir: "{userdocs}\PsiNorm\Results\"; Flags: uninsneveruninstall onlyifdoesntexist ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
