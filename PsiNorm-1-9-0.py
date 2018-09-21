@@ -2647,20 +2647,20 @@ def zScoreToVerbal(zScore):
     if settings("zInterval") == "0-1.5":
         cutOffList = [-1.5, -2, -3] 
         
-        if zScore != None:
-            if cutOffList[0] <= zScore:
-                zScoreVerbalResult = "Normal."
-            elif cutOffList[1] <= zScore < cutOffList[0]:
-                zScoreVerbalResult = "Hafif derecede bozulma."
-            elif cutOffList[2] <= zScore < cutOffList[1]:
-                zScoreVerbalResult = "Orta derecede bozulma."
-            elif  zScore < cutOffList[2]:
-                zScoreVerbalResult = "Ağır derecede bozulma." 
-            else:
-                zScoreVerbalResult = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
+    if zScore != None:
+        if cutOffList[0] <= zScore:
+            zScoreVerbalResult = "Normal."
+        elif cutOffList[1] <= zScore < cutOffList[0]:
+            zScoreVerbalResult = "Hafif derecede bozulma."
+        elif cutOffList[2] <= zScore < cutOffList[1]:
+            zScoreVerbalResult = "Orta derecede bozulma."
+        elif  zScore < cutOffList[2]:
+            zScoreVerbalResult = "Ağır derecede bozulma." 
         else:
-            zScoreVerbalResult = "Bu grup için norm değeri bulunmamaktadır."
-            
+            zScoreVerbalResult = "KRİTİK HATA, LÜTFEN YAZILIMCI İLE İLETİŞİME GEÇİNİZ."
+    else:
+        zScoreVerbalResult = "Bu grup için norm değeri bulunmamaktadır."
+        
     return zScoreVerbalResult
 
 
