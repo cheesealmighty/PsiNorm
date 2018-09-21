@@ -1,13 +1,22 @@
 {
     "testName": "Modifiye Mini-Mental Test(3MS)",
 	
-    "paraNum": 1,
+    "paraNum": 4,
 	
-    "0": "Toplam puan: ",
+    "0": "Soru1: ",
+	"1": "Soru2: ",
+	"2": "Soru3: ",
+	"3": "Soru4: ",
+	
+	"paraTypeDict" : {
+		"0": "intType", "1": "strType", "2": "intType", "3": "strType"},
 	
 	"zScoreLegend": {"all": "more"},
 	
 	"testType": "zScore" "cutOff",
+	
+		"mathOper": {
+	},
 	
 	"cutOffList": [
 		{
