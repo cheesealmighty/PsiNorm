@@ -1,0 +1,137 @@
+{
+	"test_name_list" :[
+		"(1)MMT", "(2)MOCA", "(3)3MS", "(4)GISD", "(5)ECR",
+		"(6)Öktem Sözel Bellek Süreçleri", "(7)Rey Karmaşık Figür", "(8)İz Sürme", "(9)Stroop",
+		"(10)Wisconsin", "(11)Görsel Sözel Test", "(12)Renkli İz Sürme",
+		"(13)Wechsler", "(14)Wechsler-Sayı Dizisi", "(15)Sözel Akıcılık", 
+		"(16)Semantik Akıcılık", "(17)Saat Çizme", "(18)SDOT", "(19)Ayları İleri-Geri Sayma",
+		"(20)İşaretleme", "(21)Boston Adlandırma Testi"
+		],
+		
+	"userNotesHandle": "Uygulayıcı notları",
+	
+	"testExcelColNameDict": {
+        "1": ["Puan", "Sözel sonuç"],
+        "2": ["Puan", "Sözel sonuç"],
+        "3": ["Puan", "Z Skoru", "Persentil", "Sözel sonuç"],
+        "4": ["Puan", "Z Skoru", "Persentil", "Sözel sonuç"],
+        "5": ["Puan", "Sözel sonuç"],
+        "6": ["Kendiliğinden geciktirilmiş hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Tanıma boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Toplam geciktirilmiş hatırlama boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Geciktirilmiş hatırlama yanlışı boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Yanlış tanıma boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
+        "A listesi anlık bellek boyutu", "Z Skoru", "Persentil", "Sözel sonuç",
+        "A listesi toplam öğrenme boyutu", "Z Skoru", "Persentil", "Sözel sonuç"],
+              
+        "7": ["Kopyalama", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Anlık hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Gecikmeli hatırlama", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Tanıma doğru pozitif", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Tanıma yanlış pozitif", "Z Skoru", "Persentil", "Sözel sonuç"],
+              
+        "8": ["A skoru", "Z Skoru", "Persentil", "Sözel sonuç",
+        "A formu düzeltme sayısı", "Z Skoru", "Persentil", "Sözel sonuç",
+        "B skoru", "Z Skoru", "Persentil", "Sözel sonuç",
+        "B formu düzeltme sayısı", "Z Skoru", "Persentil", "Sözel sonuç",
+        "B+A skoru", "Z Skoru", "Persentil", "Sözel sonuç",
+        "B-A skoru", "Z Skoru", "Persentil", "Sözel sonuç"],
+        
+        "9": ["Bölüm 1", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Hata-1", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Düzeltme-1", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Bölüm 2", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Hata-2", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Düzeltme-2", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Bölüm 3", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Hata-3", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Düzeltme-3", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Bölüm 4", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Hata-4", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Düzeltme-4", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Bölüm 5", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Hata-5", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Düzeltme-5", "Z Skoru", "Persentil", "Sözel sonuç"],
+          
+        "10": ["Toplam tepki sayısı puanı",  "Z Skoru", "Persentil", "Sözel sonuç",
+        "Tamamlanan kategori sayısı puanı", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Toplam perseveretif hata sayısı puanı", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Perseveratif hata yüzdesi puanı", "Z Skoru", "Persentil", "Sözel sonuç"],
+               
+        "11": ["Toplam 'sort' sayısı",  "Z Skoru", "Persentil", "Sözel sonuç",
+         "Toplam 'shift' sayısı",  "Z Skoru", "Persentil", "Sözel sonuç"],
+         
+        "12": ["Time", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Errors", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Near-Misses", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Prompts", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Time", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Number Errors", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Color Errors", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Near-Misses", "Z Skoru", "Persentil", "Sözel sonuç",
+        "Prompts", "Z Skoru", "Persentil", "Sözel sonuç"],
+               
+        "13": ["Genel bilgi standart puan ",
+        "Yargılama standart puan ",
+        "Aritmetik standart puan ",
+        "Benzerlik standart puan ",
+        "Sayı dizisi standart puan ", 
+        "Kelime standart puan ",
+        "Şifre standart puan ",
+        "Resim tamamlama standart puan ",
+        "Küplerle desen standart puan ",
+        "Resim düzenleme standart puan ",
+        "Parça birleştirme standart puan ",
+        "Sözel standart puan ",
+        "Sözel IQ",
+        "Performans standart puan ",
+        "Performans IQ",
+        "Toplam standart puan ",
+        "Toplam IQ"],
+               
+        "14": ["Sayı dizisi toplam", "Sözel sonuç",
+        "Sayı dizisi ileri", "Sözel sonuç",
+        "Sayı dizisi geri", "Sözel sonuç"],
+        
+        "15": ["'S' harfi için: " , "Z Skoru", "Persentil", "Sözel sonuç",
+               "'A' harfi için: ", "Z Skoru", "Persentil", "Sözel sonuç",
+               "'Z' harfi için: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+               
+        "16": ["Hayvan için: ", "Z Skoru", "Persentil", "Sözel sonuç",
+               "İnsan için: ", "Z Skoru", "Persentil", "Sözel sonuç",
+               "İnsan-Hayvan için: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+                
+        "17": ["Skor: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+        
+        "18": ["Puan ", "Z Skoru", "Persentil", "Sözel sonuç"],
+        
+        "19": ["İleri puan", "İleri yorum", "Geri puan", "Geri yorum"],
+        
+        "20": ["Düzenli HF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli HF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli HF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli HF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli HF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli ŞF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli ŞF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
+                   "Düzenli ŞF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
+                   "Düzenli ŞF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzenli ŞF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz HF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz HF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz HF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz HF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz HF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
+                   "Düzensiz ŞF - İşaretlenen hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz ŞF - Atlanan hedef sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",  
+                   "Düzensiz ŞF - İşaretlenen yanlış half sayısı puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz ŞF - Toplam hata puanı: ", "Z Skoru", "Persentil", "Sözel sonuç", 
+                   "Düzensiz ŞF - Tarama süresi puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+               
+        "21": ["KA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
+               "KA+AİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
+            "KA+AİA+SİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"]
+        
+   }
+
+}

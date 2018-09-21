@@ -1,0 +1,441 @@
+{
+    "testName": "Modifiye Mini-Mental Test(3MS)",
+    "paraNum": 1,
+    "0": "Toplam puan: ",
+	"paraTypeDict": {"0": "intType"},
+	"zScoreLegend": {"all": "more"},
+	"testType": "zScore",
+	"mathOper": {
+	},
+    "normList": [
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 0,
+            "ageHigh": 69,
+            "0": [
+                75.28,
+                7.78
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                73.25,
+                8.15
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                68.18,
+                8.07
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                61.45,
+                8.14
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                69.15,
+                8.02
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                67.11,
+                8.12
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                59.88,
+                8.08
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                57.65,
+                8.05
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                51.84,
+                8.30
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                79.36,
+                7.92
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                79.36,
+                7.92
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                77.75,
+                7.93
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                77.75,
+                7.93
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                76.00,
+                8.12
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                76.00,
+                8.12
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                76.29,
+                8.07
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                76.29,
+                8.07
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                68.66,
+                8.1
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 5,
+            "eduHigh": 5,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                68.66,
+                8.1
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                87.66,
+                8.22
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                87.66,
+                8.22
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                84.97,
+                7.98
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                84.97,
+                7.98
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                83.31,
+                7.97
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                83.31,
+                7.97
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                82.84,
+                8.01
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                82.84,
+                8.01
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                78.09,
+                8.14
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                78.09,
+                8.14
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                92.52,
+                8.22
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 0,
+            "ageHigh": 64,
+            "0": [
+                92.52,
+                8.22
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                89.91,
+                8.06
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 65,
+            "ageHigh": 69,
+            "0": [
+                89.91,
+                8.06
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                91.34,
+                8.32
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 70,
+            "ageHigh": 74,
+            "0": [
+                91.34,
+                8.32
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                87.42,
+                7.96
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                87.42,
+                7.96
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                83.18,
+                8.18
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 100,
+            "ageLow": 80,
+            "ageHigh": 150,
+            "0": [
+                83.18,
+                8.18
+            ]
+        }
+    ]
+}

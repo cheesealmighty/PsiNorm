@@ -1,0 +1,150 @@
+{
+    "testName": "Yetişkinlerde çizgi yönünü belirleme",
+    "paraNum": 1,
+    "0": "Çizgi yönü puan: ",
+	
+	"paraTypeDict" : {
+		"0": "intType"},
+		
+    "zScoreLegend": {
+        "all": "more"
+    },
+    "testType": "zScore",
+	"mathOper": {
+	},
+    "cutOffList": [],
+    "normList": [
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 8,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                20.03,
+                4.58
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 8,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                20.03,
+                4.58
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 0,
+            "eduHigh": 8,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                19.81,
+                4.0
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 8,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                19.81,
+                4.0
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 9,
+            "eduHigh": 11,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                22.46,
+                4.52
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 9,
+            "eduHigh": 11,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                22.46,
+                4.52
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 9,
+            "eduHigh": 11,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                21.18,
+                4.82
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 9,
+            "eduHigh": 11,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                21.18,
+                4.82
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 99,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                25.37,
+                3.51
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 99,
+            "ageLow": 0,
+            "ageHigh": 54,
+            "0": [
+                25.37,
+                3.51
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 12,
+            "eduHigh": 99,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                23.04,
+                3.43
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 12,
+            "eduHigh": 99,
+            "ageLow": 55,
+            "ageHigh": 200,
+            "0": [
+                23.04,
+                3.43
+            ]
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+Sýk Sorulan Sorular
+1.	 ‘’Yazýlým kesirli sayýlarý kabul etmiyor.  Örneðin 18,5 girdiðimde hata veriyor.’’
+
+Küsurat belirtirken lütfen nokta kullanýnýz.  Yukarýdaki örnekte ‘’18,5’’ yerine ‘’18.5’’ yazýnýz.
+
+2.	 ‘’Testte yanlýþlýkla 35 yazacaðýma 350 yazdým, testin normlarýnda böyle bir deðer olmamasýna raðmen sonuç ‘Normal’ olarak rapor edildi.  Oysa testten alýnabilecek en yüksek puan 48’’
+
+PsiNorm yazýlýmý uygulayýcý tarafýndan girilen içeriði kontrol etmemektedir.  Ýçerik sayýsal olarak uygun olmasa dahi (yukarýdaki örnekte norm/eþik deðerleri için belirlenen deðerlerin dýþýnda) program tarafýndan hesaplama yapýlmakta ve uygulayýcýya sonuç verilmektedir.  Yine de bazý testlerde uyarý görmeniz olasýdýr.  Lütfen giriþin doðru yapýldýðýna emin olunuz. 
+
+3.	‘’Kiþiye testi uygularken önceki test sonuçlarýný yukarý çýkýp sonucu kontrol etmek istiyorum ama müsaade etmiyor, ekranda yukarý çýkamýyorum.’’
+PsiNorm yazýlýmýnýn temel alýndýðý program giriþ esnasýnda üst satýrlarýn kullanýmýna müsaade etmemektedir.  Ýlgili testin sonuçlarýný TEST TAMAMLANDIKTAN SONRA (yani 22 komutu verildikten sonra oluþturulan) text veya excel dosyasýndan kontrol edebilirsiniz.  Eðer TEST ESNASINDA yanlýþ giriþ yaptýðýnýzdan þüphe ederseniz ayný test sonuçlarýný tekrar girebilirsiniz.  Lütfen test ekranýndaki yönergeleri takip ediniz.
+4.	‘’Sonuçlarý nereden bulacaðým?’’
+
+Sonuçlar ‘’documents’’ ya da ‘’belgelerim’’ içinde ‘’AAPerc’’ klasöründe bulunabilir.  Txt dosyalarý katýlýmcý kodu ile tanýnabilir; excel dosyasýnda her test için ilk sütunlar katýlýmcý bilgilerine ayrýlmýþtýr. 
+
+ 
+5.	‘’Excel dosyasýnda bir þey görünmüyor, nereden sonuçlarý bulacaðým?’’
+
+Dosyadaki sayfalarý (sheet) kontrol ediniz.  Her test için bir sayfa ayrýlmýþtýr.  Bazý test maddelerinde yanýt sayýsýnda farklýlýk olabileceði için (örneðin ‘’kullandýðý ilaçlar’’ sorusunda bir katýlýmcý için 5 kaleme yönelik giriþ yapacak iken diðer katýlýmcý için 7 kaleme yönelik giriþ yapýlabilir)  cevap vermediðiniz halde bazý alanlarýn boþ býrakýldýðýný görebilirsiniz.  Bu nedenle lütfen baþlýklara göre hücreleri kontrol ediniz.
+
+6.	‘’Test sonuçlarýnýn ne anlama geldiðini nasýl öðreneceðim?’’
+
+PsiNorm nöropsikolojik testlerin normlarýný otomatik hesaplamakta ve kullanýcýnýn hizmetine sunmaktadýr.  Test sonuçlarýný yorumlamak amacý gütmemektedir.  Test sonuçlarýnýn nasýl yorumlanacaðý ile ilgili lütfen test çýktýsýnda belirtilen kaynaklara baþvurunuz.  
+
+7.	 ‘’ … testinin norm verileri/ geçerlik çalýþmasý yayýmlandý.  Bunu da eklemek mümkün mü?’’
+PsiNorm, alanda çalýþan uygulayýcýlarýn ihtiyaçlarý doðrultusunda uygulayýcýlar tarafýndan geliþtirilmiþ ücretsiz bir yazýlýmdýr.  En az iki güncel uyarlamanýn yapýlmasý planlanmýþtýr.  Ýlk uyarlama/ güncellemenin 2019 baþýnda yapýlmasý hedeflenmiþtir.  Kullanýcýlardan gelen öneriler ve alýnan izinler doðrultusunda ikinci uyarlamada test listesi içeriðinde deðiþiklik yapýlabilir.  Bazý durumlarda ikinci uyarlamanýn beta (ön) hali deneme amaçlý kullanýcýlara açýlabilir.  Deneme amaçlý kullaným ile ilgileniyorsanýz demans.org sitesini takip ediniz.
+8.	 ‘’Test verilerini girdikten sonra fark ettim ki bir testin sonucunu yanlýþ yazmýþým.  En baþtan mý baþlamam gerekiyor?’’
+Eðer 22 komutu verilmiþ ise o katýlýmcý için sonuç dosyasý oluþturulmuþ demektir.  Bu durumda ayný katýlýmcý için tekrar katýlýmcý bilgileri de dahil olmak üzere sonuç giriþi yapmanýz gerekmektedir.  Eðer 22 komutu verilmemiþ ise, söz konusu katýlýmcý için hala veri girilebilir, yanlýþ girilen veri düzeltilebilir.  Bu durumda yanlýþ sonuç girilen testi tekrar seçerek doðru veriyi girebilirsiniz.  Lütfen unutmayýn; bir katýlýmcý için 22 komutu verilmeden önce ayný test için tekrar veri giriþi yaparsanýz ilk girdiðiniz veriler silinecektir.
+
+9.	 ‘’Hastam 95 yaþýnda.  PsiNorm bu testler için bana sonuç veriyor dolayýsýyla testlerin bu yaþ grubu normlarý var mý?’’  
+Norm çalýþmalarýnda ilgili deðiþken için hangi aralýk kullanýldýysa PsiNorm hesaplamalarý o aralýða göre yapmaktadýr.  Ancak hastaya özgü deðerler norm aralýðýnýn dýþýnda ise (bu örnekte yaþ), hesaplama hastanýn özelliklerine en yakýn gruba göre yapýlýr.  Dolayýsýyla test için belirlenen norm aralýðýnda yaþ için üst deðer 80 ise yazýlým 90 yaþýndaki hastanýn hesaplamasýný 80 yaþa göre yapmaktadýr.     
+
+10.	 ‘’Hastam hiç eðitim görmemiþ.  PsiNorm bu testler için bana sonuç veriyor dolayýsýyla tüm testlerin bu eðitim seviyesi için normlarý var mý?’’
+
+Norm çalýþmalarýnda ilgili deðiþken için hangi aralýk kullanýldýysa PsiNorm hesaplamalarý o aralýða göre yapmaktadýr.  Ancak hastaya özgü deðerler norm aralýðýnýn dýþýnda ise (bu örnekte eðitim), hesaplama hastanýn özelliklerine en yakýn gruba göre yapýlýr.  Dolayýsýyla test için belirlenen norm aralýðýnda eðitim için alt deðer 5 ise yazýlým hiç örgün eðitim görmemiþ (0 sene eðitim görmüþ) hastanýn hesaplamasýný 5 seneyi esas alarak yapmaktadýr.     
+
+11.      ‘’Program api-ms-win-crt-runtime-l1-1-0.dll bilgisayarýnýzda eksik olduðundan baþlayamýyor. ‘’
+
+Bilgisayarýnýzda programýn çalýþmasý için gerekli olan 'Visual C++ Redistributable for Visual Studio 2015' eksik veya bozuk olabilir. Bu problemi çözmek için https://www.microsoft.com/en-us/download/details.aspx?id=48145 adresinden indirip, yüklemeniz halinde problem çözülecektir.

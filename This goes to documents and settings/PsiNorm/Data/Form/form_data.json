@@ -1,0 +1,899 @@
+{
+    "1": {
+        "titleDict": {
+            "1": "\nSAĞLIKLI KATILIMCILAR İÇİN BİLGİ TOPLAMA FORMU\n\n------------------------------------------------------------------------------\nDİKKAT !\n\n>Bilgi Toplama Formunda yer alan sorulara geçmeden önce, \n araştırma hakkında katılımcıya kısaca bilgi verin.\n\t\n>Test uygulama oturumunun başında katılımcıdan aşağıdaki konularda bilgi alın.\n------------------------------------------------------------------------------   \n",
+            "5": "\n------------------------------------------------------------------------------   \nDİKKAT !\t\n    Katılımcının bildirdiği ilaçlar bilişsel süreçleri etkileyen türdense,\n    daha sonra uygulamaya almak için katılımcıdan aşağıdaki konularda bilgi alabilirsiniz.\n    Ancak bildirilen ilaçların etkisi ortadan kalkana kadar\n    katılımcıya herhangi bir nöropsikolojik test uygulamayın.\n------------------------------------------------------------------------------   \n\nKimlik Bilgileri ve Demografik Özellikler\n------------------------------------------------------------------------------\n",
+            "20": "\nEğitim Durumu\n------------------------------------------------------------------------------\n",
+            "23": "\nFizyolojik  Özellikler ve  Sağlık Durumu\n------------------------------------------------------------------------------\n"
+        },
+        "qDict": {
+            "1": {
+                "qType": "cQuest",
+                "qText": "Katılımcı No: "
+            },
+            "2": {
+                "qType": "cQuest",
+                "qText": "Katılımcı Kodu: "
+            },
+            "3": {
+                "qType": "eQuest",
+                "qText": "Kullanılmakta olan ilaçların adları / Miktarları / Kullanım süreleri",
+                "colNum": 3,
+                "1": "İlaç adı: ",
+                "2": "Miktarı: ",
+                "3": "Kullanım süresi: "
+            },
+            "4": {
+                "qType": "eQuest",
+                "qText": "Uzun süre kullanıldıktan sonra bırakılan ilaçların adları / Miktarları / Kullanım süreleri / Ne kadar süre önce bırakıldığı",
+                "colNum": 4,
+                "1": "İlaç adı: ",
+                "2": "Miktarı: ",
+                "3": "Kullanım süresi: ",
+                "4": "Ne kadar süre önce bırakıldığı: "
+            },
+            "5": {
+                "qType": "pullData",
+                "qText": "Katılımcı ismi: ",
+                "data": "patient_name"
+            },
+            "6": {
+                "qType": "pullData",
+                "qText": "Katılımcı cinsiyeti: ",
+                "data": "patient_sex"
+            },
+            "7": {
+                "qType": "cQuest",
+                "qText": "Doğum yeri: "
+            },
+            "8": {
+                "qType": "runFunc",
+                "qText": "Doğum tarihi: ",
+                "runFunc": "calculate_age",
+                "arg": "patient_age"
+            },
+            "9": {
+                "qType": "pullData",
+                "qText": "Katılımcı yaşı: ",
+                "data": "patient_age"
+            },
+            "10": {
+                "qType": "mQuest",
+                "qText": "Medeni hali:",
+                "optNum": 4,
+                "1": "Evli",
+                "2": "Bekar",
+                "3": "Dul/Boşanmış",
+                "4": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "11": {
+                "qType": "cQuest",
+                "qText": "Ev adresi: "
+            },
+            "12": {
+                "qType": "cQuest",
+                "qText": "Yazışma adresi (yukarıdakinden farklı ise): "
+            },
+            "13": {
+                "qType": "cQuest",
+                "qText": "Söz konusu il / ilçe / köyde oturma süresi: "
+            },
+            "14": {
+                "qType": "cQuest",
+                "qText": "Telefon Numarası - Ev: "
+            },
+            "15": {
+                "qType": "cQuest",
+                "qText": "Telefon Numarası - İş: "
+            },
+            "16": {
+                "qType": "cQuest",
+                "qText": "Fax Numarası - Ev: "
+            },
+            "17": {
+                "qType": "cQuest",
+                "qText": "Fax Numarası - İş: "
+            },
+            "18": {
+                "qType": "cQuest",
+                "qText": "E-posta: "
+            },
+            "19": {
+                "qType": "cQuest",
+                "qText": "Ailenin yaklaşık geliri: "
+            },
+            "20": {
+                "qType": "mQuest",
+                "qText": "Eğitim Durumu",
+                "optNum": 7,
+                "1": "Çalışan katılımcı",
+                "2": "Okuyan katılımcı (zorunlu temel eğitim: ilkokul ve ortaokul ve/veya lise)",
+                "3": "Yükseköğrenim görmekte olan katılımcı",
+                "4": "Yüksek lisans",
+                "5": "Doktora",
+                "6": "Tıpta uzmanlık",
+                "7": "Bilinmiyor",
+                "extraMark": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ]
+            },
+            "21": {
+                "qType": "mQuest",
+                "qText": "Annenin Eğitim Durumu",
+                "optNum": 8,
+                "1": "Bilmiyor",
+                "2": "Yok",
+                "3": "Okuryazar",
+                "4": "İlköğretim",
+                "5": "Ortaokul",
+                "6": "Lise",
+                "7": "Yükseköğretim",
+                "8": "Bilinmiyor",
+                "extraMark": [
+                    "7"
+                ]
+            },
+            "22": {
+                "qType": "mQuest",
+                "qText": "Babanın Eğitim Durumu",
+                "optNum": 8,
+                "1": "Bilmiyor",
+                "2": "Yok",
+                "3": "Okuryazar",
+                "4": "İlköğretim",
+                "5": "Ortaokul",
+                "6": "Lise",
+                "7": "Yükseköğretim",
+                "8": "Bilinmiyor",
+                "extraMark": [
+                    "7"
+                ]
+            },
+            "23": {
+                "qType": "mQuest",
+                "qText": "El tercihi: \n(El tercihini, uzağa bir taş atması gerektiğinde katılımcıya hangi elini kullanacağını sorarak belirleyin.)",
+                "optNum": 4,
+                "1": "Sağ",
+                "2": "Sol",
+                "3": "Her ikisi",
+                "4": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "24": {
+                "qType": "mQuest",
+                "qText": "İşitme bozukluğu var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "25": {
+                "qType": "mQuest",
+                "qText": "Görme bozukluğu var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "26": {
+                "qType": "mQuest",
+                "qText": "Renk ayırt etmeyle ilgili bir  problem var mı?\n       \n(12'lik bir kalem setindeki kalemleri katılımcıya  teker teker göstererek,\nondan bu kalemlerin  ne renk olduğunu söylemesini isteyin. \nKatılımcı bu renkleri ayırt edemiyorsa, renklerin kullanıldığı\nWCST, WMS-R ve Stroop Testi TBAG Formu gibi testleri uygulamayın.)  \n",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "27": {
+                "qType": "mQuest",
+                "qText": "Başkaca fiziksel özürleri var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "28": {
+                "qType": "eQuest",
+                "qText": "\nGeçirdiği önemli rahatsızlıkları, ameliyatları vs. tarihleri ile birlikte belirtin\n(Nörolojik, psikolojik ve psikiyatrik olanlara özellikle değinin.).",
+                "colNum": 3,
+                "1": "Olay tanımı: ",
+                "2": "Tarihi: ",
+                "3": "Açıklama: "
+            },
+            "29": {
+                "qType": "mQuest",
+                "qText": "Daha ileriki bir tarihte kendisine  diğer bazı testlerin  uygulanmasını istiyor mu? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "30": {
+                "qType": "cQuest",
+                "qText": "Uygulayıcının adı soyadı: "
+            },
+            "31": {
+                "qType": "cQuest",
+                "qText": "Uygulama yeri: "
+            },
+            "32": {
+                "qType": "eQuest",
+                "qText": "Uygulayıcının belirtilmesinde yarar gördüğü diğer hususlar: ",
+                "colNum": 1,
+                "1": "Notlar: "
+            }
+        },
+        "xtraQDict": {
+            "20-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "En son mezun olduğu okul: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Görevi: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Görev ünvanı: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Hem çalışıp hem okuyorsa, devam ettiği okul: "
+                },
+                "5": {
+                    "qType": "cQuest",
+                    "qText": "İşten ayrıldıysa, ayrılma nedeni: "
+                },
+                "6": {
+                    "qType": "cQuest",
+                    "qText": "Ne kadar süre önce işten ayrıldığı: "
+                }
+            },
+            "20-2": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Okul: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Sınıf: "
+                },
+                "3": {
+                    "qType": "mQuest",
+                    "qText": "Alınan eğitimin türü: ",
+                    "optNum": 3,
+                    "1": "Örgün",
+                    "2": "Dışarıdan bitirme",
+                    "3": "Bilinmiyor",
+                    "extraMark": [
+                        null
+                    ]
+                }
+            },
+            "20-3": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Sınıf: "
+                },
+                "5": {
+                    "qType": "mQuest",
+                    "qText": "Alınan eğitimin türü: ",
+                    "optNum": 3,
+                    "1": "Örgün",
+                    "2": "Dışarıdan bitirme",
+                    "3": "Bilinmiyor",
+                    "extraMark": [
+                        null
+                    ]
+                }
+            },
+            "20-4": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                }
+            },
+            "20-5": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                }
+            },
+            "20-6": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite/Eğitim Hastanesi: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Uzmanlık Alanı: "
+                }
+            },
+            "21-7": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                }
+            },
+            "22-7": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                }
+            },
+            "24-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "25-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "27-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "29-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            }
+        },
+        "templateDict": {},
+        "excelSheetName": "Sağlıklı Form"
+    },
+    "2": {
+        "titleDict": {
+            "1": "\nKLİNİK OLGULAR İÇİN BİLGİ TOPLAMA FORMU\n\n------------------------------------------------------------------------------\nDİKKAT !\n\n>Bilgi Toplama Formunda yer alan sorulara geçmeden önce, \n araştırma hakkında olguya kısaca bilgi verin.\n\t\n>Test uygulama oturumunun başında olgudan aşağıdaki konularda bilgi alın.\n------------------------------------------------------------------------------   \n",
+            "7": "\n------------------------------------------------------------------------------   \nDİKKAT !\t\n    Olgunun bildirdiği ilaçlar bilişsel süreçleri etkileyen türdense,\n    daha sonra uygulamaya almak için olgudan aşağıdaki konularda bilgi alabilirsiniz.\n    Ancak bildirilen ilaçların etkisi ortadan kalkana kadar\n    olguya herhangi bir nöropsikolojik test uygulamayın.\n------------------------------------------------------------------------------   \n\nKimlik Bilgileri ve Demografik Özellikler\n------------------------------------------------------------------------------\n",
+            "22": "\nEğitim Durumu\n------------------------------------------------------------------------------\n",
+            "25": "\nFizyolojik  Özellikler ve  Sağlık Durumu\n------------------------------------------------------------------------------\n"
+        },
+        "qDict": {
+            "1": {
+                "qType": "cQuest",
+                "qText": "Olgu No: "
+            },
+            "2": {
+                "qType": "cQuest",
+                "qText": "Olgu Kodu: "
+            },
+            "3": {
+                "qType": "cQuest",
+                "qText": "Tanı Kodu: "
+            },
+            "4": {
+                "qType": "cQuest",
+                "qText": "Tanı No: "
+            },
+            "5": {
+                "qType": "eQuest",
+                "qText": "Kullanılmakta olan ilaçların adları / Miktarları / Kullanım süreleri",
+                "colNum": 3,
+                "1": "İlaç adı: ",
+                "2": "Miktarı: ",
+                "3": "Kullanım süresi: "
+            },
+            "6": {
+                "qType": "eQuest",
+                "qText": "Uzun süre kullanıldıktan sonra bırakılan ilaçların adları / Miktarları / Kullanım süreleri / Ne kadar süre önce bırakıldığı",
+                "colNum": 4,
+                "1": "İlaç adı: ",
+                "2": "Miktarı: ",
+                "3": "Kullanım süresi: ",
+                "4": "Ne kadar süre önce bırakıldığı: "
+            },
+            "7": {
+                "qType": "pullData",
+                "qText": "Olgu ismi: ",
+                "data": "patient_name"
+            },
+            "8": {
+                "qType": "pullData",
+                "qText": "Olgu cinsiyeti: ",
+                "data": "patient_sex"
+            },
+            "9": {
+                "qType": "cQuest",
+                "qText": "Doğum yeri: "
+            },
+            "10": {
+                "qType": "runFunc",
+                "qText": "Doğum tarihi: ",
+                "runFunc": "calculate_age",
+                "arg": "patient_age"
+            },
+            "11": {
+                "qType": "pullData",
+                "qText": "Olgu yaşı: ",
+                "data": "patient_age"
+            },
+            "12": {
+                "qType": "mQuest",
+                "qText": "Medeni hali:",
+                "optNum": 4,
+                "1": "Evli",
+                "2": "Bekar",
+                "3": "Dul/Boşanmış",
+                "4": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "13": {
+                "qType": "cQuest",
+                "qText": "Ev adresi: "
+            },
+            "14": {
+                "qType": "cQuest",
+                "qText": "Yazışma adresi (yukarıdakinden farklı ise): "
+            },
+            "15": {
+                "qType": "cQuest",
+                "qText": "Söz konusu il / ilçe / köyde oturma süresi: "
+            },
+            "16": {
+                "qType": "cQuest",
+                "qText": "Telefon Numarası - Ev: "
+            },
+            "17": {
+                "qType": "cQuest",
+                "qText": "Telefon Numarası - İş: "
+            },
+            "18": {
+                "qType": "cQuest",
+                "qText": "Fax Numarası - Ev: "
+            },
+            "19": {
+                "qType": "cQuest",
+                "qText": "Fax Numarası - İş: "
+            },
+            "20": {
+                "qType": "cQuest",
+                "qText": "E-posta: "
+            },
+            "21": {
+                "qType": "cQuest",
+                "qText": "Ailenin yaklaşık geliri: "
+            },
+            "22": {
+                "qType": "mQuest",
+                "qText": "Eğitim Durumu",
+                "optNum": 7,
+                "1": "Çalışan olgu",
+                "2": "Okuyan olgu (zorunlu temel eğitim: ilkokul ve ortaokul ve/veya lise)",
+                "3": "Yükseköğrenim görmekte olan olgu",
+                "4": "Yüksek lisans",
+                "5": "Doktora",
+                "6": "Tıpta uzmanlık",
+                "7": "Bilinmiyor",
+                "extraMark": [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6"
+                ]
+            },
+            "23": {
+                "qType": "mQuest",
+                "qText": "Annenin Eğitim Durumu",
+                "optNum": 8,
+                "1": "Bilmiyor",
+                "2": "Yok",
+                "3": "Okuryazar",
+                "4": "İlköğretim",
+                "5": "Ortaokul",
+                "6": "Lise",
+                "7": "Yükseköğretim",
+                "8": "Bilinmiyor",
+                "extraMark": [
+                    "7"
+                ]
+            },
+            "24": {
+                "qType": "mQuest",
+                "qText": "Babanın Eğitim Durumu",
+                "optNum": 8,
+                "1": "Bilmiyor",
+                "2": "Yok",
+                "3": "Okuryazar",
+                "4": "İlköğretim",
+                "5": "Ortaokul",
+                "6": "Lise",
+                "7": "Yükseköğretim",
+                "8": "Bilinmiyor",
+                "extraMark": [
+                    "7"
+                ]
+            },
+            "25": {
+                "qType": "mQuest",
+                "qText": "El tercihi: \n(El tercihini, uzağa bir taş atması gerektiğinde olguya hangi elini kullanacağını sorarak belirleyin.)",
+                "optNum": 4,
+                "1": "Sağ",
+                "2": "Sol",
+                "3": "Her ikisi",
+                "4": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "26": {
+                "qType": "mQuest",
+                "qText": "İşitme bozukluğu var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "27": {
+                "qType": "mQuest",
+                "qText": "Görme bozukluğu var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "28": {
+                "qType": "mQuest",
+                "qText": "Renk ayırt etmeyle ilgili bir  problem var mı?\n       \n(12'lik bir kalem setindeki kalemleri olguya  teker teker göstererek,\nondan bu kalemlerin  ne renk olduğunu söylemesini isteyin. \nOlgu bu renkleri ayırt edemiyorsa, renklerin kullanıldığı\nWCST, WMS-R ve Stroop Testi TBAG Formu gibi testleri uygulamayın.)  \n",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    null
+                ]
+            },
+            "29": {
+                "qType": "mQuest",
+                "qText": "Başkaca fiziksel özürleri var mı? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "30": {
+                "qType": "eQuest",
+                "qText": "\nGeçirdiği önemli rahatsızlıkları, ameliyatları vs. tarihleri ile birlikte belirtin\n(Nörolojik, psikolojik ve psikiyatrik olanlara özellikle değinin.).",
+                "colNum": 3,
+                "1": "Olay tanımı: ",
+                "2": "Tarihi: ",
+                "3": "Açıklama: "
+            },
+            "31": {
+                "qType": "cQuest",
+                "qText": "Olgunun tanısı: "
+            },
+            "32": {
+                "qType": "mQuest",
+                "qText": "Olgunun tedavi şekli: ",
+                "optNum": 2,
+                "1": "Yatarak tedavi görüyor. ",
+                "2": "Ayaktan tedavi görüyor.",
+                "extraMark": [
+                    "1",
+                    "2"
+                ]
+            },
+            "33": {
+                "qType": "cQuest",
+                "qText": "Tedavi süresi: "
+            },
+            "34": {
+                "qType": "mQuest",
+                "qText": "Daha ileriki bir tarihte kendisine  diğer bazı testlerin  uygulanmasını istiyor mu? ",
+                "optNum": 3,
+                "1": "Evet",
+                "2": "Hayır",
+                "3": "Bilinmiyor",
+                "extraMark": [
+                    "1"
+                ]
+            },
+            "35": {
+                "qType": "cQuest",
+                "qText": "Uygulayıcının adı soyadı: "
+            },
+            "36": {
+                "qType": "cQuest",
+                "qText": "Uygulama yeri: "
+            },
+            "37": {
+                "qType": "eQuest",
+                "qText": "Uygulayıcının belirtilmesinde yarar gördüğü diğer hususlar: ",
+                "colNum": 1,
+                "1": "Notlar: "
+            }
+        },
+        "xtraQDict": {
+            "22-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "En son mezun olduğu okul: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Görevi: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Görev ünvanı: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Hem çalışıp hem okuyorsa, devam ettiği okul: "
+                },
+                "5": {
+                    "qType": "cQuest",
+                    "qText": "İşten ayrıldıysa, ayrılma nedeni: "
+                },
+                "6": {
+                    "qType": "cQuest",
+                    "qText": "Ne kadar süre önce işten ayrıldığı: "
+                }
+            },
+            "22-2": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Okul: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Sınıf: "
+                },
+                "3": {
+                    "qType": "mQuest",
+                    "qText": "Alınan eğitimin türü: ",
+                    "optNum": 3,
+                    "1": "Örgün",
+                    "2": "Dışarıdan bitirme",
+                    "3": "Bilinmiyor",
+                    "extraMark": [
+                        null
+                    ]
+                }
+            },
+            "22-3": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Sınıf: "
+                },
+                "5": {
+                    "qType": "mQuest",
+                    "qText": "Alınan eğitimin türü: ",
+                    "optNum": 3,
+                    "1": "Örgün",
+                    "2": "Dışarıdan bitirme",
+                    "3": "Bilinmiyor",
+                    "extraMark": [
+                        null
+                    ]
+                }
+            },
+            "22-4": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                }
+            },
+            "22-5": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                }
+            },
+            "22-6": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite/Eğitim Hastanesi: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Enstitü: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Anabilim Dalı: "
+                },
+                "4": {
+                    "qType": "cQuest",
+                    "qText": "Uzmanlık Alanı: "
+                }
+            },
+            "23-7": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                }
+            },
+            "24-7": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Üniversite: "
+                },
+                "2": {
+                    "qType": "cQuest",
+                    "qText": "Fakülte: "
+                },
+                "3": {
+                    "qType": "cQuest",
+                    "qText": "Bölüm: "
+                }
+            },
+            "26-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "27-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "29-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "32-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "32-2": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            },
+            "34-1": {
+                "1": {
+                    "qType": "cQuest",
+                    "qText": "Belirtiniz: "
+                }
+            }
+        },
+        "templateDict": {},
+        "excelSheetName": "Klinik Olgu Form"
+    },
+    "formNames": {
+        "1": "SAĞLIKLI KATILIMCILAR İÇİN BİLGİ TOPLAMA FORMU",
+        "2": "KLİNİK OLGULAR İÇİN BİLGİ TOPLAMA FORMU"
+    }
+}
