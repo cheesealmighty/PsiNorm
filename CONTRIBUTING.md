@@ -13,7 +13,9 @@
   da eklemeniz gerekmektedir.
   
 <b>Önerileriniz için:</b>
+
   Yine burayı kullanabilirsiniz. İsteğinizi ayrıntılandırırsanız daha iyi yardımcı olabiliriz.
   
   Teşekkürler,
+  
   Dr. B. Bahadır Akbulut
