@@ -280,6 +280,28 @@
             "sex": "Female",
             "eduLow": 6,
             "eduHigh": 11,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                3.50,
+                0.52
+            ]
+        },
+        {
+            "sex": "Male",
+            "eduLow": 6,
+            "eduHigh": 11,
+            "ageLow": 75,
+            "ageHigh": 79,
+            "0": [
+                3.50,
+                0.52
+            ]
+        },
+        {
+            "sex": "Female",
+            "eduLow": 6,
+            "eduHigh": 11,
             "ageLow": 80,
             "ageHigh": 200,
             "0": [
