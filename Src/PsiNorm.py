@@ -2991,8 +2991,12 @@ def funcTestTemplate(JSONname):#Test Name
             if normExists:
                 for paraNum in range(testDataDict["paraNum"]):
                     paraNum = str(paraNum)
-                    meanDict[paraNum] = (correctNorm[paraNum][0])
-                    sdDict[paraNum] = (correctNorm[paraNum][1])
+                    if correctNorm[paraNum] != None:
+                        meanDict[paraNum] = (correctNorm[paraNum][0])
+                        sdDict[paraNum] = (correctNorm[paraNum][1])
+                    else:
+                        meanDict[paraNum] = None
+                        sdDict[paraNum] = None
             else:
                 for paraNum in range(testDataDict["paraNum"]):
                     paraNum = str(paraNum)
