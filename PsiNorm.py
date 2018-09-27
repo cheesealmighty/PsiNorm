@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python3
 """
-PsiNorm Persentil Hesaplayıcı - Versiyon 1.9.0
+PsiNorm Persentil Hesaplayıcı - Versiyon 1.9.1
 Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
 
 Bu program özgür yazılımdır: Özgür Yazılım Vakfı tarafından yayımlanan
@@ -20,7 +20,7 @@ Eğer elinize ulaşmadıysa <http://www.gnu.org/licenses/> adresine bakınız.
 Dr. Bilal Bahadır Akbulut
 İletişim adresi: b.bahadirakbulut@gmail.com
 ------------------------------------
-PsiNorm Percentile Calculator - Version 1.9.0
+PsiNorm Percentile Calculator - Version 1.9.1
 Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
 
 This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@ def resetGlobals():
     
 def guiSettings():
     import tkinter as tk
-    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Seçenekler "
+    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.1 - Seçenekler "
 
     class MyFirstGUI:
         def __init__(self, master):
@@ -247,7 +247,7 @@ def guiSettings():
 
 def guiPatientInfo():
     import tkinter as tk
-    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.0 - Hasta Bilgileri" 
+    titleText = "PsiNorm Persentil Hesaplayıcı - 1.9.1 - Hasta Bilgileri" 
     patientSex = None
 
     class patientInfo:
@@ -650,7 +650,7 @@ def guiStartupMenu():
     import tkinter as tk
     from tkinter import messagebox
     import sys
-    titleText = " PsiNorm Persentil Hesaplayıcı - 1.9.0"
+    titleText = " PsiNorm Persentil Hesaplayıcı - 1.9.1"
     
     titleSubText= """
  Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
@@ -2547,7 +2547,7 @@ def mainMenu():
 def mainStartup(): #the mainStartup function
     print("""
 ================================================
- PsiNorm Persentil Hesaplayıcı - 1.9.0
+ PsiNorm Persentil Hesaplayıcı - 1.9.1
 ================================================
 """)
     timeGlobalization()
@@ -3076,7 +3076,7 @@ def progStructure():
         os.system("mode con: cols=160 lines=50")
         print("""
 ================================================
- PsiNorm Persentil Hesaplayıcı - 1.9.0
+ PsiNorm Persentil Hesaplayıcı - 1.9.1
 ================================================
  Copyright (C) 2017 Bilal Bahadır Akbulut & Yavuz Ayhan
  
@@ -3133,7 +3133,7 @@ except Exception as e:
 Bu dosyayı email ile b.bahadirakbulut@gmail.com adresine gönderiniz.
 
 --------------------------------------------------------------------
-PsiNorm - Versiyon 1.9.0
+PsiNorm - Versiyon 1.9.1
 --------------------------------------------------------------------
 
     """
