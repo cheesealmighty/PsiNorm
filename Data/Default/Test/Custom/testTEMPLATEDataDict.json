@@ -5,6 +5,9 @@
 	
     "0": "Toplam puan: ",
 	
+	"paraTypeDict" : {
+		"0": "intType"},
+	
 	"zScoreLegend": {"all": "more"},
 	
 	"testType": "zScore" / "cutOff", SADECE BİRİNİ SEÇİP, DİĞERİ İLE BİRLİKTE BU YAZIYI SİLİNİZ.

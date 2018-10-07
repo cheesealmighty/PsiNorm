@@ -1,6 +1,6 @@
 {
-	"1": {"testDataDict": "testMmtDataDict",
-				"testName": "Mini Mental Test",
+	"1": {"testDataDict": "testRmmtDataDict",
+				"testName": "r - Mini Mental Test",
 				"testGroupName":"A. Genel Bilişsel Tarama Testleri"
 		},
 		
@@ -102,5 +102,10 @@
 	"21": {"testDataDict": "testBNTDataDict",
 				"testName": "Boston Adlandırma Testi",
 				"testGroupName":"E.Lisan Testleri"
+		},
+		
+	"22": {"testDataDict": "testBentonFaceDataDict",
+				"testName": "Benton Yüz Tanıma Testi",
+				"testGroupName":"F.Görsel-Uzaysal İşlev Testleri"
 		}
 }

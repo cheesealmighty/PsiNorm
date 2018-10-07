@@ -1,0 +1,32 @@
+{
+    "testName": "Benton Yüz Tanıma Testi",
+	
+    "paraNum": 2,
+	
+    "0": "Kısa Form: ",
+	"1": "Uzun Form: ",
+	
+	"paraTypeDict" : {
+		"0": "intType",
+		"1": "intType"},
+	
+	"zScoreLegend": {"all": "more"},
+	
+	"testType": "zScore",
+	
+	"cutOffList": [],
+	
+    "normList": [
+        {
+            "sex": "Male",
+            "eduLow": 0,
+            "eduHigh": 4,
+            "ageLow": 0,
+            "ageHigh": 69,
+            "0": [
+                75.74,
+                7.78
+            ]
+        }
+    ]
+}

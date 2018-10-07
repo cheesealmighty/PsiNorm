@@ -1,0 +1,67 @@
+{
+    "testName": "r - Mini Mental Test",
+	
+    "paraNum": 1,
+	
+    "0": "Toplam puan: ",
+	
+	"paraTypeDict" : {
+		"0": "intType"},
+	
+	"testType": "cutOff",
+	
+	"mathOper": {
+	},
+	
+	"cutOffList": [
+		{
+			"sex": "Female",
+			"eduLow": 0,
+			"eduHigh": 4,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [17, 19],
+				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
+				}
+		},
+		{
+			"sex": "Female",
+			"eduLow": 5,
+			"eduHigh": 99,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [21, 23],
+				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
+				}
+		},	
+		{
+			"sex": "Male",
+			"eduLow": 0,
+			"eduHigh": 4,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [17, 19],
+				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
+				}
+		},
+		{
+			"sex": "Male",
+			"eduLow": 5,
+			"eduHigh": 99,
+			"ageLow": 0,
+			"ageHigh": 200,
+			"0": {
+				"parameterNormExists": true,
+				"cutOffGroupCutoffList": [21, 23],
+				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
+				}
+		}
+		
+		]
+}
