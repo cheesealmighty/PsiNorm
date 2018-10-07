@@ -10,6 +10,8 @@
     "zScoreLegend": {
         "all": "more"
     },
+	"mathOper": {
+	},
     "testType": "zScore",
     "cutOffList": [],
     "normList": [

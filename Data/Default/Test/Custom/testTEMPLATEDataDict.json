@@ -10,6 +10,10 @@
 	
 	"zScoreLegend": {"all": "more"},
 	
+	"mathOper": {
+	"2":[0,"-",1]
+	},
+	
 	"testType": "zScore" / "cutOff", SADECE BİRİNİ SEÇİP, DİĞERİ İLE BİRLİKTE BU YAZIYI SİLİNİZ.
 	
 	"cutOffList": [
