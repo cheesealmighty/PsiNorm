@@ -1,11 +1,12 @@
 {
 	"test_name_list" :[
-		"(1)MMT", "(2)MOCA", "(3)3MS", "(4)GISD", "(5)ECR",
+		"(1)r-MMT", "(2)MOCA", "(3)3MS", "(4)GISD", "(5)ECR",
 		"(6)Öktem Sözel Bellek Süreçleri", "(7)Rey Karmaşık Figür", "(8)İz Sürme", "(9)Stroop",
 		"(10)Wisconsin", "(11)Görsel Sözel Test", "(12)Renkli İz Sürme",
 		"(13)Wechsler", "(14)Wechsler-Sayı Dizisi", "(15)Sözel Akıcılık", 
 		"(16)Semantik Akıcılık", "(17)Saat Çizme", "(18)SDOT", "(19)Ayları İleri-Geri Sayma",
-		"(20)İşaretleme", "(21)Boston Adlandırma Testi"
+		"(20)İşaretleme", "(21)Boston Adlandırma Testi", "(22)Benton Yüz Tanıma Testi",
+		"(23)MMT"
 		],
 		
 	"userNotesHandle": "Uygulayıcı notları",
@@ -130,7 +131,12 @@
                
         "21": ["KA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
                "KA+AİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
-            "KA+AİA+SİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"]
+               "KA+AİA+SİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+			
+		"22": ["Kısa Form Puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
+			   "Uzun Form Puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+			   
+	    "23": ["Puan", "Sözel sonuç"]
         
    }
 
