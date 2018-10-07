@@ -16,17 +16,6 @@
     "cutOffList": [],
     "normList": [
         {
-            "sex": "Male",
-            "eduLow": 0,
-            "eduHigh": 7,
-            "ageLow": 0,
-            "ageHigh": 69,
-            "0": [
-                75.74,
-                7.78
-            ]
-        },
-        {
             "sex": "Female",
             "eduLow": 0,
             "eduHigh": 7,
