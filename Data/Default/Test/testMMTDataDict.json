@@ -22,7 +22,7 @@
 			"ageHigh": 200,
 			"0": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [17, 19],
+				"cutOffGroupCutoffList": [22, 24],
 				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
 				}
 		},
@@ -34,7 +34,7 @@
 			"ageHigh": 200,
 			"0": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [21, 23],
+				"cutOffGroupCutoffList": [22, 24],
 				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
 				}
 		},	
@@ -46,7 +46,7 @@
 			"ageHigh": 200,
 			"0": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [17, 19],
+				"cutOffGroupCutoffList": [22, 24],
 				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
 				}
 		},
@@ -58,7 +58,7 @@
 			"ageHigh": 200,
 			"0": {
 				"parameterNormExists": true,
-				"cutOffGroupCutoffList": [21, 23],
+				"cutOffGroupCutoffList": [22, 24],
 				"cutOffGroupNameList": ["Eşik altı değer", "Sınır değer", "Normal"]
 				}
 		}

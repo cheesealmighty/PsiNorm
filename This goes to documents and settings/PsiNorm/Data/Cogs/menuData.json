@@ -107,5 +107,10 @@
 	"22": {"testDataDict": "testBentonFaceDataDict",
 				"testName": "Benton Yüz Tanıma Testi",
 				"testGroupName":"F.Görsel-Uzaysal İşlev Testleri"
+		},
+		
+	"23": {"testDataDict": "testMmtDataDict",
+				"testName": "Mini Mental Test",
+				"testGroupName":"A. Genel Bilişsel Tarama Testleri"
 		}
 }

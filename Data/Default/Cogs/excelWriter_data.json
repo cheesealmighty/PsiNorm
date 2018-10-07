@@ -5,7 +5,8 @@
 		"(10)Wisconsin", "(11)Görsel Sözel Test", "(12)Renkli İz Sürme",
 		"(13)Wechsler", "(14)Wechsler-Sayı Dizisi", "(15)Sözel Akıcılık", 
 		"(16)Semantik Akıcılık", "(17)Saat Çizme", "(18)SDOT", "(19)Ayları İleri-Geri Sayma",
-		"(20)İşaretleme", "(21)Boston Adlandırma Testi", "(22)Benton Yüz Tanıma Testi"
+		"(20)İşaretleme", "(21)Boston Adlandırma Testi", "(22)Benton Yüz Tanıma Testi",
+		"(23)MMT"
 		],
 		
 	"userNotesHandle": "Uygulayıcı notları",
@@ -133,7 +134,9 @@
                "KA+AİA+SİA puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
 			
 		"22": ["Kısa Form Puanı: ", "Z Skoru", "Persentil", "Sözel sonuç",
-			   "Uzun Form Puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"]
+			   "Uzun Form Puanı: ", "Z Skoru", "Persentil", "Sözel sonuç"],
+			   
+	    "23": ["Puan", "Sözel sonuç"]
         
    }
 
