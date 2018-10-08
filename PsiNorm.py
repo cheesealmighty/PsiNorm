@@ -453,14 +453,30 @@ def guiPatientInfo():
 
 
 def getUserDocumentsPsiPath():
-    import ctypes.wintypes
-    CSIDL_PERSONAL= 5       # My Documents
-    SHGFP_TYPE_CURRENT= 0   # Want current, not default value
+    try:
+        import ctypes.wintypes
+        CSIDL_PERSONAL= 5       # My Documents
+        SHGFP_TYPE_CURRENT= 0   # Want current, not default value
+        
+        buf= ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
+        ctypes.windll.shell32.SHGetFolderPathW(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, buf)
+        
+        documentsPath = buf.value
     
-    buf= ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
-    ctypes.windll.shell32.SHGetFolderPathW(0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, buf)
+    except:
+        import os
+        import configparser
+        
+        cwd = os.getcwd()
     
-    documentsPath = buf.value
+        documentsAdressFile = cwd + "/ESSENTIALS.ini"
+        
+        parser = configparser.ConfigParser()
+        parser.read(documentsAdressFile, encoding = 'utf-8-sig')
+        
+        documentsPath = parser.get('General', "documentsAdress")
+    
+    
     psiPath = documentsPath + "/PsiNorm/"
     ensure_dir(psiPath)
     return psiPath
@@ -666,12 +682,17 @@ def guiStartupMenu():
             self.master = master
             master.title("PsiNorm Persentil Hesaplayıcı")
             
-            psiNormIcon = tk.PhotoImage(file = "psiNormIcon.gif")
             root.bind("<Return>", self.pressEnter)
-
-            self.label = tk.Label(master,image=psiNormIcon)
-            self.label.image = psiNormIcon
-            self.label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=6)    
+                
+            try: 
+                psiNormIcon = tk.PhotoImage(file = "psiNormIcon.gif")
+                self.label = tk.Label(master,image=psiNormIcon)
+                self.label.image = psiNormIcon
+                self.label.grid(row=0, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=6)    
+            
+            except:
+                print("Non-kritik hata!: PsiNorm amblemi bulunamadı, bir takım menüler eksik veya bozuk görünebilir.")
+                pass
             
             self.label = tk.Label(master, text=titleText, bg="white", relief=tk.GROOVE, font=(None, 16))
             self.label.grid(row=1, column=0, padx=10, pady=10, sticky=tk.N+tk.S+tk.E+tk.W, columnspan=6)    
@@ -1291,6 +1312,13 @@ def wait(t):
         print(str(t))
         time.sleep(1)
         t -= 1
+
+def textDecorator(text):
+    text = "==================================\n" + str(text)
+    
+    text += ("\n==================================")
+    
+    return text
 
 def exitable_input(interface):
     #An interface system to exit at any time
@@ -2441,6 +2469,8 @@ def mainMenu():
                                 csvWriter(settings("csv_path"), test_name, printable_list)
                                 #writes the printable_list in a CSV file
                             if settings("output_txt"):
+                                console_results = str(testNum) + ") " + console_results
+                                console_results = textDecorator(console_results)
                                 txtWrite(settings("txt_path"), console_results)
                                 #writes the console results on the txt file
                             
@@ -2833,8 +2863,7 @@ def testWechsler():
         for i in range(len(resultList)):
             outputconsoleResults.append("Hastanın standart puanı: " + str(printableList[i]))
        
-        consoleResults = "==================================\nWechsler zeka testinin sonuçları: "
-        
+        consoleResults = "Wechsler zeka testinin sonuçları: "
         
         for i in range(testDataDict["paraNum"]):
             consoleResults += ("\n" + testDataDict[str(i)] + str(outputconsoleResults[i]))
@@ -2843,10 +2872,7 @@ def testWechsler():
         consoleResults += "\nPerformans standart puan: " + str(perf_score) + " - " + str(result_values[1])
         consoleResults += "\nToplam standart puan: " + str(total_score) + " - " + str(result_values[2])
         
-
-        consoleResults = consoleResults + ("\n==================================")
-        
-        guiSimpleTextDump(testDataDict["testName"], consoleResults)
+        guiSimpleTextDump(testDataDict["testName"], textDecorator(consoleResults))
         return [testName, printableList, consoleResults]
         
     except:
@@ -3054,15 +3080,14 @@ def funcTestTemplate(JSONname):#Test Name
             printableList += printableDict[paraNum]
         #Creates a dump for excel/CSV
         
-        consoleResults = "==================================\n" + testDataDict["testName"]
+        consoleResults = testDataDict["testName"]
         for paraNum in consoleDict.keys():
             consoleResults += "\n" + testDataDict[paraNum] + consoleDict[paraNum]      
-        consoleResults += ("\n==================================")
         #Creates a dump for console/txt file
-
+        
         testName = testDataDict["testName"] + ".csv" #declares name of the CSV file to save the data in
         
-        guiSimpleTextDump(testDataDict["testName"], consoleResults)
+        guiSimpleTextDump(testDataDict["testName"], textDecorator(consoleResults))
         return [testName, printableList, consoleResults]
             
     except:
