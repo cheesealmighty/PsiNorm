@@ -883,7 +883,7 @@ LÜTFEN OKUYUNUZ
 
 5. PsiNorm kullanılarak yapılan akademik çalışmalarınızda PsiNorm'a atıfta bulunmanız gerekmektedir.  Lütfen atıfta bulunulacak çalışma için demans.org websitesini takip ediniz.
 
-6. Bir sorunuz olduğunda lütfen Sık Sorulan Sorular bölümünü kontrol ediniz.  Sık Sorulan Sorulara giriş ekranından ulaşabilirsiniz.  Bu kısımda sorunuza yanıt bulamazsanız b.bahadirakbulut@gmail.com adresine yazınız.  Sizinle 10 iş günü içinde iletişime geçilmeye çalışılacaktır.
+6. Bir sorunuz olduğunda lütfen Sık Sorulan Sorular bölümünü kontrol ediniz.  Sık Sorulan Sorulara giriş ekranından ulaşabilirsiniz.  Bu kısımda sorunuza yanıt bulamazsanız psinormsoftware@gmail.com adresine yazınız ve https://github.com/cheesealmighty/PsiNorm/issues sayfasında bir bildirim oluşturunuz. Sizinle 10 iş günü içinde iletişime geçilmeye çalışılacaktır.
 
 7. PsiNorm yazılımı kaynaklarda verilen çalışmalar esas alınarak hazırlanmıştır, dolayısıyla yazılım sonuçları yalnız kaynaklardaki testler için geçerlidir, başka uyarlamalar için kullanılamaz.  Testler ile ilgili detaylı bilgi ve norm tabloları için lütfen ilgili kaynağa ulaşınız.
 =========================================================================
@@ -998,34 +998,47 @@ Limitleri olan testler aşağıdaki şekildedir:
 1-2 SD aralığı hafif bozulma, 2-3 SD aralığı orta derecede bozulma, 3 SD'den uzakta olan 
 sonuçlar ağır derecede bozulma olarak belirtilmiştir.
 
+3) Benton Yüz Tanıma Testi için, testin orijinal normları matematiksel modele uyarlamak açısından değiştirilmiştir.
+    Yani:
+        Düşük Eğitim Grubu = 0-7 yıl (Orijinali ile aynı)
+        Orta Eğitim Grubu = 8-12 yıl 
+        Yüksek Eğitim Grubu = 13+ yıl 
+    olarak belirlenmiştir. Yani program yüksek öğretimi yarıda bırakma durumunu göz ardı etmektedir.
+
 ===================================================================
 Kaynakça:
     
 > Ayhan Y., Saka E., Bariskin E., Bilir N., Karahan S., Caman O. ADAPTATION OF THE MODIFIED MINI-MENTAL STATE (3MS) EXAM, DEVELOPMENT OF A VERSION FOR THE UNDEREDUCATED, AND DETERMINATION OF NORMATIVE VALUES IN THE TURKISH POPULATION, Alzheimer's & Dementia 2017 vol: 13 (7) pp: P1561-P1562 DOI: 10.1016/j.jalz.2017.07.711
 
->Cangoz, B., Karakoc, E., & Selekler, K. (2009). Trail Making Test: normative data for Turkish elderly population by age, sex and education. J Neurol Sci, 283(1-2), 73-78. doi: 10.1016/j.jns.2009.02.313
+> Cangoz, B., Karakoc, E., & Selekler, K. (2009). Trail Making Test: normative data for Turkish elderly population by age, sex and education. J Neurol Sci, 283(1-2), 73-78. doi: 10.1016/j.jns.2009.02.313
 
->Cangöz B, Karakoc E., Selekler K (2006 ). Saat Çizme Testi'nin Türk yetişkin ve yaşlı örneklemi üzerindeki norm belirleme, geçerlik ve güvenirlik çalışmaları. Türk Geriatri Dergisi, 9 (3), 136-142. 
+> Cangöz B, Karakoc E., Selekler K (2006). Saat Çizme Testi'nin Türk yetişkin ve yaşlı örneklemi üzerindeki norm belirleme, geçerlik ve güvenirlik çalışmaları. Türk Geriatri Dergisi, 9 (3), 136-142. 
 
->Karakaş S., Erdoğan Bakar E., Doğutepe Dinçer E. (2013). BİLNOT Bataryası El Kitabı: Nöropsikolojik Testlerin Yetişkinler için Araştırma ve Geliştirme Çalışmaları: BİLNOT- Yetişkin (Cilt I-II). Konya: Eğitim Yayınevi
+> Gungen C, Ertan T, Eker E, Yasar R, Engin F. (2002). Standardize Mini Mental Test’in Türk Toplumunda Hafif Demans Tanisinda Geçerlik ve Güvenilirliği. Türk Psikiyatri Dergisi 13(4):273-281
 
->Keskinoglu, P., Ucku R., Yener G., Yaka E., Kurt P., & Tunca Z. (2009). Reliability and validity of revised Turkish version of Mini Mental State Examination (rMMSE-T) in community-dwelling educated and uneducated elderly. Int J Geriatr Psychiatry, 24(11), 1242-1250. doi: 10.1002/gps.2252
+> Karakaş S., Erdoğan Bakar E., Doğutepe Dinçer E. (2013). BİLNOT Bataryası El Kitabı: Nöropsikolojik Testlerin Yetişkinler için Araştırma ve Geliştirme Çalışmaları: BİLNOT- Yetişkin (Cilt I-II). Konya: Eğitim Yayınevi
 
->Kudiaki C., & Aslan A. (2008). Executive functions in a Turkish sample: associations with demographic variables and normative data. Appl Neuropsychol, 15(3), 194-204. doi: 10.1080/09084280802324416
+> Keskinkilic C. (2008). Standardization of Benton Face Recognition Test in a Turkish Normal Adult Population. Turkish Journal of Neurology, 14(3), 179-190.
 
->Kurt, M., Can H., Karakaş S. (2016). Boston Adlandırma Testi Türk Formu için araştırma-geliştirme çalışması. Yeni Sempozyum, 54(1), 6-14. doi:10.5455/NYS.2016001.
+> Keskinoglu P., Ucku R., Yener G., Yaka E., Kurt P., & Tunca Z. (2009). Reliability and validity of revised Turkish version of Mini Mental State Examination (rMMSE-T) in community-dwelling educated and uneducated elderly. Int J Geriatr Psychiatry, 24(11), 1242-1250. doi: 10.1002/gps.2252
 
->Saka E., Mihci E., Topcuoglu M. A., & Balkan S. (2006). Enhanced cued recall has a high utility as a screening test in the diagnosis of Alzheimer's disease and mild cognitive impairment in Turkish people. Arch Clin Neuropsychol, 21(7), 745-751. doi: 10.1016/j.acn.2006.08.007
+> Kudiaki C., & Aslan A. (2008). Executive functions in a Turkish sample: associations with demographic variables and normative data. Appl Neuropsychol, 15(3), 194-204. doi: 10.1080/09084280802324416
 
->Selekler K. C., B, Uluç S. (2010). Montreal Bilişsel Değerlendirme Ölçeği'nin (MOBİD) Hafif Bilişsel Bozukluk ve Alzheimer Hastalarını ayırdedebilme gücünün incelenmesi. Türk Geriatri Dergisi, 13(3), 166-171. 
+> Kurt, M., Can H., Karakaş S. (2016). Boston Adlandırma Testi Türk Formu için araştırma-geliştirme çalışması. Yeni Sempozyum, 54(1), 6-14. doi:10.5455/NYS.2016001.
 
->Tanor O. (2006). Öktem Sözel Bellek Süreçleri Testi. Ankara: Türk Psikologlar Derneği.
+> Saka E., Mihci E., Topcuoglu M. A., & Balkan S. (2006). Enhanced cued recall has a high utility as a screening test in the diagnosis of Alzheimer's disease and mild cognitive impairment in Turkish people. Arch Clin Neuropsychol, 21(7), 745-751. doi: 10.1016/j.acn.2006.08.007
 
->Turkes N.,Can H., Kurt M., Dikeç BE. (2015). İz Sürme Testi’nin 20-49 Yaş Aralığında Türkiye İçin Norm Belirleme Çalışması. Türk Psikiyatri Dergisi; 2015;26(3):189-196
+> Selekler K. C., B, Uluç S. (2010). Montreal Bilişsel Değerlendirme Ölçeği'nin (MOBİD) Hafif Bilişsel Bozukluk ve Alzheimer Hastalarını ayırdedebilme gücünün incelenmesi. Türk Geriatri Dergisi, 13(3), 166-171. 
 
->Teng E. L., & Chui H. C. (1987). The Modified Mini-Mental State (3MS) examination. J Clin Psychiatry, 48(8), 314-318. 
+> Tanor O. (2006). Öktem Sözel Bellek Süreçleri Testi. Ankara: Türk Psikologlar Derneği.
 
->Varan E, Tanor O, Gurvit H (2007) Rey Karmaşık Figür Testi ve Tanıma Uygulaması (RKFT-T): Bir Yetişkin Türk Örneklemi Üzerinde Norm Belirleme Çalışması.  Turk J Neurol. 2007; 13(6): 387-394
+> Turkes N.,Can H., Kurt M., Dikeç BE. (2015). İz Sürme Testi’nin 20-49 Yaş Aralığında Türkiye İçin Norm Belirleme Çalışması. Türk Psikiyatri Dergisi; 2015;26(3):189-196
+
+> Teng E. L., & Chui H. C. (1987). The Modified Mini-Mental State (3MS) examination. J Clin Psychiatry, 48(8), 314-318. 
+
+> Varan E, Tanor O, Gurvit H (2007) Rey Karmaşık Figür Testi ve Tanıma Uygulaması (RKFT-T): Bir Yetişkin Türk Örneklemi Üzerinde Norm Belirleme Çalışması.  Turk J Neurol. 2007; 13(6): 387-394
+
+> Yıldız GB, Özçelik EU, Kolukısa M, Işık AT, Gürsoy E, Kocaman G, Çelebi A (2016). Eğitimsizler İçin Modifiye Edilen Mini Mental Testin (MMSE-E) Türk Toplumunda Alzheimer Hastalığı Tanısında Geçerlik ve Güvenilirlik Çalışması. Türk Psikiyatri Dergisi, 27(1):41-46
 
 ===================================================================
                 """

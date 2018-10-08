@@ -222,15 +222,15 @@ def funcDictToJSON(JSONToLoad):
    """
 
     sex = m
-    eduLow = 12
-    eduHigh = 99
+    eduLow = 13
+    eduHigh = 100
     ageLow = 65
     ageHigh = 200
     
-    mean_list = [19.60, 21.90, 15.80]
-    sd_list = [4.97, 8.54, 5.31]
+    mean_list = [19.35, 39.65]
+    sd_list = [2.50, 5.24]
     
-    doubleTrouble = False #If both male and female norms are same, iterate twice
+    doubleTrouble = True #If both male and female norms are same, iterate twice
     
     if doubleTrouble:
         for sex in [f, m]:
@@ -269,4 +269,4 @@ def funcDictToJSON(JSONToLoad):
 #resultNameToDict()
 #funcTempToJSON()
 
-#funcDictToJSON('testWechslerSayiDataDict.json')
+funcDictToJSON('testBentonFaceDataDict.json')

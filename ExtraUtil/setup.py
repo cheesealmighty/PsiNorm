@@ -1,4 +1,4 @@
-#!C:\Program Files (x86)\Python37-32\python.exe
+#!C:\Program Files (x86)\Python36-32\python.exe
 
 import sys
 from cx_Freeze import setup, Executable
@@ -26,7 +26,7 @@ options = {
    
 setup(
     name = "PsiNorm.exe",
-    version = "1.9.0",
+    version = "1.9.2",
     author="Bilal Bahadır Akbulut",
     description = "PsiNorm Persentil Hesaplayıcı",
     options = options,
